@@ -6,6 +6,7 @@ import { PhilosophySection } from '@/components/sections/philosophy-section';
 import { ReveriesSection } from '@/components/sections/reveries-section';
 import { TeamSection } from '@/components/sections/team-section';
 import { Footer } from '@/components/layout/footer';
+import { TeeSection } from '@/components/sections/tee-section';
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
         <main className="pt-24 font-mono">
           <HeroSection />
           <MissionSection />
+          <TeeSection />
           <PhilosophySection />
           <WorkSection />
           <ReveriesSection />

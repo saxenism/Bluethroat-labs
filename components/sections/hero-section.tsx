@@ -21,7 +21,7 @@ export function HeroSection() {
 
                 {/* Description Box Overlay - Full width on mobile, boxed on desktop */}
                 <div className="absolute bottom-0 left-0 bg-[#191919] p-6 sm:p-8 md:p-12 max-w-[1200px] mx-auto w-full sm:max-w-4xl z-30">
-                    <p className="font-mono font-semibold text-xs sm:text-xs md:text-base text-zinc-100 leading-relaxed tracking-widest opacity-90">
+                    <p className="font-mono font-semibold text-xs sm:text- md:text-base text-zinc-100 leading-relaxed tracking-widest opacity-90">
                         Bluethroat Labs is a security research collective focused on making
                         TEE-heavy Web3 protocols actually secure, robust, and reliable.
                     </p>
@@ -32,18 +32,16 @@ export function HeroSection() {
             <div className="h-18 bg-zinc-50 dark:bg-black border-t border-border"></div>
 
             {/* Segment Divider for Mission - Architectural Slices */}
-            <div className="h-20 border-y border-border flex items-stretch bg-zinc-50 dark:bg-zinc-950 px-0">
+            <div className="h-18 border-y border-border flex items-stretch bg-zinc-50 dark:bg-zinc-950 px-0">
                 <div className="flex h-full items-center">
-                    <div className="h-full border-r border-border px-8 sm:px-12 flex items-center bg-zinc-100 dark:bg-zinc-900 min-w-0 sm:min-w-[300px]">
-                        <span className="font-mono font-semibold text-xs sm:text-2xl font-bold uppercase whitespace-nowrap">Our Mission</span>
+                    <div className="h-full border-r border-border px-8 sm:px-12 flex items-center bg-zinc-100 dark:bg-zinc-900 min-w-[200px] sm:min-w-[300px]">
+                        <span className="font-mono font-semibold text-xl sm:text-2xl uppercase whitespace-nowrap">Our Mission</span>
                     </div>
                 </div>
                 {/* Dark area to the right of Our Mission */}
                 <div className="flex-1 h-full bg-black/95 dark:bg-black/60 relative overflow-hidden">
                     <div className="absolute inset-0 grid-lines opacity-20 bg-zinc-900"></div>
                 </div>
-                {/* Structural gap on far right */}
-                <div className="w-12 sm:w-16 h-full border-r border-border bg-background"></div>
             </div>
         </GridBackground>
     );
