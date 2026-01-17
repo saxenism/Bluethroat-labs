@@ -1,17 +1,17 @@
 import type { Metadata } from "next";
-import { Playfair_Display, IBM_Plex_Mono } from "next/font/google";
+import { Instrument_Serif, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-const playfair = Playfair_Display({
+const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],
-  variable: "--font-playfair",
+  variable: "--font-instrumental",
+  weight: ["400"],
   display: "swap",
 });
 
-const ibmPlexMono = IBM_Plex_Mono({
+const geistMono = Geist_Mono({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  variable: "--font-ibm-plex-mono",
+  variable: "--font-geist-mono",
   display: "swap",
 });
 
@@ -26,9 +26,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${instrumentSerif.variable} ${geistMono.variable}`}>
       <body
-        className={`${playfair.variable} ${ibmPlexMono.variable} font-mono antialiased`}
+        className={`font-mono antialiased`}
       >
         {children}
       </body>

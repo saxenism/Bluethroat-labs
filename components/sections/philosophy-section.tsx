@@ -7,13 +7,13 @@ export function PhilosophySection() {
             <div className="max-w-4xl mx-auto px-12 sm:px-24">
                 <div className="space-y-12">
                     <div>
-                        <p className="font-playfair text-2xl sm:text-3xl md:text-4xl leading-relaxed mb-6">
+                        <p className="font-instrumental text-2xl sm:text-3xl md:text-5xl leading-relaxed mb-6">
                             As TEEs move deeper into Web3, clarity becomes critical.
                             Assumptions about hardware trust do not survive adversarial settings.
                         </p>
 
                         <p className="font-mono text-foreground/70 leading-relaxed uppercase tracking-widest text-xs">
-                            The <span className="italic underline">TEE Security Handbook ↗</span> exists to document real
+                            The <span className="italic underline underline-offset-4">TEE Security Handbook ↗</span> exists to document real
                             guarantees, real failure modes, and practical integration patterns.
                         </p>
                     </div>
@@ -29,7 +29,7 @@ export function PhilosophySection() {
                         </p>
 
                         <div className="pt-6">
-                            <p className="font-playfair text-xl sm:text-2xl leading-relaxed italic">
+                            <p className="font-instrumental text-xl sm:text-3xl leading-relaxed italic">
                                 That Tension Cannot Be Ignored.
                                 <br />
                                 If It Is Not Modelled Honestly, It Fails In Production.

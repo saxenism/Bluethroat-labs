@@ -48,9 +48,9 @@ export function StickyNavbar() {
 
     return (
         <nav
-            className={`fixed top-0 left-0 right-0 z-50 mt-[50px] border-t transition-all duration-300 border-b border-border ${isScrolled
-                ? 'bg-background'
-                : 'bg-background'
+            className={`fixed max-w-[1300px] mx-auto top-0 left-0 right-0 z-50 transition-all border-t border-b border-border ${isScrolled
+                ? 'mt-0 bg-background'
+                : 'mt-[50px] bg-background'
                 }`}
         >
             <div className="max-w-[1300px] mx-auto h-16 flex items-center border-x border-border">
@@ -76,7 +76,7 @@ export function StickyNavbar() {
                         <Link
                             key={link.href}
                             href={link.href}
-                            className="font-mono text-xs uppercase tracking-widest text-foreground/70 hover:text-foreground transition-colors"
+                            className="font-mono text-lg font-medium text-foreground/70 hover:text-foreground transition-colors"
                         >
                             {link.label}
                         </Link>
@@ -87,7 +87,7 @@ export function StickyNavbar() {
                 <div className="hidden md:flex h-full items-center border-r border-border px-8">
                     <Link
                         href="/contact"
-                        className="font-mono text-sm font-bold uppercase tracking-widest hover:text-foreground/70 transition-colors"
+                        className="font-mono text-xl font-semibold tracking-widest hover:text-foreground/70 transition-colors"
                     >
                         Talk to Us
                     </Link>
@@ -95,16 +95,16 @@ export function StickyNavbar() {
 
                 {/* Right Side Section: Theme Toggle & Hamburger */}
                 <div className="flex h-full items-center ml-auto md:ml-0 overflow-hidden">
-                    <div className="h-full flex items-center px-4 border-l border-border md:border-l-0">
+                    <div className="h-full flex items-center border-l border-border md:border-l-0">
                         <button
                             onClick={toggleTheme}
-                            className="p-2 transition-colors hover:bg-muted"
+                            className="p-5 transition-colors hover:bg-muted"
                             aria-label="Toggle theme"
                         >
                             {isDark ? (
-                                <Sun className="w-5 h-5" />
+                                <Sun className="w-7 h-7" />
                             ) : (
-                                <Moon className="w-5 h-5" />
+                                <Moon className="w-7 h-7" />
                             )}
                         </button>
                     </div>

@@ -45,7 +45,7 @@ export function WorkSection() {
 
     return (
         <GridBackground className="py-24 bg-muted/30 border-b border-border">
-            <div className="max-w-7xl mx-auto px-12 sm:px-24">
+            <div className="max-w-[1300px] mx-auto">
                 <SectionHeader title="OUR WORK" className="mb-8" />
 
                 <p className="font-mono text-sm sm:text-base text-foreground/70 leading-relaxed mb-12 max-w-4xl">
