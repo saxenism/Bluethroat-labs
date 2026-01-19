@@ -20,17 +20,24 @@ export const metadata: Metadata = {
   description: "Security research collective focused on making TEE-heavy Web3 protocols secure, robust, and reliable.",
 };
 
+import { ThemeProvider } from "@/components/providers/theme-provider";
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${instrumentSerif.variable} ${geistMono.variable}`}>
-      <body
-        className={`font-mono antialiased`}
-      >
-        {children}
+    <html lang="en" className={`${instrumentSerif.variable} ${geistMono.variable}`} suppressHydrationWarning>
+      <body className={`font-mono antialiased`}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

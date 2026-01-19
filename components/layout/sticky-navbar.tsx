@@ -3,13 +3,16 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Menu, X, Moon, Sun } from 'lucide-react';
+import { useTheme } from 'next-themes';
 
 export function StickyNavbar() {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const [isDark, setIsDark] = useState(false);
+    const { theme, setTheme, resolvedTheme } = useTheme();
+    const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
+        setMounted(true);
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 20);
         };
@@ -18,27 +21,11 @@ export function StickyNavbar() {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    useEffect(() => {
-        // Check for saved theme preference or default to light
-        const savedTheme = localStorage.getItem('theme');
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-        if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
-            setIsDark(true);
-            document.documentElement.classList.add('dark');
-        }
-    }, []);
-
     const toggleTheme = () => {
-        setIsDark(!isDark);
-        if (isDark) {
-            document.documentElement.classList.remove('dark');
-            localStorage.setItem('theme', 'light');
-        } else {
-            document.documentElement.classList.add('dark');
-            localStorage.setItem('theme', 'dark');
-        }
+        setTheme(resolvedTheme === 'dark' ? 'light' : 'dark');
     };
+
+    const isDark = mounted && resolvedTheme === 'dark';
 
     const navLinks = [
         { href: '/docs', label: 'Docs' },
