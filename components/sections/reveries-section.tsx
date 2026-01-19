@@ -1,3 +1,5 @@
+"use client";
+
 import React from 'react';
 import { GridBackground } from '../ui/grid-background';
 import { ArrowUpRight } from 'lucide-react';
@@ -26,7 +28,7 @@ const blogs = [
 
 export function ReveriesSection() {
     return (
-        <GridBackground className="py-16 bg-background border-b border-t border-border" withNoise={true}>
+        <GridBackground id="reveries" className="py-16 bg-background border-b border-t border-border" withNoise={true}>
             <div className="max-w-[1300px] border-b border-border mx-auto">
 
                 {/* Architectural Header */}

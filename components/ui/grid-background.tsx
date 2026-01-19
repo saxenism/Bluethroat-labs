@@ -2,6 +2,7 @@ import React from 'react';
 
 interface GridBackgroundProps {
     children: React.ReactNode;
+    id?: string;
     className?: string;
     withNoise?: boolean;
     backgroundImage?: string;
@@ -10,6 +11,7 @@ interface GridBackgroundProps {
 
 export function GridBackground({
     children,
+    id,
     className = '',
     withNoise = true,
     backgroundImage,
@@ -17,6 +19,7 @@ export function GridBackground({
 }: GridBackgroundProps) {
     return (
         <div
+            id={id}
             className={`grid-lines ${withNoise ? 'grid-noise' : ''} ${withCross ? 'grid-cross' : ''} ${className}`}
             style={backgroundImage ? {
                 backgroundImage: `url(${backgroundImage})`,

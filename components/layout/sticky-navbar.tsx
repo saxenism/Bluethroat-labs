@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Menu, X, Moon, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
+import { smoothScrollTo } from '@/lib/smooth-scroll';
 
 export function StickyNavbar() {
     const [isScrolled, setIsScrolled] = useState(false);
@@ -29,9 +30,17 @@ export function StickyNavbar() {
 
     const navLinks = [
         { href: '/docs', label: 'Docs' },
-        { href: '/reveries', label: 'Reveries' },
+        { href: '#reveries', label: 'Reveries' },
         { href: '/join', label: 'Join Us' },
     ];
+
+    const handleReveriesClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        e.preventDefault();
+        smoothScrollTo('reveries', 80); // Adjust offset based on your navbar height
+
+        // Close mobile menu if open
+        setIsMobileMenuOpen(false);
+    };
 
     return (
         <nav
@@ -70,15 +79,31 @@ export function StickyNavbar() {
 
                 {/* Desktop Navigation Section */}
                 <div className="hidden md:flex flex-1 h-full items-center border-r border-border px-8 space-x-10">
-                    {navLinks.map((link) => (
-                        <Link
-                            key={link.href}
-                            href={link.href}
-                            className="font-mono text-lg font-medium text-foreground/70 hover:text-foreground transition-colors"
-                        >
-                            {link.label}
-                        </Link>
-                    ))}
+                    {navLinks.map((link) => {
+                        // Special handling for Reveries anchor link
+                        if (link.href === '#reveries') {
+                            return (
+                                <a
+                                    key={link.href}
+                                    href={link.href}
+                                    onClick={handleReveriesClick}
+                                    className="font-mono text-lg font-medium text-foreground/70 hover:text-foreground transition-colors cursor-pointer"
+                                >
+                                    {link.label}
+                                </a>
+                            );
+                        }
+
+                        return (
+                            <Link
+                                key={link.href}
+                                href={link.href}
+                                className="font-mono text-lg font-medium text-foreground/70 hover:text-foreground transition-colors"
+                            >
+                                {link.label}
+                            </Link>
+                        );
+                    })}
                 </div>
 
                 {/* Talk to Us Section - Hidden on Mobile */}
@@ -125,16 +150,31 @@ export function StickyNavbar() {
             {/* Mobile Menu */}
             {isMobileMenuOpen && (
                 <div className="md:hidden bg-background border-t border-border py-4 px-6 flex flex-col space-y-4">
-                    {navLinks.map((link) => (
-                        <Link
-                            key={link.href}
-                            href={link.href}
-                            className="font-mono text-sm text-foreground/70 hover:text-foreground transition-colors"
-                            onClick={() => setIsMobileMenuOpen(false)}
-                        >
-                            {link.label}
-                        </Link>
-                    ))}
+                    {navLinks.map((link) => {
+                        if (link.href === '#reveries') {
+                            return (
+                                <a
+                                    key={link.href}
+                                    href={link.href}
+                                    onClick={handleReveriesClick}
+                                    className="font-mono text-sm text-foreground/70 hover:text-foreground transition-colors cursor-pointer"
+                                >
+                                    {link.label}
+                                </a>
+                            );
+                        }
+
+                        return (
+                            <Link
+                                key={link.href}
+                                href={link.href}
+                                className="font-mono text-sm text-foreground/70 hover:text-foreground transition-colors"
+                                onClick={() => setIsMobileMenuOpen(false)}
+                            >
+                                {link.label}
+                            </Link>
+                        );
+                    })}
                     <Link
                         href="/contact"
                         className="inline-flex py-2 font-mono text-sm text-foreground/70 hover:text-foreground transition-colors"
