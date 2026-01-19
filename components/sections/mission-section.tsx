@@ -3,7 +3,7 @@ import { GridBackground } from '../ui/grid-background';
 
 export function MissionSection() {
     return (
-        <GridBackground className="bg-background mt-16 z-2 border-b border-border max-w-[1400px] mx-auto border-x" withNoise={false}>
+        <GridBackground className="bg-background mt-16 z-2 border-border max-w-[1400px] mx-auto" withNoise={false}>
             {/* Segment Divider for Mission - Architectural Slices */}
             <div className="h-16 border-y border-border flex items-stretch bg-zinc-50 dark:bg-zinc-950 px-0">
                 <div className="flex h-full items-center">

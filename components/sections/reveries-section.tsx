@@ -30,7 +30,7 @@ export function ReveriesSection() {
             <div className="max-w-[1300px] border-b border-border mx-auto">
 
                 {/* Architectural Header */}
-                <div className="h-16 border border-border flex items-stretch bg-zinc-50 dark:bg-zinc-950 mb-0">
+                <div className="h-16 border-y border-border flex items-stretch bg-zinc-50 dark:bg-zinc-950 mb-0">
                     <div className="flex h-full items-center">
                         <div className="h-full border-r border-border px-8 flex items-center bg-zinc-100 dark:bg-zinc-900 min-w-[200px]">
                             <span className="font-mono font-bold text-xl uppercase tracking-tighter">Reveries</span>

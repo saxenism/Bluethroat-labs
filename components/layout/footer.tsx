@@ -10,7 +10,7 @@ const navLinks = [
 
 export function Footer() {
     return (
-        <footer className="bg-background mt-16 border-t border-border">
+        <footer className="bg-background mt-16 border-y border-border">
             <div className="border-b mb-12 border-border bg-zinc-50/50 dark:bg-zinc-950/50">
                 <div className="max-w-[1300px] mx-auto h-14 sm:h-17 flex items-stretch border-border">
                     <div className="flex items-center px-5 border-r border-border group transition-colors">
@@ -63,7 +63,7 @@ export function Footer() {
                     <div className="flex items-stretch">
                         <a
                             href="mailto:hello@bluethroat.ai"
-                            className="flex items-center px-5 sm:px-5 border-l border-border hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors"
+                            className="flex items-center px-5 sm:px-5 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors"
                         >
                             <Mail className="w-8 h-8 text-foreground/70" />
                         </a>

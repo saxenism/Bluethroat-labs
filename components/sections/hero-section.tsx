@@ -5,7 +5,7 @@ export function HeroSection() {
     return (
         <GridBackground
             /* 1. Changed min-h-screen to h-fit or a fixed height like h-[600px] sm:h-[800px] */
-            className="h-fit flex flex-col bg-zinc-900 border-x border-border max-w-[1400px] mx-auto overflow-visible select-none"
+            className="h-fit flex flex-col bg-zinc-900 max-w-[1400px] mx-auto overflow-visible select-none"
             backgroundImage="/hero-bg.png"
             withCross={true}
         >
