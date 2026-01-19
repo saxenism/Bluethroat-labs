@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Menu, X, Moon, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { smoothScrollTo } from '@/lib/smooth-scroll';
@@ -11,6 +12,7 @@ export function StickyNavbar() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const { theme, setTheme, resolvedTheme } = useTheme();
     const [mounted, setMounted] = useState(false);
+    const pathname = usePathname();
 
     useEffect(() => {
         setMounted(true);
@@ -42,6 +44,14 @@ export function StickyNavbar() {
         setIsMobileMenuOpen(false);
     };
 
+    const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        if (pathname === '/') {
+            e.preventDefault();
+            smoothScrollTo('hero', 80);
+            setIsMobileMenuOpen(false);
+        }
+    };
+
     return (
         <nav
             className={`fixed max-w-[1300px] mx-auto top-0 left-0 right-0 z-50 transition-all border-t border-b border-border ${isScrolled
@@ -52,7 +62,7 @@ export function StickyNavbar() {
             <div className="max-w-[1300px] mx-auto h-16 flex items-center border-x border-border">
                 {/* Logo Section */}
                 <div className="h-full flex items-center px-4 sm:px-6 border-r border-border min-w-0 sm:min-w-[240px]">
-                    <Link href="/" className="flex items-center space-x-3 group">
+                    <Link href="/" onClick={handleLogoClick} className="flex items-center space-x-3 group">
                         <svg className='fill-foreground transition-colors' width="198" height="32" viewBox="0 0 198 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M12.9537 24.6352V18.3938C12.9537 17.8417 12.1938 17.6914 11.9836 18.2019L6.26586 31.3002C6.04623 31.8335 6.74966 32.2579 7.11908 31.8149L12.8368 24.958C12.9123 24.8674 12.9537 24.7532 12.9537 24.6352Z" />
                             <path d="M24.9186 12.5599L14.4527 23.5066C14.1386 23.8352 13.5844 23.6128 13.5844 23.1583V3.93387C13.5844 3.60636 13.8705 3.40137 14.1471 3.43177C14.3893 3.4584 14.5603 3.67398 14.7515 3.82515L24.6429 11.6484C24.8341 11.7996 25.0577 11.9664 25.0584 12.2101C25.0587 12.3362 25.012 12.4622 24.9186 12.5599Z" />

@@ -1,6 +1,10 @@
+"use client";
+
 import React from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Copyright, Mail, Twitter } from 'lucide-react';
+import { smoothScrollTo } from '@/lib/smooth-scroll';
 
 const navLinks = [
     { href: '/docs', label: 'Docs' },
@@ -9,13 +13,22 @@ const navLinks = [
 ];
 
 export function Footer() {
+    const pathname = usePathname();
+
+    const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        if (pathname === '/') {
+            e.preventDefault();
+            smoothScrollTo('hero', 80);
+        }
+    };
+
     return (
         <footer className="bg-background mt-16 border-y border-border">
             <div className="border-b mb-12 border-border bg-zinc-50/50 dark:bg-zinc-950/50">
                 <div className="max-w-[1300px] mx-auto h-14 sm:h-17 flex items-stretch border-border">
                     <div className="flex items-center px-5 border-r border-border group transition-colors">
                         {/* Replace <img> with the actual <svg> tag from your file */}
-                        <div className="flex items-center group transition-colors">
+                        <Link href="/" onClick={handleLogoClick} className="flex items-center group transition-colors">
                             <svg
                                 width="32"
                                 height="32"
@@ -44,7 +57,7 @@ export function Footer() {
                                     fill="currentColor"
                                 />
                             </svg>
-                        </div>
+                        </Link>
                     </div>
 
                     {/* Desktop Navigation Section */}
@@ -97,6 +110,6 @@ export function Footer() {
                     <span>{new Date().getFullYear()} Bluethroat Labs. All Rights Reserved.</span>
                 </p>
             </div>
-        </footer>
+        </footer >
     );
 }

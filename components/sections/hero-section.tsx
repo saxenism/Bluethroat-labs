@@ -4,6 +4,7 @@ import { GridBackground } from '../ui/grid-background';
 export function HeroSection() {
     return (
         <GridBackground
+            id="hero"
             /* 1. Changed min-h-screen to h-fit or a fixed height like h-[600px] sm:h-[800px] */
             className="h-fit flex flex-col bg-zinc-900 max-w-[1400px] mx-auto overflow-visible select-none"
             backgroundImage="/hero-bg.png"
