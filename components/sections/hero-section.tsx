@@ -10,7 +10,7 @@ export function HeroSection() {
         >
             <div className="flex-1 flex flex-col justify-center px-6 sm:px-12 md:px-24 py-20 sm:py-42 relative">
                 {/* Main Heading Text - Responsive scaling */}
-                <div className="relative z-20 -translate-y-14 flex flex-col items-center text-center sm:text-left gap-12">
+                <div className="relative z-20 -translate-x-14 -translate-y-14 flex flex-col items-center text-center sm:text-left gap-12">
                     <h1 className="font-instrumental text-[3.5rem] sm:text-[6rem] md:text-[8rem] lg:text-[120px] font-normal leading-[0.85] text-white mix-blend-difference tracking-tight">
                         Assumptions
                     </h1>
@@ -32,7 +32,7 @@ export function HeroSection() {
             <div className="h-18 bg-zinc-50 dark:bg-black border-t border-border"></div>
 
             {/* Segment Divider for Mission - Architectural Slices */}
-            <div className="h-18 border-y border-border flex items-stretch bg-zinc-50 dark:bg-zinc-950 px-0">
+            <div className="h-16 border-y border-border flex items-stretch bg-zinc-50 dark:bg-zinc-950 px-0">
                 <div className="flex h-full items-center">
                     <div className="h-full border-r border-border px-8 sm:px-12 flex items-center bg-zinc-100 dark:bg-zinc-900 min-w-[200px] sm:min-w-[300px]">
                         <span className="font-mono font-semibold text-xl sm:text-2xl uppercase whitespace-nowrap">Our Mission</span>
