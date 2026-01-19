@@ -8,7 +8,7 @@ import { smoothScrollTo } from '@/lib/smooth-scroll';
 
 const navLinks = [
     { href: '/docs', label: 'Docs' },
-    { href: '/#reveries', label: 'Reveries' },
+    { href: '/reveries', label: 'Reveries' },
     { href: '/join', label: 'Join Us' },
 ];
 
@@ -19,13 +19,6 @@ export function Footer() {
         if (pathname === '/') {
             e.preventDefault();
             smoothScrollTo('hero', 80);
-        }
-    };
-
-    const handleReveriesClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-        if (pathname === '/') {
-            e.preventDefault();
-            smoothScrollTo('reveries', 80);
         }
     };
 
@@ -73,7 +66,6 @@ export function Footer() {
                             <Link
                                 key={link.href}
                                 href={link.href}
-                                onClick={link.href === '/#reveries' ? handleReveriesClick : undefined}
                                 className="font-mono text-lg font-medium text-foreground/70 hover:text-foreground transition-colors"
                             >
                                 {link.label}

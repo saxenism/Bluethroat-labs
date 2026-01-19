@@ -19,7 +19,6 @@ export default function Home() {
           <TeeSection />
           <PhilosophySection />
           <WorkSection />
-          <ReveriesSection />
           <TeamSection />
           <Footer />
         </main>
