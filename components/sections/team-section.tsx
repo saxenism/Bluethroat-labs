@@ -1,6 +1,6 @@
 import React from 'react';
 import { GridBackground } from '../ui/grid-background';
-import { Twitter, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Twitter, ChevronLeft, ChevronRight, Mail } from 'lucide-react';
 import Image from 'next/image';
 
 const team = [
@@ -9,6 +9,7 @@ const team = [
         role: 'Founder . ex - ZKSync',
         image: '/team/pankaj.png',
         xUrl: 'https://x.com/pankaj',
+        email: 'rahul@bluethroat.ai',
     },
     {
         name: 'Tanmay Goel',
@@ -50,24 +51,42 @@ export function TeamSection() {
                 <div className="grid grid-cols-1 md:grid-cols-3">
                     {team.map((member, index) => (
                         <div key={index} className="group p-4 border-r border-b border-border">
-                            <div className="relative aspect-3/4 bg-zinc-100 dark:bg-zinc-900 border border-border overflow-hidden">
+                            <div className="relative aspect-12/11 border border-border overflow-hidden">
                                 <Image
                                     src={member.image}
                                     alt={member.name}
                                     fill
-                                    className="object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+                                    className="object-cover transition-all duration-500"
                                 />
                                 <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity" />
 
-                                {/* X/Twitter Link Box */}
-                                <a
-                                    href={member.xUrl}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="absolute bottom-4 right-4 w-10 h-10 bg-background/80 backdrop-blur-sm border border-border flex items-center justify-center hover:bg-foreground hover:text-background transition-colors"
-                                >
-                                    <Twitter className="w-4 h-4" />
-                                </a>
+                                {/* Social Buttons Container */}
+                                <div className="absolute bottom-0 right-0 flex">
+                                    {/* Mail Button - Only shows if member.email exists */}
+                                    {member.email && (
+                                        <a
+                                            href={`mailto:${member.email}`}
+                                            className="group/mail w-16 h-16 bg-background border-l border-t border-border flex items-center justify-center hover:bg-foreground transition-colors"
+                                        >
+                                            <Mail className="w-8 h-8 text-foreground group-hover/mail:text-background transition-colors" />
+                                        </a>
+                                    )}
+
+                                    {/* X/Twitter Button */}
+                                    <a
+                                        href={member.xUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="group/social w-16 h-16 bg-background border-l border-t border-border flex items-center justify-center hover:bg-foreground transition-colors"
+                                    >
+                                        <svg
+                                            className="w-8 h-8 fill-foreground group-hover/social:fill-background transition-colors"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                                        </svg>
+                                    </a>
+                                </div>
                             </div>
                             <div className='p-4'>
                                 <div className="space-y-4 mt-4">
