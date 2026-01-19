@@ -95,10 +95,10 @@ export function StickyNavbar() {
                 </div>
 
                 {/* Talk to Us Section - Hidden on Mobile */}
-                <div className="hidden md:flex h-full items-center border-r border-border px-8">
+                <div className="hidden md:flex h-full items-center hover:bg-foreground hover:text-background border-r border-border px-8">
                     <Link
                         href="/contact"
-                        className="font-mono text-xl font-semibold tracking-widest hover:text-foreground/70 transition-colors"
+                        className="font-mono text-xl font-semibold tracking-widest transition-colors"
                     >
                         Talk to Us
                     </Link>
