@@ -32,16 +32,16 @@ export function StickyNavbar() {
 
     const navLinks = [
         { href: '/docs', label: 'Docs' },
-        { href: '#reveries', label: 'Reveries' },
+        { href: '/#reveries', label: 'Reveries' },
         { href: '/join', label: 'Join Us' },
     ];
 
     const handleReveriesClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-        e.preventDefault();
-        smoothScrollTo('reveries', 80); // Adjust offset based on your navbar height
-
-        // Close mobile menu if open
-        setIsMobileMenuOpen(false);
+        if (pathname === '/') {
+            e.preventDefault();
+            smoothScrollTo('reveries', 80); // Adjust offset based on your navbar height
+            setIsMobileMenuOpen(false);
+        }
     };
 
     const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -91,16 +91,16 @@ export function StickyNavbar() {
                 <div className="hidden md:flex flex-1 h-full items-center border-r border-border px-8 space-x-10">
                     {navLinks.map((link) => {
                         // Special handling for Reveries anchor link
-                        if (link.href === '#reveries') {
+                        if (link.href === '/#reveries') {
                             return (
-                                <a
+                                <Link
                                     key={link.href}
                                     href={link.href}
                                     onClick={handleReveriesClick}
                                     className="font-mono text-lg font-medium text-foreground/70 hover:text-foreground transition-colors cursor-pointer"
                                 >
                                     {link.label}
-                                </a>
+                                </Link>
                             );
                         }
 
@@ -161,16 +161,16 @@ export function StickyNavbar() {
             {isMobileMenuOpen && (
                 <div className="md:hidden bg-background border-t border-border py-4 px-6 flex flex-col space-y-4">
                     {navLinks.map((link) => {
-                        if (link.href === '#reveries') {
+                        if (link.href === '/#reveries') {
                             return (
-                                <a
+                                <Link
                                     key={link.href}
                                     href={link.href}
                                     onClick={handleReveriesClick}
                                     className="font-mono text-sm text-foreground/70 hover:text-foreground transition-colors cursor-pointer"
                                 >
                                     {link.label}
-                                </a>
+                                </Link>
                             );
                         }
 
