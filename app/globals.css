@@ -126,102 +126,40 @@
   }
 }
 
-/* Japanese Grid Effect - Intensified Scanlines */
+/* Japanese Grid Effect - Disabled */
 .grid-lines {
   position: relative;
   overflow: hidden;
 }
 
-/* .grid-lines::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: repeating-linear-gradient(90deg,
-      transparent,
-      transparent 2px,
-      rgba(0, 0, 0, 0.2) 2px,
-      rgba(0, 0, 0, 0.2) 3px);
-  pointer-events: none;
-  z-index: 1;
-} */
-
-/* Light Mode - Increase alpha from 0.1 to 0.4 */
 .grid-lines::before {
-  background-image: repeating-linear-gradient(90deg,
-      transparent,
-      transparent 2px,
-      rgba(0, 0, 0, 0.4) 2px,
-      /* Increased visibility */
-      rgba(0, 0, 0, 0.4) 3px);
+  content: none;
 }
 
-/* Dark Mode - Change to oklch for better consistency with your theme */
 .dark .grid-lines::before {
-  background-image: repeating-linear-gradient(90deg,
-      transparent,
-      transparent 2px,
-      oklch(1 0 0 / 40%) 2px,
-      /* Using 40% opacity white */
-      oklch(1 0 0 / 40%) 3px);
+  content: none;
 }
 
-/* Vertical grid lines (cross-hatch) if needed */
+/* Vertical grid lines (cross-hatch) - Disabled */
 .grid-cross::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: repeating-linear-gradient(0deg,
-      transparent,
-      transparent 2px,
-      rgba(0, 0, 0, 0.2) 2px,
-      rgba(0, 0, 0, 0.2) 3px);
-  pointer-events: none;
-  z-index: 1;
+  content: none;
 }
 
 .dark .grid-cross::after {
-  background-image: repeating-linear-gradient(0deg,
-      transparent,
-      transparent 2px,
-      rgba(255, 255, 255, 0.2) 2px,
-      rgba(255, 255, 255, 0.2) 3px);
+  content: none;
 }
 
-/* Layout Dividers */
-.nav-divider {
-  @apply border-r border-border h-full flex items-center px-6;
-}
-
-.nav-divider:last-child {
-  @apply border-r-0;
-}
-
-/* Grid Noise Overlay */
+/* Grid Noise Overlay - Disabled */
 .grid-noise {
   position: relative;
 }
 
 .grid-noise::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-  opacity: 0.015;
-  pointer-events: none;
-  z-index: 2;
+  content: none;
 }
 
 .dark .grid-noise::after {
-  opacity: 0.02;
+  content: none;
 }
 
 /* Smooth Scroll */

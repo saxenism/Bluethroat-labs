@@ -6,8 +6,8 @@ export function HeroSection() {
         <GridBackground
             id="hero"
             /* 1. Changed min-h-screen to h-fit or a fixed height like h-[600px] sm:h-[800px] */
-            className="h-fit flex flex-col bg-zinc-900 max-w-[1400px] mx-auto overflow-visible select-none"
-            backgroundImage="/hero-bg.png"
+            className="h-fit flex flex-colmax-w-[1400px] mx-auto overflow-visible select-none"
+            backgroundImage="/light-mode/light-hero.png"
             withCross={true}
         >
             {/* 2. Removed bottom padding (changed py to pt) so the container ends at the bottom box */}

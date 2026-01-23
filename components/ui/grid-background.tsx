@@ -13,19 +13,16 @@ export function GridBackground({
     children,
     id,
     className = '',
-    withNoise = true,
     backgroundImage,
-    withCross = false
 }: GridBackgroundProps) {
     return (
         <div
             id={id}
-            className={`grid-lines ${withNoise ? 'grid-noise' : ''} ${withCross ? 'grid-cross' : ''} ${className}`}
+            className={`relative ${className}`}
             style={backgroundImage ? {
                 backgroundImage: `url(${backgroundImage})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
-                backgroundBlendMode: 'overlay'
             } : {}}
         >
             <div className="relative z-10 w-full h-full">

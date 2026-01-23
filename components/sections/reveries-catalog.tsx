@@ -105,17 +105,17 @@ export function ReveriesCatalog() {
                 <div
                     className="absolute inset-0 bg-cover bg-center"
                     style={{
-                        backgroundImage: 'url(/footer-pattern.png)',
+                        backgroundImage: 'url(/dark-mode/dark-footer.png)',
                         filter: 'grayscale(100%) contrast(1.2) brightness(0.6)'
                     }}
                 />
                 <div className="absolute inset-0 bg-black/30 mix-blend-multiply" />
 
-                {/* Simulated Glitch Overlay */}
+                {/* Simulated Glitch Overlay - Adjusted */}
                 <div className="absolute inset-0 opacity-10 pointer-events-none"
                     style={{
-                        backgroundImage: 'linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06))',
-                        backgroundSize: '100% 2px, 3px 100%'
+                        backgroundImage: 'linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%)',
+                        backgroundSize: '100% 2px'
                     }}
                 />
 
@@ -187,8 +187,7 @@ export function ReveriesCatalog() {
                             >
                                 <div className="flex-1 flex flex-col sm:flex-row items-start sm:items-center p-8 sm:p-14">
                                     <div className="w-full sm:w-64 aspect-video bg-zinc-100 dark:bg-zinc-900 border border-border mb-6 sm:mb-0 sm:mr-12 overflow-hidden shrink-0 relative">
-                                        <div className="absolute inset-0 bg-cover bg-center opacity-40 group-hover:opacity-60 transition-opacity" style={{ backgroundImage: 'url(/footer-pattern.png)' }} />
-                                        <div className="w-full h-full grid-lines opacity-10" />
+                                        <div className="absolute inset-0 bg-cover bg-center opacity-40 group-hover:opacity-60 transition-opacity" style={{ backgroundImage: 'url(/dark-mode/dark-footer.png)' }} />
                                     </div>
                                     <div className="flex-1">
                                         <h3 className="font-mono text-lg sm:text-2xl font-bold leading-tight mb-4 max-w-4xl group-hover:text-foreground transition-colors">
@@ -219,8 +218,7 @@ export function ReveriesCatalog() {
                             >
                                 <div>
                                     <div className="w-full aspect-video bg-zinc-100 dark:bg-zinc-900 border border-border mb-8 overflow-hidden relative">
-                                        <div className="absolute inset-0 bg-cover bg-center opacity-40 group-hover:opacity-70 transition-opacity" style={{ backgroundImage: 'url(/footer-pattern.png)' }} />
-                                        <div className="w-full h-full grid-lines opacity-10" />
+                                        <div className="absolute inset-0 bg-cover bg-center opacity-40 group-hover:opacity-70 transition-opacity" style={{ backgroundImage: 'url(/dark-mode/dark-footer.png)' }} />
                                         <div className="absolute top-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-all translate-x-2 -translate-y-2 group-hover:translate-x-0 group-hover:translate-y-0">
                                             <div className="bg-background border border-border p-3 shadow-lg">
                                                 <ArrowUpRight className="w-6 h-6" />
@@ -231,7 +229,7 @@ export function ReveriesCatalog() {
                                         {blog.title}
                                     </h3>
                                 </div>
-                                <div className="flex items-center justify-between font-mono text-[10px] sm:text-xs uppercase tracking-widest text-muted-foreground mt-8 border-t border-border pt-6">
+                                <div className="flex items-center justify-between font-mono text-[10px] sm:text-xs uppercase tracking-widest text-muted-foreground pt-6">
                                     <span className="font-bold">{blog.category}</span>
                                     <span>{blog.date}</span>
                                 </div>

@@ -23,7 +23,7 @@ export function ContentCard({
             className={`group relative border border-border bg-card p-8 transition-all hover:border-foreground/20 ${className}`}
         >
             {/* Grid line decoration */}
-            <div className="absolute top-0 right-0 w-24 h-24 grid-lines opacity-30" />
+
 
             {icon && (
                 <div className="mb-6 text-foreground/60">

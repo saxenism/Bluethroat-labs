@@ -8,7 +8,7 @@ export function JoinUsSection() {
         <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-white dark:bg-zinc-950 border-b border-border select-none">
             <div className="absolute inset-0 opacity-[0.4] dark:opacity-[0.4] pointer-events-none"
                 style={{
-                    backgroundImage: 'url(/footer-pattern.png)',
+                    backgroundImage: 'url(/dark-mode/dark-footer.png)',
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     filter: 'grayscale(100%) brightness(1)'

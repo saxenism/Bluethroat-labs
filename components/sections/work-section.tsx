@@ -1,63 +1,34 @@
+"use client";
+
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-
-const BookIcon = () => (
-    <svg width="80" height="100" viewBox="0 0 80 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="opacity-80">
-        <rect x="5" y="5" width="70" height="90" rx="4" stroke="black" strokeWidth="1.5" />
-        <path d="M5 80C5 80 20 75 40 75C60 75 75 80 75 80" stroke="black" strokeWidth="1.5" />
-        <rect x="15" y="15" width="50" height="50" rx="25" stroke="black" strokeWidth="1" strokeDasharray="2 2" />
-        <path d="M40 25V55M25 40H55" stroke="black" strokeWidth="1.5" opacity="0.4" />
-        <path d="M15 10H65M15 15H65M15 20H65M15 25H65" stroke="black" strokeWidth="0.5" opacity="0.3" />
-        <path d="M15 75V95M65 75V95" stroke="black" strokeWidth="1.5" />
-    </svg>
-);
-
-const BugIcon = () => (
-    <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="opacity-80">
-        <path d="M10 20V10H20M60 10H70V20M70 60V70H60M20 70H10V60" stroke="black" strokeWidth="1.5" />
-        <circle cx="40" cy="40" r="15" stroke="black" strokeWidth="1.5" />
-        <path d="M40 25V15M40 65V55M25 40H15M65 40H55" stroke="black" strokeWidth="1.5" />
-        <path d="M30 30L22 22M50 30L58 22M30 50L22 58M50 50L58 58" stroke="black" strokeWidth="1.5" />
-        <rect x="35" y="32" width="10" height="16" fill="black" opacity="0.1" />
-        <path d="M25 25V55M30 25V55M35 25V55M40 25V55M45 25V55M50 25V55M55 25V55" stroke="black" strokeWidth="0.5" opacity="0.3" />
-    </svg>
-);
-
-const TeeIcon = () => (
-    <div className="relative inline-block">
-        <div className="text-7xl font-bold tracking-tighter text-black flex relative">
-            <span className="relative z-10">TEE</span>
-            <div className="absolute inset-0 flex overflow-hidden pointer-events-none opacity-40">
-                {[...Array(30)].map((_, i) => (
-                    <div key={i} className="w-px bg-black h-full shrink-0" style={{ marginLeft: '2px' }} />
-                ))}
-            </div>
-        </div>
-        <div className="absolute -top-4 -right-2 flex items-end gap-0.5 opacity-80 scale-125">
-            <div className="w-0.5 h-1.5 bg-black" />
-            <div className="w-0.5 h-3 bg-black" />
-            <div className="w-px h-1 bg-black" />
-            <div className="w-0.5 h-4 bg-black" />
-            <div className="w-px h-2 bg-black" />
-        </div>
-    </div>
-);
+import { useTheme } from 'next-themes';
 
 export function WorkSection() {
+    const { resolvedTheme } = useTheme();
+    const isDark = resolvedTheme === 'dark';
+    const stripImage = isDark ? '/dark-mode/dark-strip.png' : '/light-mode/light-strip.png';
+
+    const icons = isDark
+        ? ['/dark-mode/dark-icon-1.png', '/dark-mode/dark-icon-2.png', '/dark-mode/dark-icon-3.png']
+        : ['/light-mode/light-Icon-1.png', '/light-mode/light-Icon-2.png', '/light-mode/light-Icon-3.png'];
+
     return (
-        <section className="bg-background text-[#1a1a1a] font-mono border-gray-200">
+        <section className="bg-background mt-17 border-t border-border text-foreground font-mono">
             {/* Header Row */}
             <div className="flex border-b border-border">
-                <div className="w-1/5 sm:w-1/5 flex items-center px-8 sm:px-8 py-4 border-r border-border bg-background">
-                    <h2 className="text-xl sm:text-2xl text-foreground font-semibold tracking-normal">OUR WORK</h2>
+                <div className="flex h-full items-center">
+                    <div className="h-full border-r border-border px-8 sm:px-12 flex items-center bg-zinc-100 dark:bg-zinc-900 min-w-[200px] sm:min-w-[300px] py-4">
+                        <span className="font-mono font-semibold text-xl sm:text-2xl uppercase whitespace-nowrap">Our Work</span>
+                    </div>
                 </div>
                 <div className="flex-1 relative overflow-hidden bg-background">
                     <Image
-                        src="/woodcut-pattern.png"
-                        alt="Woodcut Pattern"
+                        src={stripImage}
+                        alt="Decorative strip"
                         fill
-                        className="object-cover opacity-80 mix-blend-multiply"
+                        className="object-cover opacity-50 contrast-125"
                     />
                 </div>
             </div>
@@ -76,7 +47,9 @@ export function WorkSection() {
                 <div className="flex flex-col border-b md:border-b-0 md:border-r border-border">
                     <div className="p-10 sm:p-14 flex-1">
                         <div className="mb-14 h-32 flex items-center">
-                            <BookIcon />
+                            <div className="relative w-20 h-20">
+                                <Image src={icons[0]} alt="Icon 1" fill className="object-contain opacity-80" />
+                            </div>
                         </div>
                         <h3 className="text-xl sm:text-2xl text-foreground font-semibold mb-4">
                             The TEE Security<br />Handbook
@@ -97,7 +70,9 @@ export function WorkSection() {
                 <div className="flex flex-col border-b md:border-b-0 md:border-r border-border">
                     <div className="p-10 sm:p-14 flex-1">
                         <div className="mb-14 h-32 flex items-center">
-                            <BugIcon />
+                            <div className="relative w-20 h-20">
+                                <Image src={icons[1]} alt="Icon 2" fill className="object-contain opacity-80" />
+                            </div>
                         </div>
                         <h3 className="text-xl sm:text-2xl text-foreground font-semibold mb-4">
                             Confidential Bug<br />Bounty Work
@@ -118,7 +93,9 @@ export function WorkSection() {
                 <div className="flex flex-col">
                     <div className="p-10 sm:p-14 flex-1">
                         <div className="mb-14 h-32 flex items-center">
-                            <TeeIcon />
+                            <div className="relative w-20 h-20">
+                                <Image src={icons[2]} alt="Icon 3" fill className="object-contain opacity-80" />
+                            </div>
                         </div>
                         <h3 className="text-xl sm:text-2xl text-foreground font-semibold mb-4">
                             TEE Vulnerability<br />Reasoning LLM
