@@ -101,7 +101,7 @@ export function StickyNavbar() {
                 <div className="hidden md:flex h-full items-center hover:bg-foreground hover:text-background border-r border-border px-8">
                     <Link
                         href="/contact"
-                        className="font-mono text-xl font-semibold tracking-widest transition-colors"
+                        className="font-mono text-xl font-semibold transition-colors"
                     >
                         Talk to Us
                     </Link>

@@ -125,9 +125,9 @@ export function ReveriesCatalog() {
             </div>
 
             {/* Filter Section */}
-            <div className="border-b border-border">
+            <div>
                 {/* Search Bar */}
-                <div className="max-w-[1300px] mx-auto border-x border-border flex items-center px-8 h-20 bg-background">
+                <div className="max-w-[1300px] mx-auto flex items-center px-8 h-20 bg-background">
                     <Search className="w-6 h-6 text-muted-foreground mr-6" />
                     <input
                         type="text"
@@ -139,39 +139,38 @@ export function ReveriesCatalog() {
                 </div>
 
                 {/* Categories */}
-                <div className="max-w-[1300px] mx-auto border-x border-t border-border bg-background flex flex-wrap md:border-b-0">
+                <div className="max-w-[1300px] pt-8 border-t border-border mx-auto bg-background flex flex-wrap">
                     {CATEGORIES.map((cat) => (
                         <button
                             key={cat}
                             onClick={() => setSelectedCategory(cat)}
-                            className={`px-10 py-6 font-mono text-sm uppercase tracking-widest border-r border-border transition-all ${selectedCategory === cat
-                                ? 'bg-zinc-900 text-zinc-100 dark:bg-zinc-100 dark:text-zinc-900 border-b-2 border-b-foreground'
+                            className={`px-8 py-6 font-mono text-base  border-r border-y border-border transition-all ${selectedCategory === cat
+                                ? 'bg-zinc-900 text-zinc-100 dark:bg-zinc-100 dark:text-zinc-900'
                                 : 'hover:bg-zinc-50 dark:hover:bg-zinc-900 text-muted-foreground hover:text-foreground'
                                 }`}
                         >
                             {cat}
                         </button>
                     ))}
-                    <button className="px-10 py-6 font-mono text-sm uppercase tracking-widest border-r border-border text-muted-foreground hover:text-foreground transition-colors md:block hidden">
+                    <button className="px-10 py-6 font-mono text-base border-r border-y border-border text-muted-foreground hover:text-foreground transition-colors md:block hidden">
                         + More
                     </button>
-                    <div className="flex-1 min-w-[50px] border-r border-border md:border-r-0 md:flex hidden" />
                 </div>
             </div>
 
             {/* View Toggle */}
-            <div className="max-w-[1300px] mx-auto border-x border-border flex justify-end p-6 gap-3 bg-background">
+            <div className="max-w-[1300px] mx-auto border-x border-border flex justify-end mt-16 bg-background">
                 <button
                     onClick={() => setViewMode('grid')}
-                    className={`p-3 border border-border transition-all ${viewMode === 'grid' ? 'bg-zinc-100 dark:bg-zinc-900 text-foreground ring-1 ring-border' : 'text-muted-foreground hover:bg-zinc-50'}`}
+                    className={`p-4 border-x border-t border-border transition-all ${viewMode === 'grid' ? 'bg-zinc-100 dark:bg-zinc-900 text-foreground' : 'text-muted-foreground hover:bg-zinc-50'}`}
                 >
-                    <Grid className="w-6 h-6" />
+                    <Grid className="w-10 h-10" />
                 </button>
                 <button
                     onClick={() => setViewMode('list')}
-                    className={`p-3 border border-border transition-all ${viewMode === 'list' ? 'bg-zinc-100 dark:bg-zinc-900 text-foreground ring-1 ring-border' : 'text-muted-foreground hover:bg-zinc-50'}`}
+                    className={`p-4 border-t border-border transition-all ${viewMode === 'list' ? 'bg-zinc-100 dark:bg-zinc-900 text-foreground' : 'text-muted-foreground hover:bg-zinc-50'}`}
                 >
-                    <List className="w-6 h-6" />
+                    <List className="w-10 h-10" />
                 </button>
             </div>
 
@@ -200,9 +199,9 @@ export function ReveriesCatalog() {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="flex items-start justify-end transition-colors group-hover:bg-muted/50 border-l border-border">
-                                    <div className="p-10">
-                                        <ArrowUpRight className="w-10 h-10 text-foreground/40 group-hover:text-foreground group-hover:scale-125 transition-all" />
+                                <div className="flex items-start justify-end transition-colors">
+                                    <div className="border-l border-b border-border">
+                                        <ArrowUpRight className="w-18 h-18 stroke-[1.4px] group-hover:text-foreground group-hover:scale-110 transition-all" />
                                     </div>
                                 </div>
                             </Link>
@@ -214,22 +213,23 @@ export function ReveriesCatalog() {
                             <Link
                                 key={index}
                                 href={blog.href}
-                                className="group border-b border-r border-border hover:bg-zinc-50 dark:hover:bg-zinc-900/10 transition-colors p-8 sm:p-12 flex flex-col justify-between h-full"
+                                className="group border-b border-r border-border hover:bg-zinc-50 dark:hover:bg-zinc-900/10 transition-colors p-8 sm:p-12 flex flex-col h-full"
                             >
-                                <div>
-                                    <div className="w-full aspect-video bg-zinc-100 dark:bg-zinc-900 border border-border mb-8 overflow-hidden relative">
-                                        <div className="absolute inset-0 bg-cover bg-center opacity-40 group-hover:opacity-70 transition-opacity" style={{ backgroundImage: 'url(/dark-mode/dark-footer.png)' }} />
-                                        <div className="absolute top-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-all translate-x-2 -translate-y-2 group-hover:translate-x-0 group-hover:translate-y-0">
-                                            <div className="bg-background border border-border p-3 shadow-lg">
-                                                <ArrowUpRight className="w-6 h-6" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <h3 className="font-mono text-lg sm:text-xl font-bold leading-snug mb-6 group-hover:text-foreground transition-colors">
+                                <div className="w-full aspect-video bg-zinc-100 dark:bg-zinc-900 border border-border mb-8 overflow-hidden relative">
+                                    <div className="absolute inset-0 bg-cover bg-center opacity-40 group-hover:opacity-70 transition-opacity" style={{ backgroundImage: 'url(/dark-mode/dark-footer.png)' }} />
+                                </div>
+
+                                {/* FIXED GRID ARROW: Title and Arrow share a row */}
+                                <div className="flex items-start justify-between gap-4 mb-auto">
+                                    <h3 className="font-mono text-lg sm:text-xl font-bold group-hover:text-foreground transition-colors">
                                         {blog.title}
                                     </h3>
+                                    <div className="border border-border shrink-0 bg-background group-hover:border-foreground transition-colors">
+                                        <ArrowUpRight className="w-14 h-14 stroke-[1.5px]" />
+                                    </div>
                                 </div>
-                                <div className="flex items-center justify-between font-mono text-[10px] sm:text-xs uppercase tracking-widest text-muted-foreground pt-6">
+
+                                <div className="flex items-center justify-between font-mono text-[10px] sm:text-xs uppercase tracking-widest text-muted-foreground pt-12">
                                     <span className="font-bold">{blog.category}</span>
                                     <span>{blog.date}</span>
                                 </div>
