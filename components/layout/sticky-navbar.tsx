@@ -86,15 +86,19 @@ export function StickyNavbar() {
 
                 {/* Desktop Navigation Section */}
                 <div className="hidden md:flex flex-1 h-full items-center border-r border-border px-8 space-x-10">
-                    {navLinks.map((link) => (
-                        <Link
-                            key={link.href}
-                            href={link.href}
-                            className="font-mono text-lg font-medium text-foreground/70 hover:text-foreground transition-colors"
-                        >
-                            {link.label}
-                        </Link>
-                    ))}
+                    {navLinks.map((link) => {
+                        const isActive = pathname.startsWith(link.href);
+                        return (
+                            <Link
+                                key={link.href}
+                                href={link.href}
+                                className={`font-mono text-lg font-medium transition-colors ${isActive ? 'text-foreground font-bold' : 'text-foreground/70 hover:text-foreground'
+                                    }`}
+                            >
+                                {link.label}
+                            </Link>
+                        );
+                    })}
                 </div>
 
                 {/* Talk to Us Section - Hidden on Mobile */}

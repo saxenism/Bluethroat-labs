@@ -7,79 +7,16 @@ import { GridBackground } from '../ui/grid-background';
 
 const CATEGORIES = ['All Categories', 'TEE Security', 'Dolor Sit', 'Lorem Ipsum', 'Signum Dolor'];
 
-const ALL_REVERIES = [
+import { REVERIES } from '@/lib/reveries-data';
+
+const STATIC_REVERIES = [
     {
         title: 'Debunking the TeeDotFail Panic: Why TEEs Are Still Viable for Secure Computing',
         date: 'December 12, 2023',
         category: 'TEE Security',
         href: '#',
     },
-    {
-        title: 'Debunking the TeeDotFail Panic: Why TEEs Are Still Viable for Secure Computing',
-        date: 'December 12, 2023',
-        category: 'TEE Security',
-        href: '#',
-    },
-    {
-        title: 'Debunking the TeeDotFail Panic: Why TEEs Are Still Viable for Secure Computing',
-        date: 'December 12, 2023',
-        category: 'TEE Security',
-        href: '#',
-    },
-    {
-        title: 'Debunking the TeeDotFail Panic: Why TEEs Are Still Viable for Secure Computing',
-        date: 'December 12, 2023',
-        category: 'TEE Security',
-        href: '#',
-    },
-    {
-        title: 'Debunking the TeeDotFail Panic: Why TEEs Are Still Viable for Secure Computing',
-        date: 'December 12, 2023',
-        category: 'TEE Security',
-        href: '#',
-    },
-    {
-        title: 'Debunking the TeeDotFail Panic: Why TEEs Are Still Viable for Secure Computing',
-        date: 'December 12, 2023',
-        category: 'TEE Security',
-        href: '#',
-    },
-    {
-        title: 'Debunking the TeeDotFail Panic: Why TEEs Are Still Viable for Secure Computing',
-        date: 'December 12, 2023',
-        category: 'TEE Security',
-        href: '#',
-    },
-    {
-        title: 'Debunking the TeeDotFail Panic: Why TEEs Are Still Viable for Secure Computing',
-        date: 'December 12, 2023',
-        category: 'TEE Security',
-        href: '#',
-    },
-    {
-        title: 'Debunking the TeeDotFail Panic: Why TEEs Are Still Viable for Secure Computing',
-        date: 'December 12, 2023',
-        category: 'TEE Security',
-        href: '#',
-    },
-    {
-        title: 'Debunking the TeeDotFail Panic: Why TEEs Are Still Viable for Secure Computing',
-        date: 'December 12, 2023',
-        category: 'TEE Security',
-        href: '#',
-    },
-    {
-        title: 'Debunking the TeeDotFail Panic: Why TEEs Are Still Viable for Secure Computing',
-        date: 'December 12, 2023',
-        category: 'TEE Security',
-        href: '#',
-    },
-    {
-        title: 'Debunking the TeeDotFail Panic: Why TEEs Are Still Viable for Secure Computing',
-        date: 'December 12, 2023',
-        category: 'TEE Security',
-        href: '#',
-    },
+    // ... rest of static items if kept ...
 ];
 
 export function ReveriesCatalog() {
@@ -89,7 +26,23 @@ export function ReveriesCatalog() {
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
 
-    const filteredReveries = ALL_REVERIES.filter(item => {
+    // Combine Dynamic and Static data, placing dynamic posts at the top
+    const ALL_ITEMS = [
+        ...REVERIES.map(post => ({
+            title: post.title,
+            date: post.blocks.find(b => b.type === 'tag')?.metadata?.date || 'Coming soon',
+            category: post.blocks.find(b => b.type === 'tag')?.metadata?.category || 'General',
+            href: `/reveries/${post.slug}`,
+            isDynamic: true
+        })),
+        ...STATIC_REVERIES.filter(staticPost =>
+            !REVERIES.some(dynamicPost =>
+                dynamicPost.title.toLowerCase() === staticPost.title.toLowerCase()
+            )
+        )
+    ];
+
+    const filteredReveries = ALL_ITEMS.filter(item => {
         const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase());
         const matchesCategory = selectedCategory === 'All Categories' || item.category === selectedCategory;
         return matchesSearch && matchesCategory;
