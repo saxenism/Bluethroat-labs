@@ -12,7 +12,7 @@ export function TeeSection() {
 
     return (
         <GridBackground
-            className="py-60 bg-background border-t border-b border-border"
+            className="py-60 bg-background border-b border-border"
             backgroundImage={bgImage}
         >
             {/* The 'text-right' here ensures all inline content leans right */}
