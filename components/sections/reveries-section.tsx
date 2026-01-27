@@ -1,6 +1,5 @@
 "use client";
 
-import React from 'react';
 import { GridBackground } from '../ui/grid-background';
 import { ArrowUpRight } from 'lucide-react';
 import Link from 'next/link';

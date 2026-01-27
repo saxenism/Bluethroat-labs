@@ -18,6 +18,7 @@ export default function Home() {
           <MissionSection />
           <TeeSection />
           <PhilosophySection />
+          <ReveriesSection />
           <WorkSection />
           <TeamSection />
           <Footer />
