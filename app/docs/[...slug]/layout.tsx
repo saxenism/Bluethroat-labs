@@ -58,18 +58,17 @@ export default function DocsLayout({
                     <div className="flex-none w-full bg-background border-b border-border">
                         <DocsBreadcrumb
                             paths={breadcrumbPaths}
+                            isOpen={isContentsOpen}
                             onToggleContents={() => setIsContentsOpen(!isContentsOpen)}
                         />
                     </div>
 
                     {/* SCROLLABLE BODY SECTION */}
                     <main className="flex-1 overflow-y-auto">
-                        <article className="px-6 py-12 md:px-12 lg:px-20 max-w-5xl mx-auto w-full">
+                        <div className="w-full">
                             {children}
-                        </article>
-                        <div className="mx-auto w-full">
-                            <DocsFooter />
                         </div>
+                        <DocsFooter />
                     </main>
                 </div>
 

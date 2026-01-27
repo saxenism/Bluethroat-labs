@@ -5,8 +5,8 @@ import { Mail, Twitter } from 'lucide-react';
 
 export function DocsFooter() {
     return (
-        <footer className="h-16 border-t border-border bg-background px-6 flex items-center justify-between">
-            <div className="flex items-center">
+        <footer className="h-16 border-t border-border bg-background flex items-center justify-between">
+            <div className="flex items-center pl-6">
                 <svg className='fill-foreground transition-colors' width="24" height="24" viewBox="0 0 32 32">
                     <path d="M12.9537 24.6352V18.3938C12.9537 17.8417 12.1938 17.6914 11.9836 18.2019L6.26586 31.3002C6.04623 31.8335 6.74966 32.2579 7.11908 31.8149L12.8368 24.958C12.9123 24.8674 12.9537 24.7532 12.9537 24.6352Z" />
                     <path d="M24.9186 12.5599L14.4527 23.5066C14.1386 23.8352 13.5844 23.6128 13.5844 23.1583V3.93387C13.5844 3.60636 13.8705 3.40137 14.1471 3.43177C14.3893 3.4584 14.5603 3.67398 14.7515 3.82515L24.6429 11.6484C24.8341 11.7996 25.0577 11.9664 25.0584 12.2101C25.0587 12.3362 25.012 12.4622 24.9186 12.5599Z" />
@@ -16,12 +16,22 @@ export function DocsFooter() {
                 </svg>
             </div>
 
-            <div className="flex items-center gap-6">
-                <a href="mailto:contact@bluethroat.ai" className="hover:text-foreground/70 transition-colors">
-                    <Mail className="w-6 h-6" />
+            <div className="flex-1 md:flex-none flex items-stretch">
+                <a
+                    href="mailto:hello@bluethroat.ai"
+                    className="flex-1 md:flex-none flex items-center justify-center px-8 md:px-2 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors"
+                >
+                    <Mail className="w-8 h-8 text-foreground" />
                 </a>
-                <a href="https://twitter.com/bluethroat_labs" target="_blank" rel="noopener noreferrer" className="hover:text-foreground/70 transition-colors">
-                    <Twitter className="w-6 h-6" />
+                <a
+                    href="https://x.com/bluethroat_labs"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 md:flex-none flex items-center justify-center px-8 md:px-5 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors"
+                >
+                    <svg className="w-8 h-8 fill-current text-foreground" viewBox="0 0 24 24">
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                    </svg>
                 </a>
             </div>
         </footer>

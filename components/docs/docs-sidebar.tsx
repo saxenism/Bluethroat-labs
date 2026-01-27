@@ -53,7 +53,7 @@ export function DocsSidebar() {
 
             {/* Navigation Section */}
             <div className="py-4">
-                <nav className="space-y-1">
+                <nav>
                     {filteredNavigation.map((item, idx) => (
                         <SidebarItem
                             key={idx}
@@ -93,8 +93,8 @@ function SidebarItem({
     const paddingLeft = depth === 0 ? 'px-6' : depth === 1 ? 'pl-10 pr-6' : 'pl-14 pr-6';
 
     const content = (
-        <div className={`group flex items-center justify-between py-2.5 text-sm font-mono transition-colors hover:bg-muted cursor-pointer ${paddingLeft} ${isActive ? 'bg-muted text-foreground font-bold' : 'text-muted-foreground hover:text-foreground'}`}>
-            <span className="flex-1 text-[13px]">{item.title}</span>
+        <div className={`group flex items-center justify-between py-5 text-sm font-mono transition-colors hover:bg-muted cursor-pointer ${paddingLeft} ${isActive ? 'bg-muted text-foreground border-y border-border' : 'text-muted-foreground hover:text-foreground'}`}>
+            <span className="flex-1 text-sm">{item.title}</span>
             {hasItems && (
                 <button
                     onClick={(e) => {
@@ -104,7 +104,7 @@ function SidebarItem({
                     }}
                     className="p-1 hover:text-foreground transition-colors"
                 >
-                    {isOpen ? <ChevronDown className="w-3.5 h-3.5" /> : <ChevronRight className="w-3.5 h-3.5" />}
+                    {isOpen ? <ChevronDown className="w-6 h-6" /> : <ChevronRight className="w-6 h-6" />}
                 </button>
             )}
         </div>

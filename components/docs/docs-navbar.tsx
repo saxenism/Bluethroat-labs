@@ -48,9 +48,9 @@ export function DocsNavbar() {
 
                 {/* Navbar Links */}
                 <div className="flex-1 h-full flex items-center px-8 gap-8">
-                    <Link href="/" className="font-mono text-sm hover:text-foreground/70 transition-colors">Website</Link>
-                    <Link href="/reveries" className="font-mono text-sm hover:text-foreground/70 transition-colors">Reveries</Link>
-                    <Link href="/contact" className="font-mono text-sm hover:text-foreground/70 transition-colors">Talk to Us</Link>
+                    <Link href="/" className="font-mono font-medium text-md hover:text-foreground/70 transition-colors">Website</Link>
+                    <Link href="/reveries" className="font-mono font-medium text-md hover:text-foreground/70 transition-colors">Reveries</Link>
+                    <Link href="/contact" className="font-mono font-medium text-md hover:text-foreground/70 transition-colors">Talk to Us</Link>
                 </div>
 
                 {/* Theme Toggle */}

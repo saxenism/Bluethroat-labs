@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Instrument_Serif, Geist_Mono } from "next/font/google";
+import { Instrument_Serif, Geist_Mono, Bai_Jamjuree } from "next/font/google";
 import "./globals.css";
 
 const instrumentSerif = Instrument_Serif({
@@ -12,6 +12,13 @@ const instrumentSerif = Instrument_Serif({
 const geistMono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-geist-mono",
+  display: "swap",
+});
+
+const baiJamjuree = Bai_Jamjuree({
+  subsets: ["latin"],
+  variable: "--font-bai-jamjuree",
+  weight: ["300", "400", "500", "600", "700"],
   display: "swap",
 });
 
@@ -28,8 +35,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${instrumentSerif.variable} ${geistMono.variable}`} suppressHydrationWarning>
-      <body className={`font-mono antialiased`}>
+    <html lang="en" className={`${instrumentSerif.variable} ${geistMono.variable} ${baiJamjuree.variable}`} suppressHydrationWarning>
+      <body className={`font-mono antialiased selection:bg-foreground selection:text-background`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

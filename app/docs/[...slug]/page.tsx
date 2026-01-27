@@ -13,7 +13,7 @@ export default function DocsPage() {
 
     if (!pageData) {
         return (
-            <div className="flex flex-col items-center justify-center min-h-[50vh] font-mono">
+            <div className="flex flex-col items-center justify-center min-h-[66vh] font-mono">
                 <h1 className="text-4xl font-bold mb-4">404</h1>
                 <p className="text-muted-foreground">Document not found.</p>
             </div>
@@ -24,7 +24,7 @@ export default function DocsPage() {
         <article className="prose prose-invert max-w-none">
             {/* Header / Banner Image */}
             {pageData.heroImage && (
-                <div className="w-full aspect-21/9 bg-muted mb-12 border border-border overflow-hidden relative">
+                <div className="w-full aspect-21/6 bg-muted border-b border-border overflow-hidden relative">
                     <img
                         src={pageData.heroImage}
                         alt={pageData.title}
@@ -34,18 +34,20 @@ export default function DocsPage() {
                 </div>
             )}
 
-            <h1 className="font-mono text-4xl sm:text-5xl font-bold mb-8 tracking-tight">{pageData.title}</h1>
+            <div className="max-w-5xl mx-auto w-full px-6 py-12 md:px-12 lg:px-20">
+                <h1 className="font-mono text-3xl sm:text-4xl font-bold mb-8 tracking-tight">{pageData.title}</h1>
 
-            {/* Render dynamic HTML content */}
-            <div
-                className="space-y-6 text-muted-foreground font-mono text-base leading-relaxed docs-content"
-                dangerouslySetInnerHTML={{ __html: pageData.content }}
-            />
+                {/* Render dynamic HTML content */}
+                <div
+                    className="space-y-6 text-muted-foreground font-mono text-base leading-relaxed docs-content"
+                    dangerouslySetInnerHTML={{ __html: pageData.content }}
+                />
 
-            <DocsNavButtons
-                prev={pageData.prev ? { title: pageData.prev.title, href: `/docs/${pageData.prev.slug}` } : undefined}
-                next={pageData.next ? { title: pageData.next.title, href: `/docs/${pageData.next.slug}` } : undefined}
-            />
+                <DocsNavButtons
+                    prev={pageData.prev ? { title: pageData.prev.title, href: `/docs/${pageData.prev.slug}` } : undefined}
+                    next={pageData.next ? { title: pageData.next.title, href: `/docs/${pageData.next.slug}` } : undefined}
+                />
+            </div>
         </article>
     );
 }

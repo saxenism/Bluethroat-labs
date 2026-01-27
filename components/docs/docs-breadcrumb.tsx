@@ -5,14 +5,15 @@ import { ChevronLeft } from 'lucide-react';
 
 interface BreadcrumbProps {
     paths: string[];
+    isOpen: boolean;
     onToggleContents?: () => void;
 }
 
-export function DocsBreadcrumb({ paths, onToggleContents }: BreadcrumbProps) {
+export function DocsBreadcrumb({ paths, isOpen, onToggleContents }: BreadcrumbProps) {
     return (
         <div className="h-12 flex items-center justify-between w-full">
             {/* Path Links */}
-            <div className=" pl-6 flex items-center gap-2 text-[10px] font-mono tracking-widest uppercase truncate">
+            <div className=" pl-6 flex items-center gap-2 text-sm font-mono tracking-widest uppercase truncate">
                 {paths.map((path, idx) => (
                     <React.Fragment key={idx}>
                         <span className={idx === paths.length - 1 ? 'text-foreground' : 'text-muted-foreground'}>{path}</span>
@@ -26,7 +27,7 @@ export function DocsBreadcrumb({ paths, onToggleContents }: BreadcrumbProps) {
                 onClick={onToggleContents}
                 className="p-1 left-0 bg-muted transition-colors flex items-center justify-center"
             >
-                <ChevronLeft className="w-10 h-10 text-muted-foreground hover:text-foreground transition-colors" />
+                <ChevronLeft className={`w-10 h-10 text-muted-foreground hover:text-foreground transition-colors ${isOpen ? 'rotate-180' : 'rotate-0'}`} />
             </button>
         </div>
     );
