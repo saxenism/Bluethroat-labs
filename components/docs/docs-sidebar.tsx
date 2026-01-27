@@ -52,7 +52,7 @@ export function DocsSidebar() {
             </div>
 
             {/* Navigation Section */}
-            <div className="py-4">
+            <div>
                 <nav>
                     {filteredNavigation.map((item, idx) => (
                         <SidebarItem

@@ -13,7 +13,7 @@ export default function DocsPage() {
 
     if (!pageData) {
         return (
-            <div className="flex flex-col items-center justify-center min-h-[66vh] font-mono">
+            <div className="flex flex-col items-center justify-center min-h-[78vh] font-mono">
                 <h1 className="text-4xl font-bold mb-4">404</h1>
                 <p className="text-muted-foreground">Document not found.</p>
             </div>
@@ -24,7 +24,7 @@ export default function DocsPage() {
         <article className="prose prose-invert max-w-none">
             {/* Header / Banner Image */}
             {pageData.heroImage && (
-                <div className="w-full aspect-21/6 bg-muted border-b border-border overflow-hidden relative">
+                <div className="w-full aspect-21/6 bg-muted overflow-hidden relative">
                     <img
                         src={pageData.heroImage}
                         alt={pageData.title}
