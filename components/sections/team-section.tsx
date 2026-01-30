@@ -30,8 +30,16 @@ const team = [
 
 export function TeamSection() {
     const { resolvedTheme } = useTheme();
-    const isDark = resolvedTheme === 'dark';
-    const stripImage = isDark ? '/dark-mode/dark-strip.png' : '/light-mode/light-strip.png';
+    const [mounted, setMounted] = React.useState(false);
+
+    React.useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    const isDark = mounted && resolvedTheme === 'dark';
+    const stripImage = mounted
+        ? (isDark ? '/dark-mode/dark-strip.png' : '/light-mode/light-strip.png')
+        : null;
     const [currentIndex, setCurrentIndex] = useState(0);
 
     const nextMember = () => {
@@ -53,12 +61,14 @@ export function TeamSection() {
                         </div>
                     </div>
                     <div className="flex-1 h-full relative overflow-hidden">
-                        <Image
-                            src={stripImage}
-                            alt="Decorative strip"
-                            fill
-                            className="object-cover opacity-50 contrast-125"
-                        />
+                        {stripImage && (
+                            <Image
+                                src={stripImage}
+                                alt="Decorative strip"
+                                fill
+                                className="object-cover opacity-50 contrast-125"
+                            />
+                        )}
                     </div>
                 </div>
                 {/* Intro Text Row */}

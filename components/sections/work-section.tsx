@@ -7,10 +7,18 @@ import { useTheme } from 'next-themes';
 
 export function WorkSection() {
     const { resolvedTheme } = useTheme();
-    const isDark = resolvedTheme === 'dark';
-    const stripImage = isDark ? '/dark-mode/dark-strip.png' : '/light-mode/light-strip.png';
+    const [mounted, setMounted] = React.useState(false);
 
-    const icons = isDark
+    React.useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    const isDark = mounted && resolvedTheme === 'dark';
+    const stripImage = mounted
+        ? (isDark ? '/dark-mode/dark-strip.png' : '/light-mode/light-strip.png')
+        : null;
+
+    const icons = mounted && isDark
         ? ['/dark-mode/dark-icon-1.png', '/dark-mode/dark-icon-2.png', '/dark-mode/dark-icon-3.png']
         : ['/light-mode/light-Icon-1.png', '/light-mode/light-Icon-2.png', '/light-mode/light-Icon-3.png'];
 
@@ -24,18 +32,20 @@ export function WorkSection() {
                     </div>
                 </div>
                 <div className="flex-1 relative overflow-hidden bg-background">
-                    <Image
-                        src={stripImage}
-                        alt="Decorative strip"
-                        fill
-                        className="object-cover opacity-50 contrast-125"
-                    />
+                    {mounted && stripImage && (
+                        <Image
+                            src={stripImage}
+                            alt="Decorative strip"
+                            fill
+                            className="object-cover opacity-50 contrast-125"
+                        />
+                    )}
                 </div>
             </div>
 
             {/* Intro Text Row */}
             <div className="px-8 sm:px-16 py-6 sm:py-8 border-b border-border bg-background">
-                <p className="max-w-6xl text-base sm:text-lg leading-relaxed font-medium text-foreground">
+                <p className="max-w-6xl text-base sm:text-lg leading-relaxed font-medium text-foreground pb-4">
                     We do three kinds of work. One is public, to raise the baseline for the entire ecosystem. The others are
                     private, where we help teams find and fix real issues before attackers do.
                 </p>
@@ -47,9 +57,11 @@ export function WorkSection() {
                 <div className="flex flex-col border-b md:border-b-0 md:border-r border-border">
                     <div className="p-10 sm:p-14 flex-1">
                         <div className="mb-14 h-32 flex items-center">
-                            <div className="relative w-20 h-20">
-                                <Image src={icons[0]} alt="Icon 1" fill className="object-contain opacity-80" />
-                            </div>
+                            {mounted && (
+                                <div className="relative w-20 h-20">
+                                    <Image src={icons[0]} alt="Icon 1" fill className="object-contain opacity-80" />
+                                </div>
+                            )}
                         </div>
                         <h3 className="text-xl sm:text-2xl text-foreground font-semibold mb-4">
                             The TEE Security<br />Handbook
@@ -70,9 +82,11 @@ export function WorkSection() {
                 <div className="flex flex-col border-b md:border-b-0 md:border-r border-border">
                     <div className="p-10 sm:p-14 flex-1">
                         <div className="mb-14 h-32 flex items-center">
-                            <div className="relative w-20 h-20">
-                                <Image src={icons[1]} alt="Icon 2" fill className="object-contain opacity-80" />
-                            </div>
+                            {mounted && (
+                                <div className="relative w-20 h-20">
+                                    <Image src={icons[1]} alt="Icon 2" fill className="object-contain opacity-80" />
+                                </div>
+                            )}
                         </div>
                         <h3 className="text-xl sm:text-2xl text-foreground font-semibold mb-4">
                             Confidential Bug<br />Bounty Work
@@ -93,9 +107,11 @@ export function WorkSection() {
                 <div className="flex flex-col">
                     <div className="p-10 sm:p-14 flex-1">
                         <div className="mb-14 h-32 flex items-center">
-                            <div className="relative w-20 h-20">
-                                <Image src={icons[2]} alt="Icon 3" fill className="object-contain opacity-80" />
-                            </div>
+                            {mounted && (
+                                <div className="relative w-20 h-20">
+                                    <Image src={icons[2]} alt="Icon 3" fill className="object-contain opacity-80" />
+                                </div>
+                            )}
                         </div>
                         <h3 className="text-xl sm:text-2xl text-foreground font-semibold mb-4">
                             TEE Vulnerability<br />Reasoning LLM

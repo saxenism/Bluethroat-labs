@@ -11,6 +11,11 @@ export default function DocsPage() {
     const currentSlug = slugArray?.join('/') || '';
     const pageData = DOCS_DATA[currentSlug];
 
+    const [mounted, setMounted] = React.useState(false);
+    React.useEffect(() => {
+        setMounted(true);
+    }, []);
+
     if (!pageData) {
         return (
             <div className="flex flex-col items-center justify-center min-h-[78vh] font-mono">
@@ -23,7 +28,7 @@ export default function DocsPage() {
     return (
         <article className="prose prose-invert max-w-none">
             {/* Header / Banner Image */}
-            {pageData.heroImage && (
+            {mounted && pageData.heroImage && (
                 <div className="w-full aspect-21/6 bg-muted overflow-hidden relative">
                     <img
                         src={pageData.heroImage}

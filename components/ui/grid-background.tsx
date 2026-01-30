@@ -7,6 +7,7 @@ interface GridBackgroundProps {
     withNoise?: boolean;
     backgroundImage?: string;
     withCross?: boolean;
+    overlay?: React.ReactNode;
 }
 
 export function GridBackground({
@@ -14,6 +15,7 @@ export function GridBackground({
     id,
     className = '',
     backgroundImage,
+    overlay,
 }: GridBackgroundProps) {
     return (
         <div
@@ -23,8 +25,9 @@ export function GridBackground({
                 backgroundImage: `url(${backgroundImage})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
-            } : {}}
+            } : undefined}
         >
+            {overlay}
             <div className="relative z-10 w-full h-full">
                 {children}
             </div>

@@ -1,5 +1,6 @@
 "use client";
 
+import React from 'react';
 import { GridBackground } from '../ui/grid-background';
 import { ArrowUpRight } from 'lucide-react';
 import Link from 'next/link';
@@ -29,8 +30,16 @@ const blogs = [
 
 export function ReveriesSection() {
     const { resolvedTheme } = useTheme();
-    const isDark = resolvedTheme === 'dark';
-    const stripImage = isDark ? '/dark-mode/dark-strip.png' : '/light-mode/light-strip.png';
+    const [mounted, setMounted] = React.useState(false);
+
+    React.useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    const isDark = mounted && resolvedTheme === 'dark';
+    const stripImage = mounted
+        ? (isDark ? '/dark-mode/dark-strip.png' : '/light-mode/light-strip.png')
+        : null;
 
     return (
         <GridBackground id="reveries" className="py-16 bg-background border-b border-t border-border" withNoise={true}>
@@ -44,12 +53,14 @@ export function ReveriesSection() {
                         </div>
                     </div>
                     <div className="flex-1 h-full relative overflow-hidden">
-                        <Image
-                            src={stripImage}
-                            alt="Decorative strip"
-                            fill
-                            className="object-cover opacity-50 contrast-125"
-                        />
+                        {mounted && stripImage && (
+                            <Image
+                                src={stripImage}
+                                alt="Decorative strip"
+                                fill
+                                className="object-cover opacity-50 contrast-125"
+                            />
+                        )}
                     </div>
                 </div>
 

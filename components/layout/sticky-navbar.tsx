@@ -119,7 +119,10 @@ export function StickyNavbar() {
                             className="p-5 transition-colors hover:bg-muted"
                             aria-label="Toggle theme"
                         >
-                            {isDark ? (
+                            {/* Only render the icon if mounted to prevent hydration mismatch */}
+                            {!mounted ? (
+                                <div className="w-7 h-7" /> // Placeholder with same dimensions
+                            ) : resolvedTheme === 'dark' ? (
                                 <Sun className="w-7 h-7" />
                             ) : (
                                 <Moon className="w-7 h-7" />
@@ -167,7 +170,11 @@ export function StickyNavbar() {
                         <Link
                             href="/contact"
                             onClick={() => setIsMobileMenuOpen(false)}
-                            className={`flex-1 flex items-center justify-center font-mono text-xl font-bold tracking-widest border-r border-border transition-colors ${resolvedTheme === 'dark' ? 'bg-white text-black hover:bg-zinc-200' : 'bg-black text-white hover:bg-zinc-800'
+                            className={`flex-1 flex items-center justify-center font-mono text-xl font-bold tracking-widest border-r border-border transition-colors ${!mounted
+                                ? 'bg-muted text-muted-foreground'
+                                : resolvedTheme === 'dark'
+                                    ? 'bg-white text-black hover:bg-zinc-200'
+                                    : 'bg-black text-white hover:bg-zinc-800'
                                 }`}
                         >
                             Talk to Us
@@ -177,7 +184,13 @@ export function StickyNavbar() {
                             className="w-14 flex items-center border-y border-border justify-center hover:bg-muted transition-colors"
                             aria-label="Toggle theme"
                         >
-                            {isDark ? <Sun className="w-7 h-7" /> : <Moon className="w-7 h-7" />}
+                            {!mounted ? (
+                                <div className="w-7 h-7" />
+                            ) : resolvedTheme === 'dark' ? (
+                                <Sun className="w-7 h-7" />
+                            ) : (
+                                <Moon className="w-7 h-7" />
+                            )}
                         </button>
                     </div>
                 </div>

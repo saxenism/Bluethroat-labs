@@ -7,14 +7,24 @@ import Image from 'next/image';
 
 export function TeeSection() {
     const { resolvedTheme } = useTheme();
-    const isDark = resolvedTheme === 'dark';
-    const bgImage = isDark ? '/dark-mode/dark-mission-1.png' : '/light-mode/light-mission-1.png';
+    const [mounted, setMounted] = React.useState(false);
+
+    React.useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    const isDark = mounted && resolvedTheme === 'dark';
+    const bgImage = mounted
+        ? (isDark ? '/dark-mode/dark-mission-1.png' : '/light-mode/light-mission-1.png')
+        : undefined;
 
     return (
         <GridBackground
-            className="py-60 bg-background border-b border-border"
+            className="py-60 mt-18 bg-background border-b border-border"
             backgroundImage={bgImage}
         >
+            <div className="absolute -translate-y-60 right-0 top-0 h-90 w-2 bg-primary/30" aria-hidden="true" />
+
             {/* The 'text-right' here ensures all inline content leans right */}
             <div className="max-w-7xl mx-auto px-12 sm:px-24 text-right">
 
@@ -23,12 +33,12 @@ export function TeeSection() {
 
                     <div className="w-full">
                         {/* Added 'ml-auto' to move the box to the right */}
-                        <p className="font-mono max-w-3xl ml-auto font-semibold text-lg sm:text-xl md:text-2xl leading-relaxed mb-6 text-right drop-shadow-sm text-foreground">
+                        <p className="font-mono max-w-3xl ml-auto font-medium text-lg sm:text-xl md:text-2xl leading-relaxed mb-6 text-right drop-shadow-sm text-foreground">
                             Trusted Execution Environments are a proven security primitive. They have been used for years in phones, payments, and other security-critical systems.
                         </p>
 
                         {/* Added 'ml-auto' to move the box to the right */}
-                        <p className="font-mono max-w-4xl ml-auto font-semibold text-lg sm:text-xl md:text-2xl leading-relaxed mb-6 text-right drop-shadow-sm text-foreground">
+                        <p className="font-mono max-w-4xl ml-auto font-semibold text-xl sm:text-xl md:text-2xl leading-relaxed mb-6 text-right drop-shadow-sm text-foreground">
                             In Web3, TEEs are held to a different bar. Hardware trust sits uneasily with decentralisation and transparency.
                         </p>
                     </div>

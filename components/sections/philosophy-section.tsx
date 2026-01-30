@@ -7,15 +7,29 @@ import { useTheme } from 'next-themes';
 
 export function PhilosophySection() {
     const { resolvedTheme } = useTheme();
-    const isDark = resolvedTheme === 'dark';
-    const bgImage = isDark ? '/dark-mode/dark-mission-2.png' : '/light-mode/light-mission-2.png';
+    const [mounted, setMounted] = React.useState(false);
+
+    React.useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    const isDark = mounted && resolvedTheme === 'dark';
+    const bgImage = mounted
+        ? (isDark ? '/dark-mode/dark-mission-2.png' : '/light-mode/light-mission-2.png')
+        : undefined;
 
     return (
         <GridBackground
-            className="py-32 bg-background border-b border-border"
+            className="relative py-32 bg-background border-b border-border overflow-hidden"
             backgroundImage={bgImage}
+            overlay={
+                <div
+                    className="absolute right-0 top-0 bottom-0 w-2 bg-primary/30"
+                    aria-hidden="true"
+                />
+            }
         >
-            {/* 1. Removed 'mx-auto' and added 'ml-0' to pin to the left */}
+            {/* Content Container */}
             <div className="max-w-4xl px-6 sm:px-12 md:px-24 ml-0">
                 <div className="space-y-12">
                     <div className='mt-48'>

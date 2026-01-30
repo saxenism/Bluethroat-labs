@@ -1,14 +1,29 @@
-import React from 'react';
+"use client"
+
+import React, { useState, useEffect } from 'react';
 import { GridBackground } from '../ui/grid-background';
 import Link from 'next/link';
+import { useTheme } from 'next-themes';
 
 export function HeroSection() {
+    const { resolvedTheme } = useTheme();
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    const isDark = mounted && resolvedTheme === 'dark';
+    const bgImage = mounted
+        ? (isDark ? '/hero-bg.png' : '/light-mode/light-hero.png')
+        : undefined;
+
     return (
         <GridBackground
             id="hero"
             /* 1. Changed min-h-screen to h-fit or a fixed height like h-[600px] sm:h-[800px] */
             className="h-fit flex flex-colmax-w-[1400px] mx-auto overflow-visible select-none"
-            backgroundImage="/light-mode/light-hero.png"
+            backgroundImage={bgImage}
             withCross={true}
         >
             {/* 2. Removed bottom padding (changed py to pt) so the container ends at the bottom box */}
