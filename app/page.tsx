@@ -18,8 +18,8 @@ export default function Home() {
           <MissionSection />
           <TeeSection />
           <PhilosophySection />
-          <ReveriesSection />
           <WorkSection />
+          <ReveriesSection />
           <TeamSection />
           <Footer />
         </main>

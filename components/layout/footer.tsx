@@ -23,7 +23,7 @@ export function Footer() {
     };
 
     return (
-        <footer className="bg-background mt-16 border-y border-border">
+        <footer className="bg-background mt-17 border-y border-border">
             {/* Main Footer Content */}
             <div className="border-b border-border bg-zinc-50/50 dark:bg-zinc-950/50">
                 <div className="max-w-[1300px] mx-auto flex flex-col md:flex-row items-stretch border-border">
@@ -108,10 +108,10 @@ export function Footer() {
             </div>
 
             {/* Bottom Bar */}
-            <div className="p-6 border-t border-border flex items-center justify-center font-mono text-sm tracking-widest text-foreground">
+            <div className="p-3 border-t border-border flex items-center justify-center font-mono text-sm text-foreground">
                 <p className="flex items-center gap-2 whitespace-nowrap">
-                    <Copyright className="w-5 h-5" />
-                    <span className="text-base">2025 Bluethroat Labs</span>
+                    <Copyright className="w-6 h-6 text-foreground/70" />
+                    <span className="text-base font-medium text-foreground/70">2025 Bluethroat Labs</span>
                 </p>
             </div>
         </footer>
