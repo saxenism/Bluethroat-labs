@@ -4,6 +4,7 @@ import React from 'react';
 import { GridBackground } from '../ui/grid-background';
 import { CornerUpRight } from 'lucide-react';
 import { useTheme } from 'next-themes';
+import Link from 'next/link';
 
 export function PhilosophySection() {
     const { resolvedTheme } = useTheme();
@@ -29,6 +30,8 @@ export function PhilosophySection() {
                 />
             }
         >
+            <span className="font-mono flex text-base sm:text-base text-foreground/30 mt-2 mr-4 uppercase items-end whitespace-nowrap absolute top-[-320px] right-0">2/2</span>
+
             {/* Content Container */}
             <div className="max-w-4xl px-6 sm:px-12 md:px-24 ml-0">
                 <div className="space-y-12">
@@ -39,7 +42,7 @@ export function PhilosophySection() {
                         </p>
 
                         <p className="font-instrumental max-w-2xl text-foreground leading-relaxed text-3xl drop-shadow-sm">
-                            The <span className="italic text-foreground/50 underline-offset-4">TEE Security Handbook<CornerUpRight className="inline-block ml-2 stroke-1" /></span> exists to document real
+                            The <Link href="/docs" className="italic text-foreground/50 underline-offset-4 hover:text-foreground transition-colors">TEE Security Handbook<CornerUpRight className="inline-block ml-2 stroke-1" /></Link> exists to document real
                             guarantees, real failure modes, and practical integration patterns.
                         </p>
                     </div>

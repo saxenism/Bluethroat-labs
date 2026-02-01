@@ -20,9 +20,10 @@ export function TeeSection() {
 
     return (
         <GridBackground
-            className="py-60 mt-18 bg-background border-b border-border"
+            className="py-60 mt-18 bg-background border-b border-border relative"
             backgroundImage={bgImage}
         >
+            <span className="font-mono flex text-base sm:text-base text-foreground/30 mt-2 mr-4 uppercase items-end whitespace-nowrap absolute top-[-240px] right-0">1/2</span>
             <div className="absolute -translate-y-60 right-0 top-0 h-90 w-2 bg-primary/30" aria-hidden="true" />
 
             {/* The 'text-right' here ensures all inline content leans right */}

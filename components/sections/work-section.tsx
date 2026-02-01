@@ -56,17 +56,17 @@ export function WorkSection() {
                 {/* Column 1: The TEE Security Handbook */}
                 <div className="flex flex-col border-b md:border-b-0 md:border-r border-border">
                     <div className="p-10 sm:p-14 flex-1">
-                        <div className="mb-14 h-32 flex items-center">
+                        <div className="mb-6 h-32 flex items-center">
                             {mounted && (
-                                <div className="relative w-20 h-20">
-                                    <Image src={icons[0]} alt="Icon 1" fill className="object-contain opacity-80" />
+                                <div className="relative w-24 h-24">
+                                    <Image src={icons[0]} alt="Icon 1" fill className="object-contain opacity-100" />
                                 </div>
                             )}
                         </div>
                         <h3 className="text-xl sm:text-2xl text-foreground font-semibold mb-4">
                             The TEE Security<br />Handbook
                         </h3>
-                        <p className="text-sm sm:text-[15px] leading-relaxed text-foreground/70">
+                        <p className="text-sm sm:text-[15px] font-medium leading-relaxed text-foreground/60">
                             Our open-source public good. A living handbook that documents TEE failure modes, vulnerable patterns, and practical guidance for safely designing and deploying TEE-heavy Web3 systems.
                         </p>
                     </div>
