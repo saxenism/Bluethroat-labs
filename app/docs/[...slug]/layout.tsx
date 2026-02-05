@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
@@ -6,7 +6,7 @@ import { DocsNavbar } from '@/components/docs/docs-navbar';
 import { DocsSidebar } from '@/components/docs/docs-sidebar';
 import { DocsBreadcrumb } from '@/components/docs/docs-breadcrumb';
 import { DocsFooter } from '@/components/docs/docs-footer';
-import { DOCS_DATA } from '@/lib/docs-data';
+import { client } from '@/lib/sanity/client';
 
 export default function DocsLayout({
     children,
@@ -16,12 +16,36 @@ export default function DocsLayout({
     const params = useParams();
     const slugArray = (params.slug as string[]) || [];
     const currentSlug = slugArray.join('/') || '';
-    const pageData = DOCS_DATA[currentSlug];
-
+    const [pageData, setPageData] = useState<any>(null);
     const [isContentsOpen, setIsContentsOpen] = useState(false);
     const [activeSection, setActiveSection] = useState<string>('');
 
     useEffect(() => {
+        const fetchDoc = async () => {
+            const query = `*[_type == "doc" && slug.current == $slug][0] {
+                title,
+                content
+            }`;
+            const data = await client.fetch(query, { slug: currentSlug });
+            if (data) {
+                // Extract headings from Portable Text
+                const headings = data.content
+                    ?.filter((block: any) => block._type === 'block' && /^h[1-6]$/.test(block.style))
+                    .map((block: any) => ({
+                        id: block._key, // We'll need to make sure the renderer uses these keys as IDs or generate IDs
+                        title: block.children?.map((c: any) => c.text).join('') || 'Untitled',
+                        style: block.style
+                    })) || [];
+
+                setPageData({ ...data, subSections: headings });
+            }
+        };
+        fetchDoc();
+    }, [currentSlug]);
+
+    useEffect(() => {
+        if (!pageData?.subSections) return;
+
         const observer = new IntersectionObserver(
             (entries) => {
                 const visibleSection = entries.find((entry) => entry.isIntersecting);
@@ -32,12 +56,12 @@ export default function DocsLayout({
             { rootMargin: '-100px 0px -66% 0px' }
         );
 
-        const sections = pageData?.subSections
-            ?.map((s) => document.getElementById(s.id))
+        const sections = pageData.subSections
+            ?.map((s: any) => document.getElementById(s.id))
             .filter(Boolean);
 
-        sections?.forEach((section) => observer.observe(section!));
-        return () => sections?.forEach((section) => observer.unobserve(section!));
+        sections?.forEach((section: any) => observer.observe(section!));
+        return () => sections?.forEach((section: any) => observer.unobserve(section!));
     }, [pageData]);
 
     const breadcrumbPaths = ['HOME', ...slugArray.map(s => s.replace(/-/g, ' ').toUpperCase())];
@@ -81,10 +105,11 @@ export default function DocsLayout({
                         </div>
                         <nav className="space-y-4">
                             <ul className="space-y-6 relative border-l border-border/50 ml-0.5 pl-0">
-                                {pageData?.subSections.map((section) => {
+                                {pageData?.subSections?.map((section: any) => {
                                     const isActive = activeSection === section.id;
+                                    const isSubHeading = section.style === 'h3';
                                     return (
-                                        <li key={section.id} className="relative pl-5">
+                                        <li key={section.id} className={`relative ${isSubHeading ? 'pl-8' : 'pl-5'}`}>
                                             {isActive && (
                                                 <div className="absolute left-[-2px] top-0 bottom-0 w-[3px] bg-foreground rounded-full shadow-[0_0_8px_rgba(0,0,0,0.1)]" />
                                             )}

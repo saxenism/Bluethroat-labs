@@ -1,24 +1,47 @@
-'use client';
-
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import { useParams, usePathname } from 'next/navigation';
 import { Search, ChevronDown, ChevronRight } from 'lucide-react';
-import { DOCS_NAVIGATION, DocNavItem } from '@/lib/docs-data';
+import { client } from '@/lib/sanity/client';
 
 export function DocsSidebar() {
     const [searchQuery, setSearchQuery] = useState('');
+    const [navigation, setNavigation] = useState<any[]>([]);
     const params = useParams();
     const pathname = usePathname();
     const currentSlug = (params.slug as string[])?.join('/') || '';
 
+    useEffect(() => {
+        const fetchNav = async () => {
+            const query = `*[_type == "docNavigation"][0] {
+                items[] {
+                    title,
+                    "slug": doc->slug.current,
+                    items[] {
+                        title,
+                        "slug": doc->slug.current,
+                        items[] {
+                            title,
+                            "slug": doc->slug.current
+                        }
+                    }
+                }
+            }`;
+            const data = await client.fetch(query);
+            if (data?.items) {
+                setNavigation(data.items);
+            }
+        };
+        fetchNav();
+    }, []);
+
     // Simple search filtering
     const filteredNavigation = useMemo(() => {
-        if (!searchQuery) return DOCS_NAVIGATION;
+        if (!searchQuery) return navigation;
 
-        const filterItems = (items: DocNavItem[]): DocNavItem[] => {
-            return items.reduce((acc: DocNavItem[], item) => {
-                const matches = item.title.toLowerCase().includes(searchQuery.toLowerCase());
+        const filterItems = (items: any[]): any[] => {
+            return items.reduce((acc: any[], item) => {
+                const matches = item.title?.toLowerCase().includes(searchQuery.toLowerCase());
                 const subItems = item.items ? filterItems(item.items) : [];
 
                 if (matches || subItems.length > 0) {
@@ -28,8 +51,8 @@ export function DocsSidebar() {
             }, []);
         };
 
-        return filterItems(DOCS_NAVIGATION);
-    }, [searchQuery]);
+        return filterItems(navigation);
+    }, [searchQuery, navigation]);
 
     return (
         <aside className="w-[320px] pt-12 h-[calc(100vh-64px)] sticky top-16 border-r border-border bg-background overflow-y-auto hidden md:block z-30 shrink-0">
@@ -54,7 +77,7 @@ export function DocsSidebar() {
             {/* Navigation Section */}
             <div>
                 <nav>
-                    {filteredNavigation.map((item, idx) => (
+                    {filteredNavigation.map((item: any, idx: number) => (
                         <SidebarItem
                             key={idx}
                             item={item}
@@ -75,14 +98,14 @@ function SidebarItem({
     currentSlug,
     pathname
 }: {
-    item: DocNavItem;
+    item: any;
     depth: number;
     currentSlug: string;
     pathname: string;
 }) {
     const isActive = item.slug ? currentSlug === item.slug : false;
     const isChildActive = useMemo(() => {
-        const checkActive = (items?: DocNavItem[]): boolean => {
+        const checkActive = (items?: any[]): boolean => {
             return items?.some(i => i.slug === currentSlug || checkActive(i.items)) || false;
         };
         return checkActive(item.items);
@@ -120,7 +143,7 @@ function SidebarItem({
 
             {hasItems && isOpen && (
                 <div className="mt-0.5">
-                    {item.items?.map((subItem, idx) => (
+                    {item.items?.map((subItem: any, idx: number) => (
                         <SidebarItem
                             key={idx}
                             item={subItem}

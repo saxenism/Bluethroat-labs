@@ -71,6 +71,12 @@ export default {
             type: 'array',
             of: [{ type: 'string' }],
             options: { layout: 'tags' }
+        },
+        {
+            name: 'relatedBlogs',
+            title: 'Highlighted Blogs/Reveries',
+            type: 'array',
+            of: [{ type: 'reference', to: [{ type: 'blog' }] }]
         }
     ],
 };

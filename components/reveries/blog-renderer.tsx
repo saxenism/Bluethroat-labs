@@ -18,18 +18,18 @@ interface BlogRendererProps {
 
 const components = {
     block: {
-        h1: ({ children }: any) => (
-            <h1 className="font-mono text-3xl sm:text-4xl font-medium leading-tight text-foreground mt-4 mb-8">
+        h1: ({ children, value }: any) => (
+            <h1 id={value._key} className="font-mono text-3xl sm:text-4xl font-medium leading-tight text-foreground mt-4 mb-8">
                 {children}
             </h1>
         ),
-        h2: ({ children }: any) => (
-            <h2 className="font-mono text-3xl font-bold tracking-tighter text-foreground mt-12 mb-6">
+        h2: ({ children, value }: any) => (
+            <h2 id={value._key} className="font-mono text-3xl font-bold tracking-tighter text-foreground mt-12 mb-6">
                 {children}
             </h2>
         ),
-        h3: ({ children }: any) => (
-            <h3 className="font-mono text-2xl font-bold tracking-tighter text-foreground mt-10 mb-4">
+        h3: ({ children, value }: any) => (
+            <h3 id={value._key} className="font-mono text-2xl font-bold tracking-tighter text-foreground mt-10 mb-4">
                 {children}
             </h3>
         ),

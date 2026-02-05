@@ -18,12 +18,12 @@ Log in with your authorized provider (GitHub/Google/Email).
 - **Published At**: Set the date for the post.
 - **Content**: The most powerful part of the editor (see "Portable Text" below).
 
-### Documentation (Docs)
-- **Title**: Document title.
-- **Slug**: URL path (e.g., `platforms/nitro`).
-- **Hero Image**: Optional wide banner image for the doc top.
-- **Content**: Rich text area for the main document body.
-- **Keywords**: Tags used for SEO and searchability.
+### Documentation Navigation (Sidebar)
+- **Title**: Always "Main Navigation".
+- **Items**: 
+    - **Display Title**: What appears in the sidebar.
+    - **Linked Document**: Choose the Doc this item points to.
+    - **Sub Items**: Add nested documents for a hierarchical structure (up to 3 levels).
 
 ---
 
@@ -33,7 +33,7 @@ Our editor is "block-based," meaning every paragraph, heading, or image is a "bl
 
 ### Text Styles
 Use the dropdown in the editor to select:
-- **H1, H2, H3**: For structured headings.
+- **H1, H2, H3**: For structured headings. **Crucial**: Headings used here automatically populate the "Contents" sidebar on the right of the Docs page.
 - **Quote**: For important callouts or testimonials.
 - **Lists**: Use the bullet or numbered list icons in the toolbar.
 

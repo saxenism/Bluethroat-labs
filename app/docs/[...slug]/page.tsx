@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { useParams } from 'next/navigation';
+import Link from 'next/link';
 import { DocsNavButtons } from '@/components/docs/docs-nav-buttons';
 import { client } from '@/lib/sanity/client';
 import { urlFor } from '@/lib/sanity/image';
@@ -21,7 +22,13 @@ export default function DocsPage() {
             const query = `*[_type == "doc" && slug.current == $slug][0] {
                 title,
                 heroImage,
-                content
+                content,
+                relatedBlogs[]-> {
+                    title,
+                    "slug": slug.current,
+                    category,
+                    publishedAt
+                }
             }`;
             const data = await client.fetch(query, { slug: currentSlug });
             setPageData(data);
@@ -53,7 +60,7 @@ export default function DocsPage() {
                         alt={pageData.title}
                         className="w-full h-full object-cover opacity-50 grayscale hover:opacity-70 transition-opacity duration-700"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent" />
+                    <div className="absolute inset-0 bg-linear-to-t from-background to-transparent" />
                 </div>
             )}
 
@@ -62,7 +69,29 @@ export default function DocsPage() {
 
                 <BlogRenderer sanityContent={pageData.content} />
 
-                {/* Manual nav buttons would need logic for prev/next if implemented in Sanity */}
+                {/* Blog Highlights Section */}
+                {pageData.relatedBlogs && pageData.relatedBlogs.length > 0 && (
+                    <div className="mt-16 pt-16 border-t border-border">
+                        <h2 className="font-mono text-xl mb-8 uppercase tracking-widest text-muted-foreground">Featured Reveries</h2>
+                        <div className="grid gap-6">
+                            {pageData.relatedBlogs.map((blog: any) => (
+                                <Link
+                                    key={blog.slug}
+                                    href={`/reveries/${blog.slug}`}
+                                    className="group flex items-center justify-between p-6 border border-border hover:bg-muted transition-all duration-300"
+                                >
+                                    <div className="space-y-2">
+                                        <div className="font-mono text-xs text-muted-foreground uppercase">{blog.category}</div>
+                                        <h3 className="font-mono text-lg font-bold group-hover:translate-x-1 transition-transform">{blog.title}</h3>
+                                    </div>
+                                    <div className="w-10 h-10 flex items-center justify-center border border-border group-hover:bg-foreground group-hover:text-background transition-all">
+                                        →
+                                    </div>
+                                </Link>
+                            ))}
+                        </div>
+                    </div>
+                )}
             </div>
         </article>
     );
