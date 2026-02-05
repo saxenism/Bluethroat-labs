@@ -36,6 +36,7 @@ export const REVERIES: BlogPost[] = [
     {
         slug: 'debunking-teedotfail-panic',
         title: 'Debunking The TeeDotFail Panic: Why TEEs Are Still Viable For Secure Computing',
+        bannerImage: '/light-mode/Cover-1.png',
         blocks: [
             {
                 type: 'tag',
@@ -136,6 +137,50 @@ export const REVERIES: BlogPost[] = [
         function rebase(uint256 supplyDelta); external ;
     }
 }`
+            }
+        ]
+    },
+    {
+        slug: 'modelling-the-adversarial',
+        title: 'Modelling the Adversarial: When TEEs Are Still Viable for Secure Computing',
+        bannerImage: '/light-mode/Cover-2.png',
+        blocks: [
+            {
+                type: 'tag',
+                metadata: {
+                    category: 'TEE Security',
+                    date: 'December 08, 2023'
+                }
+            },
+            {
+                type: 'h1',
+                content: 'Modelling the Adversarial'
+            },
+            {
+                type: 'text',
+                content: 'Understanding the threat landscape is crucial for building secure systems.'
+            }
+        ]
+    },
+    {
+        slug: 'extending-the-trust-wall',
+        title: 'Extending the Trust Wall: Why TEEs Are Still Viable for Secure Computing',
+        bannerImage: '/light-mode/Cover-1.png',
+        blocks: [
+            {
+                type: 'tag',
+                metadata: {
+                    category: 'TEE Security',
+                    date: 'November 24, 2023'
+                }
+            },
+            {
+                type: 'h1',
+                content: 'Extending the Trust Wall'
+            },
+            {
+                type: 'text',
+                content: 'TEEs provide a strong foundation for trust in distributed environments.'
             }
         ]
     }

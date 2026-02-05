@@ -15,7 +15,7 @@ export function HeroSection() {
 
     const isDark = mounted && resolvedTheme === 'dark';
     const bgImage = mounted
-        ? (isDark ? '/hero-bg.png' : '/light-mode/light-hero.png')
+        ? (isDark ? '/dark-mode/dark-hero.png' : '/light-mode/light-hero.png')
         : undefined;
 
     return (

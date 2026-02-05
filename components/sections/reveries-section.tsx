@@ -7,26 +7,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useTheme } from 'next-themes';
 
-const blogs = [
-    {
-        title: 'Debunking the TeeDotFail Panic: Why TEEs Are Still Viable for Secure Computing',
-        date: 'December 12, 2023',
-        category: 'TEE Security',
-        href: '#',
-    },
-    {
-        title: 'Modelling the Adversarial: When TEEs Are Still Viable for Secure Computing',
-        date: 'December 08, 2023',
-        category: 'TEE Security',
-        href: '#',
-    },
-    {
-        title: 'Extending the Trust Wall: Why TEEs Are Still Viable for Secure Computing',
-        date: 'November 24, 2023',
-        category: 'TEE Security',
-        href: '#',
-    },
-];
+import { REVERIES } from '@/lib/reveries-data';
 
 export function ReveriesSection() {
     const { resolvedTheme } = useTheme();
@@ -40,6 +21,15 @@ export function ReveriesSection() {
     const stripImage = mounted
         ? (isDark ? '/dark-mode/dark-strip.png' : '/light-mode/light-strip.png')
         : null;
+
+    // Use dynamic data and format it
+    const displayBlogs = REVERIES.slice(0, 3).map(post => ({
+        title: post.title,
+        date: post.blocks.find(b => b.type === 'tag')?.metadata?.date || 'Coming soon',
+        category: post.blocks.find(b => b.type === 'tag')?.metadata?.category || 'General',
+        href: `/reveries/${post.slug}`,
+        src: post.bannerImage
+    }));
 
     return (
         <GridBackground id="reveries" className="py-16 bg-background border-b border-t border-border" withNoise={true}>
@@ -65,7 +55,7 @@ export function ReveriesSection() {
                 </div>
 
                 <div className="mt-12 border-border border-t">
-                    {blogs.map((blog, index) => (
+                    {displayBlogs.map((blog, index) => (
                         <Link
                             key={index}
                             href={blog.href}
@@ -74,8 +64,17 @@ export function ReveriesSection() {
                             {/* Content Side */}
                             <div className="flex-1 flex flex-col sm:flex-row items-start sm:items-center p-6 sm:p-12">
                                 {/* Thumbnail */}
-                                <div className="w-full sm:w-40 h-24 bg-zinc-200 dark:bg-zinc-800 border border-border mb-4 sm:mb-0 sm:mr-8 overflow-hidden shrink-0">
-                                    <div className="w-full h-full bg-zinc-300 dark:bg-zinc-700 opacity-20" />
+                                <div className="w-full sm:w-40 h-24 bg-zinc-200 dark:bg-zinc-800 border border-border mb-4 sm:mb-0 sm:mr-8 overflow-hidden shrink-0 relative">
+                                    {blog.src ? (
+                                        <Image
+                                            src={blog.src}
+                                            alt={blog.title}
+                                            fill
+                                            className="object-cover opacity-80 group-hover:opacity-100 transition-opacity"
+                                        />
+                                    ) : (
+                                        <div className="w-full h-full bg-zinc-300 dark:bg-zinc-700 opacity-20" />
+                                    )}
                                 </div>
 
                                 {/* Text content */}
@@ -94,7 +93,7 @@ export function ReveriesSection() {
                             {/* The "Boxed" Arrow Side */}
                             <div className="flex items-start justify-end transition-colors">
                                 <div className=' border-l border-b border-border'>
-                                    <ArrowUpRight className='w-20 h-20 p-2 stroke-[1.5px] text-foreground transition-transform group-hover:-translate-y-1 group-hover:translate-x-1' />
+                                    <ArrowUpRight className='w-16 h-16 stroke-[1.4px] text-foreground transition-transform' />
                                 </div>
                             </div>
                         </Link>
@@ -104,7 +103,7 @@ export function ReveriesSection() {
                 <div className="flex justify-end items-center">
                     <div className='group flex justify-end border-l p-5 px-24 border-border hover:bg-foreground transition-colors'>
                         <Link
-                            href="/blogs"
+                            href="/reveries"
                             className="font-mono flex justify-center text-xl font-semibold text-foreground group-hover:text-secondary items-center transition-colors"
                         >
                             Checkout Blogs
