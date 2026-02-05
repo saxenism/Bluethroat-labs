@@ -7,29 +7,46 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useTheme } from 'next-themes';
 
-import { REVERIES } from '@/lib/reveries-data';
+import { client } from '@/lib/sanity/client';
+import { urlFor } from '@/lib/sanity/image';
+
+const BLOGS_QUERY = `*[_type == "blog"] | order(publishedAt desc) [0..2] {
+    title,
+    "slug": slug.current,
+    bannerImage,
+    category,
+    publishedAt,
+    content
+}`;
 
 export function ReveriesSection() {
     const { resolvedTheme } = useTheme();
     const [mounted, setMounted] = React.useState(false);
+    const [displayBlogs, setDisplayBlogs] = React.useState<any[]>([]);
 
     React.useEffect(() => {
         setMounted(true);
+        const fetchBlogs = async () => {
+            const blogs = await client.fetch(BLOGS_QUERY);
+            setDisplayBlogs(blogs.map((post: any) => ({
+                title: post.title,
+                date: post.publishedAt ? new Date(post.publishedAt).toLocaleDateString('en-US', {
+                    month: 'long',
+                    day: '2-digit',
+                    year: 'numeric'
+                }) : 'Coming soon',
+                category: post.category || 'General',
+                href: `/reveries/${post.slug}`,
+                src: post.bannerImage ? urlFor(post.bannerImage).url() : null
+            })));
+        };
+        fetchBlogs();
     }, []);
 
     const isDark = mounted && resolvedTheme === 'dark';
     const stripImage = mounted
         ? (isDark ? '/dark-mode/dark-strip.png' : '/light-mode/light-strip.png')
         : null;
-
-    // Use dynamic data and format it
-    const displayBlogs = REVERIES.slice(0, 3).map(post => ({
-        title: post.title,
-        date: post.blocks.find(b => b.type === 'tag')?.metadata?.date || 'Coming soon',
-        category: post.blocks.find(b => b.type === 'tag')?.metadata?.category || 'General',
-        href: `/reveries/${post.slug}`,
-        src: post.bannerImage
-    }));
 
     return (
         <GridBackground id="reveries" className="py-16 bg-background border-b border-t border-border" withNoise={true}>

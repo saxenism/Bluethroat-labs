@@ -1,48 +1,49 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Search, Grid, List, ArrowUpRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { GridBackground } from '../ui/grid-background';
+import { client } from '@/lib/sanity/client';
+import { urlFor } from '@/lib/sanity/image';
 
 const CATEGORIES = ['All Categories', 'TEE Security', 'Dolor Sit', 'Lorem Ipsum', 'Signum Dolor'];
 
-import { REVERIES } from '@/lib/reveries-data';
-
-const STATIC_REVERIES = [
-    {
-        title: 'Debunking the TeeDotFail Panic: Why TEEs Are Still Viable for Secure Computing',
-        date: 'December 12, 2023',
-        category: 'TEE Security',
-        href: '#',
-    },
-    // ... rest of static items if kept ...
-];
+const BLOGS_QUERY = `*[_type == "blog"] | order(publishedAt desc) {
+    title,
+    "slug": slug.current,
+    bannerImage,
+    category,
+    publishedAt
+}`;
 
 export function ReveriesCatalog() {
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('All Categories');
     const [viewMode, setViewMode] = useState<'grid' | 'list'>('list');
     const [currentPage, setCurrentPage] = useState(1);
+    const [allItems, setAllItems] = useState<any[]>([]);
     const itemsPerPage = 10;
 
-    // Combine Dynamic and Static data, placing dynamic posts at the top
-    const ALL_ITEMS = [
-        ...REVERIES.map(post => ({
-            title: post.title,
-            date: post.blocks.find(b => b.type === 'tag')?.metadata?.date || 'Coming soon',
-            category: post.blocks.find(b => b.type === 'tag')?.metadata?.category || 'General',
-            href: `/reveries/${post.slug}`,
-            isDynamic: true
-        })),
-        ...STATIC_REVERIES.filter(staticPost =>
-            !REVERIES.some(dynamicPost =>
-                dynamicPost.title.toLowerCase() === staticPost.title.toLowerCase()
-            )
-        )
-    ];
+    useEffect(() => {
+        const fetchBlogs = async () => {
+            const blogs = await client.fetch(BLOGS_QUERY);
+            setAllItems(blogs.map((post: any) => ({
+                title: post.title,
+                date: post.publishedAt ? new Date(post.publishedAt).toLocaleDateString('en-US', {
+                    month: 'long',
+                    day: '2-digit',
+                    year: 'numeric'
+                }) : 'Coming soon',
+                category: post.category || 'General',
+                href: `/reveries/${post.slug}`,
+                src: post.bannerImage ? urlFor(post.bannerImage).url() : null
+            })));
+        };
+        fetchBlogs();
+    }, []);
 
-    const filteredReveries = ALL_ITEMS.filter(item => {
+    const filteredReveries = allItems.filter(item => {
         const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase());
         const matchesCategory = selectedCategory === 'All Categories' || item.category === selectedCategory;
         return matchesSearch && matchesCategory;
