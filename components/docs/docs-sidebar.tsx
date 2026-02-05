@@ -7,6 +7,7 @@ import { client } from '@/lib/sanity/client';
 export function DocsSidebar() {
     const [searchQuery, setSearchQuery] = useState('');
     const [navigation, setNavigation] = useState<any[]>([]);
+    const [searchResults, setSearchResults] = useState<any[] | null>(null);
     const params = useParams();
     const pathname = usePathname();
     const currentSlug = (params.slug as string[])?.join('/') || '';
@@ -35,9 +36,30 @@ export function DocsSidebar() {
         fetchNav();
     }, []);
 
-    // Simple search filtering
+    // Content-based search using GROQ
+    useEffect(() => {
+        const timer = setTimeout(async () => {
+            if (!searchQuery.trim()) {
+                setSearchResults(null);
+                return;
+            }
+
+            // Search in titles AND content
+            const query = `*[_type == "doc" && [title, pt::text(content)] match $searchQuery + "*"] {
+                title,
+                "slug": slug.current
+            }[0...10]`;
+
+            const results = await client.fetch(query, { searchQuery });
+            setSearchResults(results);
+        }, 300);
+
+        return () => clearTimeout(timer);
+    }, [searchQuery]);
+
+    // Simple search filtering for the sidebar tree
     const filteredNavigation = useMemo(() => {
-        if (!searchQuery) return navigation;
+        if (!searchQuery || searchResults) return navigation; // If results exist, we'll show them separately or instead
 
         const filterItems = (items: any[]): any[] => {
             return items.reduce((acc: any[], item) => {
@@ -52,7 +74,7 @@ export function DocsSidebar() {
         };
 
         return filterItems(navigation);
-    }, [searchQuery, navigation]);
+    }, [searchQuery, navigation, searchResults]);
 
     return (
         <aside className="w-[320px] pt-12 h-[calc(100vh-64px)] sticky top-16 border-r border-border bg-background overflow-y-auto hidden md:block z-30 shrink-0">
@@ -62,30 +84,43 @@ export function DocsSidebar() {
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground group-focus-within:text-foreground transition-colors" />
                     <input
                         type="text"
-                        placeholder="Quick Search"
+                        placeholder="Search Docs..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         className="w-full h-10 pl-12 pr-12 text-md font-mono focus:outline-none focus:border-foreground transition-colors"
                     />
-                    <div className="absolute right-0 top-0 px-2 py-1 bg-muted text-[12px] font-semibold font-mono text-muted-foreground">
-                        <span className='mr-2'>⌘</span>
-                        <span>K</span>
-                    </div>
                 </div>
             </div>
 
             {/* Navigation Section */}
             <div>
                 <nav>
-                    {filteredNavigation.map((item: any, idx: number) => (
-                        <SidebarItem
-                            key={idx}
-                            item={item}
-                            depth={0}
-                            currentSlug={currentSlug}
-                            pathname={pathname}
-                        />
-                    ))}
+                    {searchResults ? (
+                        <div className="py-4">
+                            <div className="px-6 mb-4 text-[10px] font-mono uppercase tracking-widest text-muted-foreground">Search Results</div>
+                            {searchResults.length > 0 ? (
+                                searchResults.map((result: any, idx: number) => (
+                                    <Link key={idx} href={`/docs/${result.slug}`}>
+                                        <div className="px-6 py-4 hover:bg-muted font-mono text-sm border-b border-border/50">
+                                            {result.title}
+                                        </div>
+                                    </Link>
+                                ))
+                            ) : (
+                                <div className="px-6 py-4 font-mono text-sm text-muted-foreground">No matches found</div>
+                            )}
+                        </div>
+                    ) : (
+                        filteredNavigation.map((item: any, idx: number) => (
+                            <SidebarItem
+                                key={idx}
+                                item={item}
+                                depth={0}
+                                currentSlug={currentSlug}
+                                pathname={pathname}
+                            />
+                        ))
+                    )}
                 </nav>
             </div>
         </aside>
