@@ -7,6 +7,7 @@ import { DocsNavButtons } from '@/components/docs/docs-nav-buttons';
 import { client } from '@/lib/sanity/client';
 import { urlFor } from '@/lib/sanity/image';
 import { BlogRenderer } from '@/components/reveries/blog-renderer';
+import { IS_DEV, MOCK_DOCS } from '@/lib/mock-data';
 
 export default function DocsPage() {
     const params = useParams();
@@ -19,6 +20,14 @@ export default function DocsPage() {
     React.useEffect(() => {
         setMounted(true);
         const fetchDoc = async () => {
+            if (IS_DEV && MOCK_DOCS[currentSlug as keyof typeof MOCK_DOCS]) {
+                const data = MOCK_DOCS[currentSlug as keyof typeof MOCK_DOCS];
+                console.log('DocsPage Mock Data:', { slug: currentSlug, data });
+                setPageData(data);
+                setLoading(false);
+                return;
+            }
+
             const query = `*[_type == "doc" && slug.current == $slug][0] {
                 title,
                 heroImage,
@@ -61,7 +70,7 @@ export default function DocsPage() {
                         alt={pageData.title}
                         className="w-full h-full object-cover opacity-50 grayscale hover:opacity-70 transition-opacity duration-700"
                     />
-                    <div className="absolute inset-0 bg-linear-to-t from-background to-transparent" />
+                    <div className="absolute inset-0" />
                 </div>
             )}
 

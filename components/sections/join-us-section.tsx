@@ -35,8 +35,8 @@ export function JoinUsSection() {
                     href="mailto:hello@bluethroat.ai"
                     className="flex items-center justify-center gap-4 bg-zinc-900 dark:bg-zinc-100 text-zinc-100 dark:text-zinc-900 py-5 px-10 transition-all hover:bg-black dark:hover:bg-white group overflow-hidden relative"
                 >
-                    <div className="absolute inset-0 bg-white/10 translate-x-full group-hover:translate-x-0 transition-transform duration-500 skew-x-12" />
-                    <Mail className="w-8 h-8 group-hover:scale-110 transition-transform relative z-10" />
+                    <div className="absolute inset-0 bg-white/10 translate-x-full" />
+                    <Mail className="w-8 h-8 relative z-10" />
                     <span className="font-mono font-semibold text-sm sm:text-lg relative z-10">
                         Send us a short intro
                     </span>

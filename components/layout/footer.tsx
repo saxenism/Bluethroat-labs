@@ -99,12 +99,18 @@ export function Footer() {
             </div>
 
             {/* Pattern Image Section */}
-            <div className="h-64 mt-12 sm:h-80 md:h-[400px] w-full relative overflow-hidden grayscale hover:grayscale-0 transition-all duration-700">
+            <div className="h-64 mt-12 sm:h-80 md:h-[400px] w-full relative overflow-hidden">
+                {/* Light Mode Image */}
                 <div
-                    className="absolute inset-0 bg-cover bg-center"
-                    style={{ backgroundImage: 'url(/dark-mode/dark-footer.png)' }}
+                    className="absolute inset-0 bg-cover bg-center block dark:hidden"
+                    style={{ backgroundImage: 'url(/light-mode/footer-light.png)' }}
                 />
-                <div className="absolute inset-0 bg-black/10 mix-blend-multiply" />
+                {/* Dark Mode Image */}
+                <div
+                    className="absolute inset-0 bg-cover bg-center hidden dark:block"
+                    style={{ backgroundImage: 'url(/dark-mode/footer-dark.png)' }}
+                />
+                <div className="absolute inset-0 mix-blend-overlay" />
             </div>
 
             {/* Bottom Bar */}

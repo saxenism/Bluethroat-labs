@@ -9,6 +9,7 @@ import { useTheme } from 'next-themes';
 
 import { client } from '@/lib/sanity/client';
 import { urlFor } from '@/lib/sanity/image';
+import { IS_DEV, MOCK_BLOGS } from '@/lib/mock-data';
 
 const BLOGS_QUERY = `*[_type == "blog"] | order(publishedAt desc) [0..2] {
     title,
@@ -26,20 +27,37 @@ export function ReveriesSection() {
 
     React.useEffect(() => {
         setMounted(true);
+
         const fetchBlogs = async () => {
-            const blogs = await client.fetch(BLOGS_QUERY);
-            setDisplayBlogs(blogs.map((post: any) => ({
-                title: post.title,
-                date: post.publishedAt ? new Date(post.publishedAt).toLocaleDateString('en-US', {
-                    month: 'long',
-                    day: '2-digit',
-                    year: 'numeric'
-                }) : 'Coming soon',
-                category: post.category || 'General',
-                href: `/reveries/${post.slug}`,
-                src: post.bannerImage ? urlFor(post.bannerImage).url() : null
-            })));
+            if (IS_DEV) {
+                setDisplayBlogs(MOCK_BLOGS.map(post => ({
+                    title: post.title,
+                    date: post.publishedAt ? new Date(post.publishedAt).toLocaleDateString('en-US', {
+                        month: 'long', day: '2-digit', year: 'numeric'
+                    }) : 'Coming soon',
+                    category: post.category,
+                    href: `/reveries/${post.slug}`,
+                    src: post.src
+                })));
+                return;
+            }
+
+            try {
+                const blogs = await client.fetch(BLOGS_QUERY);
+                setDisplayBlogs(blogs.map((post: any) => ({
+                    title: post.title,
+                    date: post.publishedAt ? new Date(post.publishedAt).toLocaleDateString('en-US', {
+                        month: 'long', day: '2-digit', year: 'numeric'
+                    }) : 'Coming soon',
+                    category: post.category || 'General',
+                    href: `/reveries/${post.slug}`,
+                    src: post.bannerImage ? urlFor(post.bannerImage).url() : null
+                })));
+            } catch (error) {
+                console.error("Sanity fetch failed:", error);
+            }
         };
+
         fetchBlogs();
     }, []);
 
@@ -118,12 +136,12 @@ export function ReveriesSection() {
                 </div>
 
                 <div className="flex justify-end items-center">
-                    <div className='group flex justify-end border-l p-5 px-24 border-border hover:bg-foreground transition-colors'>
+                    <div className='group flex justify-end border-l p-5 px-20 border-border hover:bg-foreground transition-colors'>
                         <Link
                             href="/reveries"
                             className="font-mono flex justify-center text-xl font-semibold text-foreground group-hover:text-secondary items-center transition-colors"
                         >
-                            Checkout Blogs
+                            Checkout Reveries
                         </Link>
                     </div>
                 </div>

@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useParams, usePathname } from 'next/navigation';
 import { Search, ChevronDown, ChevronRight } from 'lucide-react';
 import { client } from '@/lib/sanity/client';
+import { IS_DEV, MOCK_DOC_NAVIGATION, MOCK_DOCS } from '@/lib/mock-data';
 
 export function DocsSidebar() {
     const [searchQuery, setSearchQuery] = useState('');
@@ -14,6 +15,11 @@ export function DocsSidebar() {
 
     useEffect(() => {
         const fetchNav = async () => {
+            if (IS_DEV) {
+                setNavigation(MOCK_DOC_NAVIGATION.items);
+                return;
+            }
+
             const query = `*[_type == "docNavigation"][0] {
                 items[] {
                     title,
@@ -41,6 +47,14 @@ export function DocsSidebar() {
         const timer = setTimeout(async () => {
             if (!searchQuery.trim()) {
                 setSearchResults(null);
+                return;
+            }
+
+            if (IS_DEV) {
+                const results = Object.values(MOCK_DOCS).filter(doc =>
+                    doc.title.toLowerCase().includes(searchQuery.toLowerCase())
+                );
+                setSearchResults(results);
                 return;
             }
 

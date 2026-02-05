@@ -15,14 +15,14 @@ export function HeroSection() {
 
     const isDark = mounted && resolvedTheme === 'dark';
     const bgImage = mounted
-        ? (isDark ? '/dark-mode/dark-footer.png' : '/light-mode/footer-light.png')
+        ? (isDark ? '/dark-mode/dark-hero.png' : '/dark-mode/dark-hero.png')
         : undefined;
 
     return (
         <GridBackground
             id="hero"
-            /* 1. Changed min-h-screen to h-fit or a fixed height like h-[600px] sm:h-[800px] */
-            className="h-fit flex flex-colmax-w-[1400px] mx-auto overflow-visible select-none"
+            /* Force the background to be dark even in light mode for this section */
+            className="h-fit flex flex-col max-w-[1400px] mx-auto select-none bg-[#191919]"
             backgroundImage={bgImage}
             withCross={true}
         >
