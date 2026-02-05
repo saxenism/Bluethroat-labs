@@ -140,7 +140,11 @@ export function ReveriesCatalog() {
                             >
                                 <div className="flex-1 flex flex-col sm:flex-row items-start sm:items-center p-8 sm:p-14">
                                     <div className="w-full sm:w-64 aspect-video bg-zinc-100 dark:bg-zinc-900 border border-border mb-6 sm:mb-0 sm:mr-12 overflow-hidden shrink-0 relative">
-                                        <div className="absolute inset-0 bg-cover bg-center opacity-40 group-hover:opacity-60 transition-opacity" style={{ backgroundImage: 'url(/dark-mode/dark-footer.png)' }} />
+                                        {blog.src ? (
+                                            <div className="absolute inset-0 bg-cover bg-center opacity-40 group-hover:opacity-60 transition-opacity" style={{ backgroundImage: `url(${blog.src})` }} />
+                                        ) : (
+                                            <div className="absolute inset-0 bg-cover bg-center opacity-40 group-hover:opacity-60 transition-opacity" style={{ backgroundImage: 'url(/dark-mode/dark-footer.png)' }} />
+                                        )}
                                     </div>
                                     <div className="flex-1">
                                         <h3 className="font-mono text-lg sm:text-2xl font-bold leading-tight mb-4 max-w-4xl group-hover:text-foreground transition-colors">
@@ -170,7 +174,11 @@ export function ReveriesCatalog() {
                                 className="group border-b border-r border-border hover:bg-zinc-50 dark:hover:bg-zinc-900/10 transition-colors p-8 sm:p-12 flex flex-col h-full"
                             >
                                 <div className="w-full aspect-video bg-zinc-100 dark:bg-zinc-900 border border-border mb-8 overflow-hidden relative">
-                                    <div className="absolute inset-0 bg-cover bg-center opacity-40 group-hover:opacity-70 transition-opacity" style={{ backgroundImage: 'url(/dark-mode/dark-footer.png)' }} />
+                                    {blog.src ? (
+                                        <div className="absolute inset-0 bg-cover bg-center opacity-40 group-hover:opacity-70 transition-opacity" style={{ backgroundImage: `url(${blog.src})` }} />
+                                    ) : (
+                                        <div className="absolute inset-0 bg-cover bg-center opacity-40 group-hover:opacity-70 transition-opacity" style={{ backgroundImage: 'url(/dark-mode/dark-footer.png)' }} />
+                                    )}
                                 </div>
 
                                 {/* FIXED GRID ARROW: Title and Arrow share a row */}

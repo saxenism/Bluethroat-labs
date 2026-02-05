@@ -81,26 +81,26 @@ export function ReveriesSection() {
                             {/* Content Side */}
                             <div className="flex-1 flex flex-col sm:flex-row items-start sm:items-center p-6 sm:p-12">
                                 {/* Thumbnail */}
-                                <div className="w-full sm:w-40 h-24 bg-zinc-200 dark:bg-zinc-800 border border-border mb-4 sm:mb-0 sm:mr-8 overflow-hidden shrink-0 relative">
+                                <div className="w-full sm:w-48 aspect-video bg-zinc-200 dark:bg-zinc-800 border border-border mb-4 sm:mb-0 sm:mr-8 overflow-hidden shrink-0 relative">
                                     {blog.src ? (
                                         <Image
                                             src={blog.src}
                                             alt={blog.title}
                                             fill
-                                            className="object-cover opacity-80 group-hover:opacity-100 transition-opacity"
+                                            className="object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500"
                                         />
                                     ) : (
-                                        <div className="w-full h-full bg-zinc-300 dark:bg-zinc-700 opacity-20" />
+                                        <div className="absolute inset-0 bg-cover bg-center opacity-20" style={{ backgroundImage: 'url(/dark-mode/dark-footer.png)' }} />
                                     )}
                                 </div>
 
                                 {/* Text content */}
                                 <div className="flex-1 align-text-top">
-                                    <h3 className="font-mono text-base sm:text-xl font-semibold leading-snug mb-3 max-w-4xl">
+                                    <h3 className="font-mono text-base sm:text-xl font-bold leading-snug mb-3 max-w-4xl group-hover:translate-x-1 transition-transform">
                                         {blog.title}
                                     </h3>
                                     <div className="flex items-center font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
-                                        <span>{blog.category}</span>
+                                        <span className='font-bold'>{blog.category}</span>
                                         <span className="mx-2 text-border text-lg">•</span>
                                         <span>{blog.date}</span>
                                     </div>

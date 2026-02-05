@@ -31,6 +31,7 @@ export default function DocsPage() {
                 }
             }`;
             const data = await client.fetch(query, { slug: currentSlug });
+            console.log('DocsPage Fetch:', { slug: currentSlug, data });
             setPageData(data);
             setLoading(false);
         };
