@@ -1,67 +1,62 @@
-# Bluethroat Labs Content Manager Guide
+# Bluethroat Labs: Sanity Content Manager Guide
 
-Welcome to the Bluethroat Labs Content Management System (CMS). This guide is designed for content creators (admins) to help them use Sanity Studio efficiently.
+This guide empowers you to manage the website's content with **maximum flexibility**. Our system uses a "Block-Based" approach, meaning you can compose complex pages like LEGO sets.
+
+---
 
 ## 1. Accessing the Studio
 
-Your Studio is available at: [bluethroat-labs.vercel.app/studio](https://bluethroat-labs.vercel.app/studio)
-
-Log in with your authorized provider (GitHub/Google/Email).
-
-## 2. Content Types
-
-### Blogs (Reveries)
-- **Title**: The main title of the blog post.
-- **Slug**: Click "Generate" to create a URL-friendly name based on the title.
-- **Banner Image**: High-quality header image. Use "Hotspot" to ensure the main focus is always visible.
-- **Category**: Select the relevant category (TEE Security, General, etc.).
-- **Published At**: Set the date for the post.
-- **Content**: The most powerful part of the editor (see "Portable Text" below).
-
-### Documentation Navigation (Sidebar)
-- **Title**: Always "Main Navigation".
-- **Items**: 
-    - **Display Title**: What appears in the sidebar.
-    - **Linked Document**: Choose the Doc this item points to.
-    - **Sub Items**: Add nested documents for a hierarchical structure (up to 3 levels).
+- **URL**: [bluethroat-labs.vercel.app/studio](https://bluethroat-labs.vercel.app/studio)
+- **Login**: Use your authorized GitHub, Google, or Email account.
 
 ---
 
-## 3. Working with the Content Editor (Portable Text)
+## 2. Managing the Docs Sidebar (Hierarchy)
 
-Our editor is "block-based," meaning every paragraph, heading, or image is a "block."
+The left sidebar on the `/docs` pages is controlled by the **Documentation Navigation** tool.
 
-### Text Styles
-Use the dropdown in the editor to select:
-- **H1, H2, H3**: For structured headings. **Crucial**: Headings used here automatically populate the "Contents" sidebar on the right of the Docs page.
-- **Quote**: For important callouts or testimonials.
-- **Lists**: Use the bullet or numbered list icons in the toolbar.
-
-### Specialized Blocks
-Click the **(+)** icon or type `/` to add:
-- **Image**: Add images with specific Alt text (for accessibility) and Captions.
-- **Code Block**: For technical documentation.
-    - Select the language (e.g., TypeScript, Rust).
-    - Add a **Filename** (e.g., `main.rs`) to show it above the code.
-- **Divider**: Adds a clean horizontal line to separate sections.
-
-### Inline Styles
-Highlight text to apply:
-- **Bold/Italic**
-- **Code**: For inline `inline code` snippets.
-- **Links**: Link internally or externally.
+1.  **Open "Documentation Navigation"**: This is a singleton (only one exists).
+2.  **Add Items**: Each item represents a link in the sidebar.
+    - **Display Title**: What the user sees.
+    - **Linked Document**: The actual "Doc" you want to open.
+3.  **Nesting (List them accordingly)**: 
+    - You can add **Sub Items** within any navigation item.
+    - This allows for deep hierarchies (e.g., *TEE Handbook -> Hardware Security -> Nitro*).
 
 ---
 
-## 4. Best Practices
+## 3. Creating Content with "Maximum Flexibility"
 
-1.  **Drafts vs. Published**: Changes are automatically saved as "Drafts." Click the **green Publish button** to make your changes visible on the live site.
-2.  **Images**: Always provide "Alt Text" for accessibility.
-3.  **Filenames**: When adding code blocks, always include the filename if applicable; it helps developers follow along.
-4.  **Dividers**: Use them liberally to break up long documents into readable chunks.
+When editing **Blogs (Reveries)** or **Docs**, use the **Content** field to its full potential.
+
+### Adaptive Table of Contents (TOC)
+The right-hand "Contents" sidebar on Docs pages is **automatic**. 
+- Any text set to **H1, H2, or H3** inside your content field will instantly appear in the TOC.
+- This allows users to jump to specific sections without you needing to build the menu manually.
+
+### Advanced Blocks
+Click the **(+)** button or type `/` to insert special blocks:
+- **Code Blocks**: Essential for technical docs. 
+    - **Tip**: Always add a **Filename** (e.g., `main.ts`). It renders a professional "terminal" tab above your code.
+- **Dividers**: Use these to separate major sections visually.
+- **Images**: Add images with specific **Alt Text** (crucial for SEO) and **Captions**. Reach for "Hotspot" to ensure the image crops correctly on mobile.
+
+### Linking Blogs to Docs
+In the **Doc** editor, use the **Highlighted Blogs** field. 
+- You can reference existing Reveries. 
+- These will appear at the bottom of your Doc as stylish "Featured" cards, connecting your technical documentation to your stories and updates.
+
+---
+
+## 4. Workflow & Best Practices
+
+1.  **Slugs**: Always click "Generate" on the Slug field. Without a slug, a document doesn't have a URL.
+2.  **Drafts vs. Live**: Your changes save automatically as you type (Orange bar). They only go **Live** (Green bar) when you click **Publish**.
+3.  **Filenames**: When adding code, always specify the file name if it’s a specific script. It adds immense value to the reader.
+4.  **TOC Clarity**: Use H2 for main sections and H3 for sub-sections. The TOC will indent them automatically for a clean look.
 
 ---
 
 ## 5. Support
 
-If you encounter issues with the Studio, contact the engineering team or refer to the [Sanity Documentation](https://www.sanity.io/docs).
+For technical issues or feature requests regarding the CMS, please coordinate with the engineering team.
