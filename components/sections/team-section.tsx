@@ -10,33 +10,33 @@ import useEmblaCarousel from 'embla-carousel-react';
 const team = [
     {
         name: 'Rahul Saxena',
-        role: 'Founder . ex - ZKSync',
-        image: '/team/pankaj.png',
+        role: 'Founder . ex-ZKSync',
+        image: '/team/Rahul-Saxena.png',
         xUrl: 'https://x.com/pankaj',
         email: 'rahul@bluethroat.ai',
     },
     {
         name: 'Tanmay Goel',
-        role: 'Founding . Researcher',
-        image: '/team/tanmay.png',
+        role: 'Researcher . ex-NVIDIA',
+        image: '/team/Tanmay-Goel.png',
         xUrl: 'https://x.com/tanmay',
     },
     {
         name: 'Abhimanyu Gupta',
-        role: 'Research . Design',
-        image: '/team/nishit.png',
+        role: 'Researcher . Malware Analyst',
+        image: '/team/Abhimanyu-Gupta.png',
         xUrl: 'https://x.com/nishit',
     },
     {
-        name: 'Abhimanyu Gupta',
-        role: 'Research . Design',
-        image: '/team/nishit.png',
+        name: 'Chloe',
+        role: 'Research . ex-Binance Research',
+        image: '/team/Chloe.png',
         xUrl: 'https://x.com/nishit',
     },
     {
-        name: 'Abhimanyu Gupta',
-        role: 'Research . Design',
-        image: '/team/nishit.png',
+        name: 'Utkarsh Verma',
+        role: 'Our Rockstar Intern',
+        image: '/team/Utkarsh-Verma.png',
         xUrl: 'https://x.com/nishit',
     },
 ];
@@ -101,13 +101,15 @@ export function TeamSection() {
 
                 {/* Team Members Carousel */}
                 <div className="overflow-hidden border-b border-border" ref={emblaRef}>
+                    {/* REMOVED: divide-x divide-border from this div */}
                     <div className="flex">
                         {team.map((member, index) => (
                             <div
                                 key={index}
+                                /* ADDED: border-r border-border to ensure the line travels with the slide in loop mode */
                                 className="flex-[0_0_100%] md:flex-[0_0_33.333%] min-w-0 group p-4 border-r border-border"
                             >
-                                <div className="relative aspect-12/11 border border-border overflow-hidden">
+                                <div className="relative aspect-12/11 overflow-hidden">
                                     <Image
                                         src={member.image}
                                         alt={member.name}
@@ -141,11 +143,11 @@ export function TeamSection() {
                                     </div>
                                 </div>
                                 <div className='p-4'>
-                                    <div className="space-y-4 mt-4">
+                                    <div className="space-y-4 mt-2">
                                         <h3 className="font-mono text-2xl tracking-tight">
                                             {member.name}
                                         </h3>
-                                        <p className="font-mono text-sm uppercase tracking-[0.2em] text-foreground/50">
+                                        <p className="font-mono text-base text-foreground/50">
                                             {member.role}
                                         </p>
                                     </div>

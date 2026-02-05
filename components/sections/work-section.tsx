@@ -55,7 +55,7 @@ export function WorkSection() {
             <div className="grid grid-cols-1 md:grid-cols-3 bg-background">
                 {/* Column 1: The TEE Security Handbook */}
                 <div className="flex flex-col border-b md:border-b-0 md:border-r border-border">
-                    <div className="px-10 pt-4 sm:px-14 sm:pt-12 flex-1">
+                    <div className="px-10 py-8 sm:px-14 sm:pt-12 flex-1">
                         <div className="mb-6 h-28 flex items-center">
                             {mounted && (
                                 <div className="relative w-25 h-25">

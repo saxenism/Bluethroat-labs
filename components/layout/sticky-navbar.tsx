@@ -47,7 +47,7 @@ export function StickyNavbar() {
 
     return (
         <nav
-            className={`fixed max-w-[1300px] mx-auto top-0 left-0 right-0 z-50 transition-all border-t border-b border-border ${isScrolled
+            className={`fixed max-w-[1300px] mx-auto top-0 left-0 right-0 z-50 border-t border-b border-border ${isScrolled
                 ? 'mt-0 bg-background'
                 : 'mt-[50px] bg-background'
                 }`}
@@ -56,7 +56,7 @@ export function StickyNavbar() {
                 {/* Logo Section */}
                 <div className="h-full flex items-center px-4 md:pr-0 sm:pl-4 border-r border-border min-w-0 ">
                     <Link href="/" onClick={handleLogoClick} className="flex items-center group">
-                        <svg className='fill-foreground transition-colors' width="32" height="32" viewBox="0 0 32 32">
+                        <svg className='fill-foreground' width="32" height="32" viewBox="0 0 32 32">
                             <path d="M12.9537 24.6352V18.3938C12.9537 17.8417 12.1938 17.6914 11.9836 18.2019L6.26586 31.3002C6.04623 31.8335 6.74966 32.2579 7.11908 31.8149L12.8368 24.958C12.9123 24.8674 12.9537 24.7532 12.9537 24.6352Z" />
                             <path d="M24.9186 12.5599L14.4527 23.5066C14.1386 23.8352 13.5844 23.6128 13.5844 23.1583V3.93387C13.5844 3.60636 13.8705 3.40137 14.1471 3.43177C14.3893 3.4584 14.5603 3.67398 14.7515 3.82515L24.6429 11.6484C24.8341 11.7996 25.0577 11.9664 25.0584 12.2101C25.0587 12.3362 25.012 12.4622 24.9186 12.5599Z" />
                             <path d="M0.0798311 0.232672C0.258873 -0.0521997 0.670309 0.0400349 0.997309 0.119275L11.9579 2.77529C12.2849 2.85453 12.6949 2.84447 12.8756 3.12829C12.9253 3.20642 12.9542 3.29916 12.9542 3.39863V16.7246C12.9542 16.9815 12.7745 17.1677 12.5603 17.2168C12.2547 17.2869 12.026 16.978 11.8401 16.7255L0.454564 1.26473C0.268632 1.01225 -0.0250033 0.777299 0.00187348 0.464895C0.00895468 0.382586 0.0359345 0.302516 0.0798311 0.232672Z" />
@@ -65,7 +65,7 @@ export function StickyNavbar() {
                         </svg>
                     </Link>
                     <Link href="/" onClick={handleLogoClick} className="hidden md:flex items-center">
-                        <svg className='fill-foreground transition-colors' width="198" height="32" viewBox="42.5 0 155.5 32">
+                        <svg className='fill-foreground' width="198" height="32" viewBox="42.5 0 155.5 32">
                             <path d="M42.9614 26.0717C42.6695 26.0717 42.5235 25.9646 42.5235 25.7505C42.5235 25.5754 42.65 25.4586 42.903 25.4002L43.5745 25.2834C43.9833 25.2055 44.246 25.0985 44.3628 24.9623C44.499 24.826 44.5672 24.5535 44.5672 24.1448V6.97792C44.5672 6.56919 44.499 6.2967 44.3628 6.16045C44.246 6.02421 43.9833 5.91716 43.5745 5.83931L42.903 5.72252C42.65 5.66413 42.5235 5.54735 42.5235 5.37218C42.5235 5.15808 42.6695 5.05103 42.9614 5.05103H48.8881C49.8612 5.05103 50.7274 5.2554 51.4865 5.66413C52.2455 6.07287 52.8392 6.62758 53.2674 7.32827C53.715 8.02896 53.9389 8.82696 53.9389 9.72229C53.9389 10.5981 53.6761 11.4156 53.1506 12.1747C52.6445 12.9143 51.9049 13.5371 50.9317 14.0432C50.815 14.1016 50.7566 14.1794 50.7566 14.2768C50.7566 14.3741 50.8247 14.4422 50.9609 14.4811C52.2845 14.9288 53.3063 15.6489 54.0264 16.6416C54.7466 17.6148 55.1067 18.7728 55.1067 20.1158C55.1067 21.2642 54.8439 22.2957 54.3184 23.2105C53.7929 24.1059 53.063 24.8065 52.1287 25.3126C51.214 25.8186 50.1727 26.0717 49.0048 26.0717H42.9614ZM48.1874 14.0724C49.2189 14.0724 50.0753 13.6734 50.7566 12.8754C51.4573 12.0579 51.8076 11.0458 51.8076 9.83907C51.8076 8.63233 51.4767 7.65915 50.815 6.91953C50.1532 6.16045 49.2773 5.78091 48.1874 5.78091C47.1558 5.78091 46.64 6.17019 46.64 6.94873V12.4666C46.64 13.0311 46.7568 13.4398 46.9904 13.6929C47.2434 13.9459 47.6424 14.0724 48.1874 14.0724ZM48.6253 25.3418C49.8904 25.3418 50.922 24.8649 51.72 23.9112C52.518 22.938 52.917 21.6437 52.917 20.0282C52.917 18.4128 52.5083 17.1379 51.6908 16.2036C50.8928 15.2694 49.8126 14.8023 48.4501 14.8023C47.2434 14.8023 46.64 15.2791 46.64 16.2328V23.3273C46.64 24.6703 47.3018 25.3418 48.6253 25.3418Z" />
                             <path d="M56.4946 26.0717C56.261 26.0717 56.1442 25.9646 56.1442 25.7505C56.1442 25.5559 56.2513 25.4391 56.4654 25.4002L56.8741 25.3418C57.2829 25.2834 57.5846 25.1666 57.7792 24.9914C57.9738 24.8163 58.0711 24.5243 58.0711 24.1156V7.38666C58.0711 7.03631 58.0127 6.79302 57.896 6.65677C57.7986 6.52053 57.6137 6.44267 57.3413 6.42321L56.6698 6.33562C56.4557 6.2967 56.3486 6.17992 56.3486 5.98528C56.3486 5.79065 56.4557 5.67387 56.6698 5.63494C57.2147 5.51816 57.6819 5.38191 58.0711 5.2262C58.4604 5.07049 58.7816 4.91479 59.0346 4.75908C59.346 4.56444 59.5796 4.46712 59.7353 4.46712C59.9494 4.46712 60.0564 4.62283 60.0564 4.93425V24.1156C60.0564 24.5243 60.1148 24.8163 60.2316 24.9914C60.3678 25.1472 60.6403 25.2542 61.0491 25.3126L61.7206 25.4002C61.9347 25.4391 62.0417 25.5559 62.0417 25.7505C62.0417 25.9646 61.9249 26.0717 61.6914 26.0717H56.4946Z" />
                             <path d="M67.3181 26.3344C66.8315 26.3344 66.3644 26.2274 65.9167 26.0133C65.469 25.7992 65.0992 25.4586 64.8073 24.9914C64.5153 24.5243 64.3694 23.9015 64.3694 23.1229V12.963C64.3694 12.6126 64.311 12.3693 64.1942 12.2331C64.0969 12.0968 63.912 12.019 63.6395 11.9995L63.1431 11.9411C62.8123 11.9022 62.6468 11.7757 62.6468 11.5616C62.6468 11.3086 62.8317 11.1821 63.2015 11.1821H65.9167C66.2087 11.1821 66.3546 11.328 66.3546 11.62V22.5098C66.3546 23.4052 66.5201 24.0475 66.851 24.4367C67.2013 24.8065 67.6782 24.9914 68.2815 24.9914C68.8849 24.9914 69.4201 24.826 69.8873 24.4951C70.3544 24.1448 70.7242 23.6874 70.9967 23.1229C71.2886 22.539 71.4346 21.9065 71.4346 21.2252V12.963C71.4346 12.6126 71.3762 12.3693 71.2594 12.2331C71.1621 12.0968 70.9772 12.019 70.7047 11.9995L70.2084 11.9411C69.8775 11.9022 69.7121 11.7757 69.7121 11.5616C69.7121 11.3086 69.897 11.1821 70.2668 11.1821H72.982C73.2739 11.1821 73.4199 11.328 73.4199 11.62V22.9478C73.4199 23.2981 73.4686 23.5414 73.5659 23.6777C73.6827 23.7944 73.8773 23.8723 74.1498 23.9112L74.7629 23.9988C75.0159 24.0183 75.1424 24.1156 75.1424 24.2908C75.1424 24.4659 74.9867 24.5827 74.6753 24.6411C74.0719 24.719 73.5853 24.8747 73.2155 25.1082C72.8652 25.3418 72.5538 25.624 72.2813 25.9549C72.1061 26.1301 71.9601 26.2177 71.8434 26.2177C71.6682 26.2177 71.5806 26.1009 71.5806 25.8673V24.5243C71.5806 24.3686 71.5222 24.281 71.4054 24.2616C71.3081 24.2226 71.2011 24.2616 71.0843 24.3783C70.3641 25.0985 69.7218 25.6045 69.1574 25.8965C68.6124 26.1885 67.9993 26.3344 67.3181 26.3344Z" />
@@ -92,7 +92,7 @@ export function StickyNavbar() {
                             <Link
                                 key={link.href}
                                 href={link.href}
-                                className={`font-mono text-lg font-medium transition-colors ${isActive ? 'text-foreground font-bold' : 'text-foreground/70 hover:text-foreground'
+                                className={`font-mono text-lg font-medium ${isActive ? 'text-foreground font-bold' : 'text-foreground/70 hover:text-foreground'
                                     }`}
                             >
                                 {link.label}
@@ -105,7 +105,7 @@ export function StickyNavbar() {
                 <div className="hidden md:flex h-full items-center hover:bg-foreground hover:text-background border-r border-border px-8">
                     <Link
                         href="/contact"
-                        className="font-mono text-xl font-semibold transition-colors"
+                        className="font-mono text-xl font-semibold"
                     >
                         Talk to Us
                     </Link>
@@ -116,7 +116,7 @@ export function StickyNavbar() {
                     <div className="h-full hidden md:flex items-center">
                         <button
                             onClick={toggleTheme}
-                            className="p-5 transition-colors hover:bg-muted"
+                            className="p-5 hover:bg-muted"
                             aria-label="Toggle theme"
                         >
                             {/* Only render the icon if mounted to prevent hydration mismatch */}
@@ -133,7 +133,7 @@ export function StickyNavbar() {
                     {/* Mobile Menu Button - Segmented */}
                     <button
                         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                        className="md:hidden h-full flex items-center px-6 border-l border-border hover:bg-muted transition-colors"
+                        className="md:hidden h-full flex items-center px-6 border-l border-border hover:bg-muted"
                         aria-label="Toggle menu"
                     >
                         {isMobileMenuOpen ? (
@@ -148,7 +148,7 @@ export function StickyNavbar() {
             {/* Mobile Menu Dropdown */}
             <div
                 className={`
-            md:hidden absolute left-[-1px] right-[-1px] top-full bg-background border border-border overflow-hidden transition-all duration-300 ease-in-out
+            md:hidden absolute left-[-1px] right-[-1px] top-full bg-background border border-border overflow-hidden
             ${isMobileMenuOpen ? 'max-h-[400px] opacity-100' : 'max-h-0 opacity-0'}
     `}
             >
@@ -159,7 +159,7 @@ export function StickyNavbar() {
                             key={link.href}
                             href={link.href}
                             onClick={() => setIsMobileMenuOpen(false)}
-                            className="font-mono text-lg font-semibold tracking-tighter text-foreground/80 hover:text-foreground hover:bg-muted p-4 transition-colors"
+                            className="font-mono text-lg font-semibold tracking-tighter text-foreground/80 hover:text-foreground hover:bg-muted p-4"
                         >
                             {link.label}
                         </Link>
@@ -170,7 +170,7 @@ export function StickyNavbar() {
                         <Link
                             href="/contact"
                             onClick={() => setIsMobileMenuOpen(false)}
-                            className={`flex-1 flex items-center justify-center font-mono text-xl font-bold tracking-widest border-r border-border transition-colors ${!mounted
+                            className={`flex-1 flex items-center justify-center font-mono text-xl font-bold tracking-widest border-r border-border ${!mounted
                                 ? 'bg-muted text-muted-foreground'
                                 : resolvedTheme === 'dark'
                                     ? 'bg-white text-black hover:bg-zinc-200'
@@ -181,7 +181,7 @@ export function StickyNavbar() {
                         </Link>
                         <button
                             onClick={toggleTheme}
-                            className="w-14 flex items-center border-y border-border justify-center hover:bg-muted transition-colors"
+                            className="w-14 flex items-center border-y border-border justify-center hover:bg-muted"
                             aria-label="Toggle theme"
                         >
                             {!mounted ? (
