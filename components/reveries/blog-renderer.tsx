@@ -83,6 +83,7 @@ const components = {
             </div>
         ),
         code: ({ value }: any) => <SanityCodeBlock value={value} />,
+        divider: () => <hr className="border-border my-12" />,
     },
     marks: {
         code: ({ children }: any) => (
