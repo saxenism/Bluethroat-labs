@@ -10,7 +10,7 @@ import { smoothScrollTo } from '@/lib/smooth-scroll'
 export function StickyNavbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const { theme, setTheme, resolvedTheme } = useTheme()
+  const { setTheme, resolvedTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
   const pathname = usePathname()
 
@@ -27,8 +27,6 @@ export function StickyNavbar() {
   const toggleTheme = () => {
     setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')
   }
-
-  const isDark = mounted && resolvedTheme === 'dark'
 
   const navLinks = [
     { href: '/docs', label: 'Docs' },

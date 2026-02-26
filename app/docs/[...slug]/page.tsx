@@ -3,7 +3,6 @@
 import React from 'react'
 import { useParams } from 'next/navigation'
 import Link from 'next/link'
-import { DocsNavButtons } from '@/components/docs/docs-nav-buttons'
 import { client } from '@/lib/sanity/client'
 import { urlFor } from '@/lib/sanity/image'
 import { BlogRenderer } from '@/components/reveries/blog-renderer'
@@ -65,6 +64,7 @@ export default function DocsPage() {
       {/* Header / Banner Image */}
       {mounted && pageData.heroImage && (
         <div className="bg-muted relative aspect-21/6 w-full overflow-hidden">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={urlFor(pageData.heroImage).url()}
             alt={pageData.title}

@@ -3,7 +3,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Copyright, Mail, Twitter } from 'lucide-react'
+import { Copyright, Mail } from 'lucide-react'
 import { smoothScrollTo } from '@/lib/smooth-scroll'
 
 const navLinks = [

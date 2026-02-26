@@ -67,7 +67,7 @@ const components = {
         {children}
       </li>
     ),
-    number: ({ children, value, index }: any) => (
+    number: ({ children, index }: any) => (
       <li className="text-foreground/80 flex font-mono text-lg leading-relaxed">
         <span className="text-foreground/40 mr-4">{index + 1}.</span>
         {children}

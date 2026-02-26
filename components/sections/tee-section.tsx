@@ -3,7 +3,6 @@
 import React from 'react'
 import { GridBackground } from '../ui/grid-background'
 import { useTheme } from 'next-themes'
-import Image from 'next/image'
 
 export function TeeSection() {
   const { resolvedTheme } = useTheme()

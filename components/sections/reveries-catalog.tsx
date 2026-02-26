@@ -1,16 +1,8 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import {
-  Search,
-  Grid,
-  List,
-  ArrowUpRight,
-  ChevronLeft,
-  ChevronRight,
-} from 'lucide-react'
-import { GridBackground } from '../ui/grid-background'
+import { Search, Grid, List, ArrowUpRight } from 'lucide-react'
 import { client } from '@/lib/sanity/client'
 import { urlFor } from '@/lib/sanity/image'
 import { IS_DEV, MOCK_BLOGS } from '@/lib/mock-data'

@@ -6,7 +6,7 @@ import { Moon, Sun } from 'lucide-react'
 import { useTheme } from 'next-themes'
 
 export function DocsNavbar() {
-  const { theme, setTheme, resolvedTheme } = useTheme()
+  const { setTheme, resolvedTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
@@ -39,6 +39,7 @@ export function DocsNavbar() {
             </svg>
             {/* --- NEW LOGO SVG REPLACEMENT --- */}
             <div className="flex items-center justify-center">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 className="fill-background h-5 w-auto dark:invert"
                 aria-label="SAG Logo"

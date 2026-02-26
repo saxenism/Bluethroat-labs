@@ -1,4 +1,4 @@
-export default {
+const navItem = {
   name: 'navItem',
   title: 'Navigation Item',
   type: 'object',
@@ -18,3 +18,5 @@ export default {
     },
   ],
 }
+
+export default navItem

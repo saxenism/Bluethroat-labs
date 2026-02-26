@@ -1,4 +1,4 @@
-export default {
+const docNavigation = {
   name: 'docNavigation',
   title: 'Documentation Navigation',
   type: 'document',
@@ -18,3 +18,5 @@ export default {
     },
   ],
 }
+
+export default docNavigation

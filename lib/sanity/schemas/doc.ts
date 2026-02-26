@@ -1,4 +1,4 @@
-export default {
+const doc = {
   name: 'doc',
   title: 'Documentation',
   type: 'document',
@@ -88,3 +88,5 @@ export default {
     },
   ],
 }
+
+export default doc

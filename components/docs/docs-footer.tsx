@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { Mail, Twitter } from 'lucide-react'
+import { Mail } from 'lucide-react'
 
 export function DocsFooter() {
   return (
