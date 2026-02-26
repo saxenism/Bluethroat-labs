@@ -1,247 +1,267 @@
-"use client";
+'use client'
 
-import React from 'react';
-import Image from 'next/image';
-import { Copy, Check } from 'lucide-react';
-import { ContentBlock } from '@/lib/reveries-data';
-import { PortableText } from '@portabletext/react';
-import { urlFor } from '@/lib/sanity/image';
+import React from 'react'
+import Image from 'next/image'
+import { Copy, Check } from 'lucide-react'
+import { ContentBlock } from '@/lib/reveries-data'
+import { PortableText } from '@portabletext/react'
+import { urlFor } from '@/lib/sanity/image'
 
 interface BlogRendererProps {
-    blocks?: ContentBlock[];
-    sanityContent?: any;
-    metadata?: {
-        category?: string;
-        date?: string;
-    };
+  blocks?: ContentBlock[]
+  sanityContent?: any
+  metadata?: { category?: string; date?: string }
 }
 
 const components = {
-    block: {
-        h1: ({ children, value }: any) => (
-            <h1 id={value._key} className="font-mono text-3xl sm:text-4xl font-medium leading-tight text-foreground mt-4 mb-8">
-                {children}
-            </h1>
-        ),
-        h2: ({ children, value }: any) => (
-            <h2 id={value._key} className="font-mono text-3xl font-bold tracking-tighter text-foreground mt-12 mb-6">
-                {children}
-            </h2>
-        ),
-        h3: ({ children, value }: any) => (
-            <h3 id={value._key} className="font-mono text-2xl font-bold tracking-tighter text-foreground mt-10 mb-4">
-                {children}
-            </h3>
-        ),
-        normal: ({ children }: any) => (
-            <p className="font-mono text-lg leading-relaxed text-foreground/80 whitespace-pre-wrap mb-6">
-                {children}
-            </p>
-        ),
-        blockquote: ({ children }: any) => (
-            <blockquote className="border-l-4 border-foreground/20 bg-muted/30 p-8 my-10 rounded-sm">
-                <p className="font-mono text-lg leading-relaxed text-foreground/70 italic">
-                    {children}
-                </p>
-            </blockquote>
-        ),
-    },
-    list: {
-        bullet: ({ children }: any) => <ul className="space-y-4 my-8">{children}</ul>,
-        number: ({ children }: any) => <ol className="space-y-4 my-8 list-none">{children}</ol>,
-    },
-    listItem: {
-        bullet: ({ children }: any) => (
-            <li className="flex font-mono text-lg text-foreground/80 leading-relaxed">
-                <span className="mr-4 text-foreground/40 mt-1">■</span>
-                {children}
-            </li>
-        ),
-        number: ({ children, value, index }: any) => (
-            <li className="flex font-mono text-lg text-foreground/80 leading-relaxed">
-                <span className="mr-4 text-foreground/40">{index + 1}.</span>
-                {children}
-            </li>
-        ),
-    },
-    types: {
-        image: ({ value }: any) => (
-            <div className="my-12 space-y-4">
-                <div className="relative w-full aspect-video border border-border bg-muted overflow-hidden">
-                    <Image
-                        src={urlFor(value).url()}
-                        alt={value.alt || 'Blog image'}
-                        fill
-                        className="object-cover"
-                    />
-                </div>
-                {value.caption && (
-                    <p className="font-mono text-sm text-center text-muted-foreground italic">
-                        {value.caption}
-                    </p>
-                )}
-            </div>
-        ),
-        code: ({ value }: any) => <SanityCodeBlock value={value} />,
-        divider: () => <hr className="border-border my-12" />,
-    },
-    marks: {
-        code: ({ children }: any) => (
-            <code className="bg-muted px-1.5 py-0.5 rounded text-sm text-foreground">
-                {children}
-            </code>
-        ),
-        underline: ({ children }: any) => <u>{children}</u>,
-        strikeThrough: ({ children }: any) => <del>{children}</del>,
-    },
-};
-
-function SanityCodeBlock({ value }: any) {
-    const [copied, setCopied] = React.useState(false);
-
-    const handleCopy = () => {
-        navigator.clipboard.writeText(value.code || '');
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
-    };
-
-    return (
-        <div className="my-10 border border-border rounded-sm overflow-hidden bg-[#1E1E1E]">
-            <div className="flex items-center justify-between px-4 py-2 border-b border-white/10 bg-white/5">
-                <div className="flex gap-1.5">
-                    <div className="w-3 h-3 rounded-full bg-red-500/80" />
-                    <div className="w-3 h-3 rounded-full bg-amber-500/80" />
-                    <div className="w-3 h-3 rounded-full bg-emerald-500/80" />
-                </div>
-                <button
-                    onClick={handleCopy}
-                    className="p-1.5 hover:bg-white/10 rounded-md transition-colors group"
-                    title="Copy code"
-                >
-                    {copied ? (
-                        <Check className="w-4 h-4 text-emerald-500" />
-                    ) : (
-                        <Copy className="w-4 h-4 text-white/50 group-hover:text-white" />
-                    )}
-                </button>
-            </div>
-            <pre className="p-6 overflow-x-auto text-sm sm:text-base font-mono leading-relaxed text-zinc-300">
-                <code>{value.code}</code>
-            </pre>
-            {value.filename && (
-                <div className="px-4 py-2 bg-white/5 border-t border-white/10 text-xs font-mono text-white/40">
-                    {value.filename}
-                </div>
-            )}
+  block: {
+    h1: ({ children, value }: any) => (
+      <h1
+        id={value._key}
+        className="text-foreground mt-4 mb-8 font-mono text-3xl leading-tight font-medium sm:text-4xl"
+      >
+        {children}
+      </h1>
+    ),
+    h2: ({ children, value }: any) => (
+      <h2
+        id={value._key}
+        className="text-foreground mt-12 mb-6 font-mono text-3xl font-bold tracking-tighter"
+      >
+        {children}
+      </h2>
+    ),
+    h3: ({ children, value }: any) => (
+      <h3
+        id={value._key}
+        className="text-foreground mt-10 mb-4 font-mono text-2xl font-bold tracking-tighter"
+      >
+        {children}
+      </h3>
+    ),
+    normal: ({ children }: any) => (
+      <p className="text-foreground/80 mb-6 font-mono text-lg leading-relaxed whitespace-pre-wrap">
+        {children}
+      </p>
+    ),
+    blockquote: ({ children }: any) => (
+      <blockquote className="border-foreground/20 bg-muted/30 my-10 rounded-sm border-l-4 p-8">
+        <p className="text-foreground/70 font-mono text-lg leading-relaxed italic">
+          {children}
+        </p>
+      </blockquote>
+    ),
+  },
+  list: {
+    bullet: ({ children }: any) => (
+      <ul className="my-8 space-y-4">{children}</ul>
+    ),
+    number: ({ children }: any) => (
+      <ol className="my-8 list-none space-y-4">{children}</ol>
+    ),
+  },
+  listItem: {
+    bullet: ({ children }: any) => (
+      <li className="text-foreground/80 flex font-mono text-lg leading-relaxed">
+        <span className="text-foreground/40 mt-1 mr-4">■</span>
+        {children}
+      </li>
+    ),
+    number: ({ children, value, index }: any) => (
+      <li className="text-foreground/80 flex font-mono text-lg leading-relaxed">
+        <span className="text-foreground/40 mr-4">{index + 1}.</span>
+        {children}
+      </li>
+    ),
+  },
+  types: {
+    image: ({ value }: any) => (
+      <div className="my-12 space-y-4">
+        <div className="border-border bg-muted relative aspect-video w-full overflow-hidden border">
+          <Image
+            src={urlFor(value).url()}
+            alt={value.alt || 'Blog image'}
+            fill
+            className="object-cover"
+          />
         </div>
-    );
+        {value.caption && (
+          <p className="text-muted-foreground text-center font-mono text-sm italic">
+            {value.caption}
+          </p>
+        )}
+      </div>
+    ),
+    code: ({ value }: any) => <SanityCodeBlock value={value} />,
+    divider: () => <hr className="border-border my-12" />,
+  },
+  marks: {
+    code: ({ children }: any) => (
+      <code className="bg-muted text-foreground rounded px-1.5 py-0.5 text-sm">
+        {children}
+      </code>
+    ),
+    underline: ({ children }: any) => <u>{children}</u>,
+    strikeThrough: ({ children }: any) => <del>{children}</del>,
+  },
 }
 
-export function BlogRenderer({ blocks, sanityContent, metadata }: BlogRendererProps) {
-    return (
-        <div className="max-w-6xl mx-auto px-6 py-12 space-y-12">
-            {metadata && (
-                <div className="font-mono text-base tracking-tight text-foreground/50 flex gap-2">
-                    <span>{metadata.category}</span>
-                    <span>•</span>
-                    <span>{metadata.date}</span>
-                </div>
-            )}
-            {sanityContent ? (
-                <PortableText value={sanityContent} components={components} />
-            ) : blocks ? (
-                blocks.map((block, index) => (
-                    <div key={index}>
-                        <BlockSelector block={block} />
-                    </div>
-                ))
-            ) : null}
+function SanityCodeBlock({ value }: any) {
+  const [copied, setCopied] = React.useState(false)
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(value.code || '')
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
+
+  return (
+    <div className="border-border my-10 overflow-hidden rounded-sm border bg-[#1E1E1E]">
+      <div className="flex items-center justify-between border-b border-white/10 bg-white/5 px-4 py-2">
+        <div className="flex gap-1.5">
+          <div className="h-3 w-3 rounded-full bg-red-500/80" />
+          <div className="h-3 w-3 rounded-full bg-amber-500/80" />
+          <div className="h-3 w-3 rounded-full bg-emerald-500/80" />
         </div>
-    );
+        <button
+          onClick={handleCopy}
+          className="group rounded-md p-1.5 transition-colors hover:bg-white/10"
+          title="Copy code"
+        >
+          {copied ? (
+            <Check className="h-4 w-4 text-emerald-500" />
+          ) : (
+            <Copy className="h-4 w-4 text-white/50 group-hover:text-white" />
+          )}
+        </button>
+      </div>
+      <pre className="overflow-x-auto p-6 font-mono text-sm leading-relaxed text-zinc-300 sm:text-base">
+        <code>{value.code}</code>
+      </pre>
+      {value.filename && (
+        <div className="border-t border-white/10 bg-white/5 px-4 py-2 font-mono text-xs text-white/40">
+          {value.filename}
+        </div>
+      )}
+    </div>
+  )
+}
+
+export function BlogRenderer({
+  blocks,
+  sanityContent,
+  metadata,
+}: BlogRendererProps) {
+  return (
+    <div className="mx-auto max-w-6xl space-y-12 px-6 py-12">
+      {metadata && (
+        <div className="text-foreground/50 flex gap-2 font-mono text-base tracking-tight">
+          <span>{metadata.category}</span>
+          <span>•</span>
+          <span>{metadata.date}</span>
+        </div>
+      )}
+      {sanityContent ? (
+        <PortableText value={sanityContent} components={components} />
+      ) : blocks ? (
+        blocks.map((block, index) => (
+          <div key={index}>
+            <BlockSelector block={block} />
+          </div>
+        ))
+      ) : null}
+    </div>
+  )
 }
 
 function BlockSelector({ block }: { block: ContentBlock }) {
-    switch (block.type) {
-        case 'h1':
-            return (
-                <h1 className="font-mono text-3xl sm:text-4xl font-medium leading-tight text-foreground mt-4 mb-8">
-                    {block.content}
-                </h1>
-            );
-        case 'h2':
-            return (
-                <h2 className="font-mono text-3xl font-bold tracking-tighter text-foreground mt-12 mb-6">
-                    {block.content}
-                </h2>
-            );
-        case 'h3':
-            return (
-                <h3 className="font-mono text-2xl font-bold tracking-tighter text-foreground mt-10 mb-4">
-                    {block.content}
-                </h3>
-            );
-        case 'text':
-            return (
-                <p className="font-mono text-lg leading-relaxed text-foreground/80 whitespace-pre-wrap">
-                    {formatText(block.content || '')}
-                </p>
-            );
-        case 'divider':
-            return <hr className="border-border my-12" />;
-        case 'bullet-list':
-            return (
-                <ul className="space-y-4 my-8">
-                    {block.items?.map((item, idx) => (
-                        <li key={idx} className="flex font-mono text-lg text-foreground/80 leading-relaxed">
-                            <span className="mr-4 text-foreground/40 mt-1">■</span>
-                            {formatText(item || '')}
-                        </li>
-                    ))}
-                </ul>
-            );
-        case 'ordered-list':
-            return (
-                <ol className="space-y-4 my-8 list-none">
-                    {block.items?.map((item, idx) => (
-                        <li key={idx} className="flex font-mono text-lg text-foreground/80 leading-relaxed">
-                            <span className="mr-4 text-foreground/40">{idx + 1}.</span>
-                            {formatText(item || '')}
-                        </li>
-                    ))}
-                </ol>
-            );
-        case 'blockquote':
-            return (
-                <blockquote className="border-l-4 border-foreground/20 bg-muted/30 p-8 my-10 rounded-sm">
-                    <p className="font-mono text-lg leading-relaxed text-foreground/70 italic">
-                        {formatText(block.content || '')}
-                    </p>
-                </blockquote>
-            );
-        case 'code-block':
-            return (
-                <div className="my-10 border border-border rounded-sm overflow-hidden bg-[#1E1E1E]">
-                    <pre className="p-6 overflow-x-auto text-sm sm:text-base font-mono leading-relaxed text-zinc-300">
-                        <code>{block.content}</code>
-                    </pre>
-                </div>
-            )
-        case 'image':
-            return (
-                <div className="my-12 space-y-4">
-                    <div className="relative w-full aspect-video border border-border bg-muted overflow-hidden">
-                        <Image
-                            src={block.src || ''}
-                            alt={block.caption || 'Blog image'}
-                            fill
-                            className="object-cover"
-                        />
-                    </div>
-                </div>
-            );
-        default:
-            return null;
-    }
+  switch (block.type) {
+    case 'h1':
+      return (
+        <h1 className="text-foreground mt-4 mb-8 font-mono text-3xl leading-tight font-medium sm:text-4xl">
+          {block.content}
+        </h1>
+      )
+    case 'h2':
+      return (
+        <h2 className="text-foreground mt-12 mb-6 font-mono text-3xl font-bold tracking-tighter">
+          {block.content}
+        </h2>
+      )
+    case 'h3':
+      return (
+        <h3 className="text-foreground mt-10 mb-4 font-mono text-2xl font-bold tracking-tighter">
+          {block.content}
+        </h3>
+      )
+    case 'text':
+      return (
+        <p className="text-foreground/80 font-mono text-lg leading-relaxed whitespace-pre-wrap">
+          {formatText(block.content || '')}
+        </p>
+      )
+    case 'divider':
+      return <hr className="border-border my-12" />
+    case 'bullet-list':
+      return (
+        <ul className="my-8 space-y-4">
+          {block.items?.map((item, idx) => (
+            <li
+              key={idx}
+              className="text-foreground/80 flex font-mono text-lg leading-relaxed"
+            >
+              <span className="text-foreground/40 mt-1 mr-4">■</span>
+              {formatText(item || '')}
+            </li>
+          ))}
+        </ul>
+      )
+    case 'ordered-list':
+      return (
+        <ol className="my-8 list-none space-y-4">
+          {block.items?.map((item, idx) => (
+            <li
+              key={idx}
+              className="text-foreground/80 flex font-mono text-lg leading-relaxed"
+            >
+              <span className="text-foreground/40 mr-4">{idx + 1}.</span>
+              {formatText(item || '')}
+            </li>
+          ))}
+        </ol>
+      )
+    case 'blockquote':
+      return (
+        <blockquote className="border-foreground/20 bg-muted/30 my-10 rounded-sm border-l-4 p-8">
+          <p className="text-foreground/70 font-mono text-lg leading-relaxed italic">
+            {formatText(block.content || '')}
+          </p>
+        </blockquote>
+      )
+    case 'code-block':
+      return (
+        <div className="border-border my-10 overflow-hidden rounded-sm border bg-[#1E1E1E]">
+          <pre className="overflow-x-auto p-6 font-mono text-sm leading-relaxed text-zinc-300 sm:text-base">
+            <code>{block.content}</code>
+          </pre>
+        </div>
+      )
+    case 'image':
+      return (
+        <div className="my-12 space-y-4">
+          <div className="border-border bg-muted relative aspect-video w-full overflow-hidden border">
+            <Image
+              src={block.src || ''}
+              alt={block.caption || 'Blog image'}
+              fill
+              className="object-cover"
+            />
+          </div>
+        </div>
+      )
+    default:
+      return null
+  }
 }
 
 /**
@@ -249,22 +269,25 @@ function BlockSelector({ block }: { block: ContentBlock }) {
  * `code`, _underline_, ~~strikethrough~~
  */
 function formatText(text: string) {
-    const parts = text.split(/(`[^`]+`|_[^_]+_|~~[^~]+~~)/g);
+  const parts = text.split(/(`[^`]+`|_[^_]+_|~~[^~]+~~)/g)
 
-    return parts.map((part, i) => {
-        if (part.startsWith('`') && part.endsWith('`')) {
-            return (
-                <code key={i} className="bg-muted px-1.5 py-0.5 rounded text-sm text-foreground">
-                    {part.slice(1, -1)}
-                </code>
-            );
-        }
-        if (part.startsWith('_') && part.endsWith('_')) {
-            return <u key={i}>{part.slice(1, -1)}</u>;
-        }
-        if (part.startsWith('~~') && part.endsWith('~~')) {
-            return <del key={i}>{part.slice(2, -2)}</del>;
-        }
-        return part;
-    });
+  return parts.map((part, i) => {
+    if (part.startsWith('`') && part.endsWith('`')) {
+      return (
+        <code
+          key={i}
+          className="bg-muted text-foreground rounded px-1.5 py-0.5 text-sm"
+        >
+          {part.slice(1, -1)}
+        </code>
+      )
+    }
+    if (part.startsWith('_') && part.endsWith('_')) {
+      return <u key={i}>{part.slice(1, -1)}</u>
+    }
+    if (part.startsWith('~~') && part.endsWith('~~')) {
+      return <del key={i}>{part.slice(2, -2)}</del>
+    }
+    return part
+  })
 }

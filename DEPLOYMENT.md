@@ -14,8 +14,10 @@ Add the following environment variables to your Vercel project settings:
 1. Go to [sanity.io/manage](https://sanity.io/manage).
 2. Select your project.
 3. Go to **API** -> **CORS Origins**.
-4. Add your Vercel deployment URL (e.g., `https://your-project.vercel.app`) and check **Allow credentials**.
+4. Add your Vercel deployment URL (e.g., `https://your-project.vercel.app`) and
+   check **Allow credentials**.
 
 ## 3. Deployment
 
-Connect your GitHub repository to Vercel and it should automatically build and deploy. Sanity Studio will be available at `/studio`.
+Connect your GitHub repository to Vercel and it should automatically build and
+deploy. Sanity Studio will be available at `/studio`.
