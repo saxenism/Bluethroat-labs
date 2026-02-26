@@ -3,7 +3,7 @@
  * This data is only used when process.env.NODE_ENV === 'development'.
  */
 
-export const IS_DEV = process.env.NODE_ENV === 'development'
+export const IS_DEV = false && process.env.NODE_ENV === 'development'
 
 export const MOCK_BLOGS = [
   {
