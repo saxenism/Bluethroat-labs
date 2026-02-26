@@ -6,10 +6,24 @@ import { ArrowUpRight } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useTheme } from 'next-themes'
-
 import { client } from '@/lib/sanity/client'
 import { urlFor } from '@/lib/sanity/image'
-import { IS_DEV, MOCK_BLOGS } from '@/lib/mock-data'
+
+interface BlogItem {
+  title: string
+  date: string
+  category: string
+  href: string
+  src: string | null
+}
+
+interface SanityBlogPost {
+  title: string
+  slug: string
+  bannerImage?: { asset: { _ref: string; _type: string } }
+  category?: string
+  publishedAt?: string
+}
 
 const BLOGS_QUERY = `*[_type == "blog"] | order(publishedAt desc) [0..2] {
     title,
@@ -23,35 +37,16 @@ const BLOGS_QUERY = `*[_type == "blog"] | order(publishedAt desc) [0..2] {
 export function ReveriesSection() {
   const { resolvedTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
-  const [displayBlogs, setDisplayBlogs] = useState<any[]>([])
+  const [displayBlogs, setDisplayBlogs] = useState<BlogItem[]>([])
 
   useEffect(() => {
     setMounted(true)
 
     const fetchBlogs = async () => {
-      if (IS_DEV) {
-        setDisplayBlogs(
-          MOCK_BLOGS.map((post) => ({
-            title: post.title,
-            date: post.publishedAt
-              ? new Date(post.publishedAt).toLocaleDateString('en-US', {
-                  month: 'long',
-                  day: '2-digit',
-                  year: 'numeric',
-                })
-              : 'Coming soon',
-            category: post.category,
-            href: `/reveries/${post.slug}`,
-            src: post.src,
-          }))
-        )
-        return
-      }
-
       try {
-        const blogs = await client.fetch(BLOGS_QUERY)
+        const blogs = await client.fetch<SanityBlogPost[]>(BLOGS_QUERY)
         setDisplayBlogs(
-          blogs.map((post: any) => ({
+          blogs.map((post) => ({
             title: post.title,
             date: post.publishedAt
               ? new Date(post.publishedAt).toLocaleDateString('en-US', {

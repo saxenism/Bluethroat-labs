@@ -2,20 +2,58 @@
 
 import Image from 'next/image'
 import { Copy, Check } from 'lucide-react'
-import { ContentBlock } from '@/lib/reveries-data'
-import { PortableText } from '@portabletext/react'
+import { PortableText, PortableTextComponents } from '@portabletext/react'
+import type { PortableTextBlock } from '@portabletext/types'
 import { urlFor } from '@/lib/sanity/image'
 import { useState } from 'react'
+import type { ReactNode } from 'react'
+
+type BlockType =
+  | 'tag'
+  | 'h1'
+  | 'h2'
+  | 'h3'
+  | 'text'
+  | 'divider'
+  | 'bullet-list'
+  | 'ordered-list'
+  | 'blockquote'
+  | 'code-block'
+  | 'image'
+
+interface ContentBlock {
+  type: BlockType
+  content?: string
+  items?: string[] // For lists
+  src?: string // For images
+  caption?: string // For images
+  language?: string // For code blocks
+  metadata?: { category?: string; date?: string; author?: string }
+}
 
 interface BlogRendererProps {
   blocks?: ContentBlock[]
-  sanityContent?: any
+  sanityContent?: PortableTextBlock[]
   metadata?: { category?: string; date?: string }
 }
 
-const components = {
+interface SanityImageValue {
+  _key?: string
+  alt?: string
+  caption?: string
+  asset?: { _ref: string; _type: string }
+  [key: string]: unknown
+}
+
+interface SanityCodeValue {
+  code?: string
+  filename?: string
+  language?: string
+}
+
+const components: PortableTextComponents = {
   block: {
-    h1: ({ children, value }: any) => (
+    h1: ({ children, value }) => (
       <h1
         id={value._key}
         className="text-foreground mt-4 mb-8 font-mono text-3xl leading-tight font-medium sm:text-4xl"
@@ -23,7 +61,7 @@ const components = {
         {children}
       </h1>
     ),
-    h2: ({ children, value }: any) => (
+    h2: ({ children, value }) => (
       <h2
         id={value._key}
         className="text-foreground mt-12 mb-6 font-mono text-3xl font-bold tracking-tighter"
@@ -31,7 +69,7 @@ const components = {
         {children}
       </h2>
     ),
-    h3: ({ children, value }: any) => (
+    h3: ({ children, value }) => (
       <h3
         id={value._key}
         className="text-foreground mt-10 mb-4 font-mono text-2xl font-bold tracking-tighter"
@@ -39,12 +77,12 @@ const components = {
         {children}
       </h3>
     ),
-    normal: ({ children }: any) => (
+    normal: ({ children }) => (
       <p className="text-foreground/80 mb-6 font-mono text-lg leading-relaxed whitespace-pre-wrap">
         {children}
       </p>
     ),
-    blockquote: ({ children }: any) => (
+    blockquote: ({ children }) => (
       <blockquote className="border-foreground/20 bg-muted/30 my-10 rounded-sm border-l-4 p-8">
         <p className="text-foreground/70 font-mono text-lg leading-relaxed italic">
           {children}
@@ -53,21 +91,19 @@ const components = {
     ),
   },
   list: {
-    bullet: ({ children }: any) => (
-      <ul className="my-8 space-y-4">{children}</ul>
-    ),
-    number: ({ children }: any) => (
+    bullet: ({ children }) => <ul className="my-8 space-y-4">{children}</ul>,
+    number: ({ children }) => (
       <ol className="my-8 list-none space-y-4">{children}</ol>
     ),
   },
   listItem: {
-    bullet: ({ children }: any) => (
+    bullet: ({ children }: { children?: ReactNode }) => (
       <li className="text-foreground/80 flex font-mono text-lg leading-relaxed">
         <span className="text-foreground/40 mt-1 mr-4">■</span>
         {children}
       </li>
     ),
-    number: ({ children, index }: any) => (
+    number: ({ children, index }: { children?: ReactNode; index: number }) => (
       <li className="text-foreground/80 flex font-mono text-lg leading-relaxed">
         <span className="text-foreground/40 mr-4">{index + 1}.</span>
         {children}
@@ -75,7 +111,7 @@ const components = {
     ),
   },
   types: {
-    image: ({ value }: any) => (
+    image: ({ value }: { value: SanityImageValue }) => (
       <div className="my-12 space-y-4">
         <div className="border-border bg-muted relative aspect-video w-full overflow-hidden border">
           <Image
@@ -92,21 +128,23 @@ const components = {
         )}
       </div>
     ),
-    code: ({ value }: any) => <SanityCodeBlock value={value} />,
+    code: ({ value }: { value: SanityCodeValue }) => (
+      <SanityCodeBlock value={value} />
+    ),
     divider: () => <hr className="border-border my-12" />,
   },
   marks: {
-    code: ({ children }: any) => (
+    code: ({ children }) => (
       <code className="bg-muted text-foreground rounded px-1.5 py-0.5 text-sm">
         {children}
       </code>
     ),
-    underline: ({ children }: any) => <u>{children}</u>,
-    strikeThrough: ({ children }: any) => <del>{children}</del>,
+    underline: ({ children }) => <u>{children}</u>,
+    strikeThrough: ({ children }) => <del>{children}</del>,
   },
 }
 
-function SanityCodeBlock({ value }: any) {
+function SanityCodeBlock({ value }: { value: SanityCodeValue }) {
   const [copied, setCopied] = useState(false)
 
   const handleCopy = () => {

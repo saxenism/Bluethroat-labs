@@ -6,27 +6,33 @@ import Link from 'next/link'
 import { client } from '@/lib/sanity/client'
 import { urlFor } from '@/lib/sanity/image'
 import { BlogRenderer } from '@/components/reveries/blog-renderer'
-import { IS_DEV, MOCK_DOCS } from '@/lib/mock-data'
+import type { PortableTextBlock } from '@portabletext/types'
+
+interface RelatedBlog {
+  title: string
+  slug: string
+  category?: string
+  publishedAt?: string
+}
+
+interface DocPageData {
+  title: string
+  heroImage?: { asset: { _ref: string; _type: string } }
+  content?: PortableTextBlock[]
+  relatedBlogs?: RelatedBlog[]
+}
 
 export default function DocsPage() {
   const params = useParams()
   const slugArray = params.slug as string[]
   const currentSlug = slugArray?.join('/') || ''
-  const [pageData, setPageData] = useState<any>(null)
+  const [pageData, setPageData] = useState<DocPageData | null>(null)
   const [loading, setLoading] = useState(true)
 
   const [mounted, setMounted] = useState(false)
   useEffect(() => {
     setMounted(true)
     const fetchDoc = async () => {
-      if (IS_DEV && MOCK_DOCS[currentSlug as keyof typeof MOCK_DOCS]) {
-        const data = MOCK_DOCS[currentSlug as keyof typeof MOCK_DOCS]
-        console.log('DocsPage Mock Data:', { slug: currentSlug, data })
-        setPageData(data)
-        setLoading(false)
-        return
-      }
-
       const query = `*[_type == "doc" && slug.current == $slug][0] {
                 title,
                 heroImage,
@@ -88,7 +94,7 @@ export default function DocsPage() {
               Featured Reveries
             </h2>
             <div className="grid gap-6">
-              {pageData.relatedBlogs.map((blog: any) => (
+              {pageData.relatedBlogs.map((blog) => (
                 <Link
                   key={blog.slug}
                   href={`/reveries/${blog.slug}`}

@@ -1,9 +1,10 @@
 import { createImageUrlBuilder } from '@sanity/image-url'
+import type { SanityImageSource } from '@sanity/image-url'
 import { client } from './client'
 
 const builder = createImageUrlBuilder(client)
 
-export function urlFor(source: any) {
+export function urlFor(source: SanityImageSource | string) {
   // If it's already a string URL (common in mock data), return a mock builder-like object
   if (
     typeof source === 'string' &&
@@ -13,9 +14,15 @@ export function urlFor(source: any) {
   }
 
   // Handle our mock data "dummy-ref"
-  if (source?.asset?._ref === 'dummy-ref') {
+  if (
+    typeof source === 'object' &&
+    source !== null &&
+    'asset' in source &&
+    typeof (source as { asset?: { _ref?: string } }).asset?._ref === 'string' &&
+    (source as { asset: { _ref: string } }).asset._ref === 'dummy-ref'
+  ) {
     return { url: () => '/dark-mode/dark-footer.png' }
   }
 
-  return builder.image(source)
+  return builder.image(source as SanityImageSource)
 }

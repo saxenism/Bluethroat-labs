@@ -3,24 +3,31 @@ import Link from 'next/link'
 import { useParams, usePathname } from 'next/navigation'
 import { Search, ChevronDown, ChevronRight } from 'lucide-react'
 import { client } from '@/lib/sanity/client'
-import { IS_DEV, MOCK_DOC_NAVIGATION, MOCK_DOCS } from '@/lib/mock-data'
 import { cn } from '@/lib/utils'
+
+interface NavItem {
+  title: string
+  slug?: string
+  items?: NavItem[]
+}
+
+interface SearchResult {
+  title: string
+  slug: string
+}
 
 export function DocsSidebar() {
   const [searchQuery, setSearchQuery] = useState('')
-  const [navigation, setNavigation] = useState<any[]>([])
-  const [searchResults, setSearchResults] = useState<any[] | null>(null)
+  const [navigation, setNavigation] = useState<NavItem[]>([])
+  const [searchResults, setSearchResults] = useState<SearchResult[] | null>(
+    null
+  )
   const params = useParams()
   const pathname = usePathname()
   const currentSlug = (params.slug as string[])?.join('/') || ''
 
   useEffect(() => {
     const fetchNav = async () => {
-      if (IS_DEV) {
-        setNavigation(MOCK_DOC_NAVIGATION.items)
-        return
-      }
-
       const query = `*[_type == "docNavigation"][0] {
                 items[] {
                     title,
@@ -51,14 +58,6 @@ export function DocsSidebar() {
         return
       }
 
-      if (IS_DEV) {
-        const results = Object.values(MOCK_DOCS).filter((doc) =>
-          doc.title.toLowerCase().includes(searchQuery.toLowerCase())
-        )
-        setSearchResults(results)
-        return
-      }
-
       // Search in titles AND content
       const query = `*[_type == "doc" && [title, pt::text(content)] match $searchQuery + "*"] {
                 title,
@@ -76,8 +75,8 @@ export function DocsSidebar() {
   const filteredNavigation = useMemo(() => {
     if (!searchQuery || searchResults) return navigation // If results exist, we'll show them separately or instead
 
-    const filterItems = (items: any[]): any[] => {
-      return items.reduce((acc: any[], item) => {
+    const filterItems = (items: NavItem[]): NavItem[] => {
+      return items.reduce((acc: NavItem[], item) => {
         const matches = item.title
           ?.toLowerCase()
           .includes(searchQuery.toLowerCase())
@@ -121,7 +120,7 @@ export function DocsSidebar() {
                 Search Results
               </div>
               {searchResults.length > 0 ? (
-                searchResults.map((result: any, idx: number) => (
+                searchResults.map((result, idx: number) => (
                   <Link key={idx} href={`/docs/${result.slug}`}>
                     <div className="hover:bg-muted border-border/50 border-b px-6 py-4 font-mono text-sm">
                       {result.title}
@@ -135,7 +134,7 @@ export function DocsSidebar() {
               )}
             </div>
           ) : (
-            filteredNavigation.map((item: any, idx: number) => (
+            filteredNavigation.map((item, idx: number) => (
               <SidebarItem
                 key={idx}
                 item={item}
@@ -157,14 +156,14 @@ function SidebarItem({
   currentSlug,
   pathname,
 }: {
-  item: any
+  item: NavItem
   depth: number
   currentSlug: string
   pathname: string
 }) {
   const isActive = item.slug ? currentSlug === item.slug : false
   const isChildActive = useMemo(() => {
-    const checkActive = (items?: any[]): boolean => {
+    const checkActive = (items?: NavItem[]): boolean => {
       return (
         items?.some((i) => i.slug === currentSlug || checkActive(i.items)) ||
         false
@@ -218,7 +217,7 @@ function SidebarItem({
 
       {hasItems && isOpen && (
         <div className="mt-0.5">
-          {item.items?.map((subItem: any, idx: number) => (
+          {item.items?.map((subItem, idx: number) => (
             <SidebarItem
               key={idx}
               item={subItem}

@@ -83,6 +83,6 @@ export default async function BlogPostPage({ params }: Props) {
 
 export async function generateStaticParams() {
   const query = `*[_type == "blog"] { "slug": slug.current }`
-  const posts = await client.fetch(query)
-  return posts.map((post: any) => ({ slug: post.slug }))
+  const posts = await client.fetch<Array<{ slug: string }>>(query)
+  return posts.map((post) => ({ slug: post.slug }))
 }

@@ -9,11 +9,30 @@ import { DocsFooter } from '@/components/docs/docs-footer'
 import { client } from '@/lib/sanity/client'
 import { cn } from '@/lib/utils'
 
+interface PortableTextBlock {
+  _type: string
+  _key: string
+  style?: string
+  children?: Array<{ text: string }>
+}
+
+interface SubSection {
+  id: string
+  title: string
+  style: string
+}
+
+interface DocPageData {
+  title: string
+  content?: PortableTextBlock[]
+  subSections: SubSection[]
+}
+
 export default function DocsLayout({ children }: { children: ReactNode }) {
   const params = useParams()
   const slugArray = (params.slug as string[]) || []
   const currentSlug = slugArray.join('/') || ''
-  const [pageData, setPageData] = useState<any>(null)
+  const [pageData, setPageData] = useState<DocPageData | null>(null)
   const [isContentsOpen, setIsContentsOpen] = useState(false)
   const [activeSection, setActiveSection] = useState<string>('')
 
@@ -26,17 +45,17 @@ export default function DocsLayout({ children }: { children: ReactNode }) {
       const data = await client.fetch(query, { slug: currentSlug })
       if (data) {
         // Extract headings from Portable Text
-        const headings =
+        const headings: SubSection[] =
           data.content
             ?.filter(
-              (block: any) =>
-                block._type === 'block' && /^h[1-6]$/.test(block.style)
+              (block: PortableTextBlock) =>
+                block._type === 'block' && /^h[1-6]$/.test(block.style ?? '')
             )
-            .map((block: any) => ({
-              id: block._key, // We'll need to make sure the renderer uses these keys as IDs or generate IDs
+            .map((block: PortableTextBlock) => ({
+              id: block._key,
               title:
-                block.children?.map((c: any) => c.text).join('') || 'Untitled',
-              style: block.style,
+                block.children?.map((c) => c.text).join('') || 'Untitled',
+              style: block.style ?? '',
             })) || []
 
         setPageData({ ...data, subSections: headings })
@@ -59,12 +78,12 @@ export default function DocsLayout({ children }: { children: ReactNode }) {
     )
 
     const sections = pageData.subSections
-      ?.map((s: any) => document.getElementById(s.id))
-      .filter(Boolean)
+      ?.map((s) => document.getElementById(s.id))
+      .filter(Boolean) as HTMLElement[]
 
-    sections?.forEach((section: any) => observer.observe(section!))
+    sections?.forEach((section) => observer.observe(section))
     return () =>
-      sections?.forEach((section: any) => observer.unobserve(section!))
+      sections?.forEach((section) => observer.unobserve(section))
   }, [pageData])
 
   const breadcrumbPaths = [
@@ -110,7 +129,7 @@ export default function DocsLayout({ children }: { children: ReactNode }) {
             </div>
             <nav className="space-y-4">
               <ul className="border-border/50 relative ml-0.5 space-y-6 border-l pl-0">
-                {pageData?.subSections?.map((section: any) => {
+                {pageData?.subSections?.map((section) => {
                   const isActive = activeSection === section.id
                   const isSubHeading = section.style === 'h3'
                   return (

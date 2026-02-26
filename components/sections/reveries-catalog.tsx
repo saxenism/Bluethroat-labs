@@ -5,8 +5,23 @@ import Link from 'next/link'
 import { Search, Grid, List, ArrowUpRight } from 'lucide-react'
 import { client } from '@/lib/sanity/client'
 import { urlFor } from '@/lib/sanity/image'
-import { IS_DEV, MOCK_BLOGS } from '@/lib/mock-data'
 import { cn } from '@/lib/utils'
+
+interface BlogItem {
+  title: string
+  date: string
+  category: string
+  href: string
+  src: string | null
+}
+
+interface SanityBlogPost {
+  title: string
+  slug: string
+  bannerImage?: { asset: { _ref: string; _type: string } }
+  category?: string
+  publishedAt?: string
+}
 
 const CATEGORIES = [
   'All Categories',
@@ -32,34 +47,15 @@ export function ReveriesCatalog() {
   const [customFilters, setCustomFilters] = useState<string[]>([])
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('list')
   const [currentPage, setCurrentPage] = useState(1)
-  const [allItems, setAllItems] = useState<any[]>([])
+  const [allItems, setAllItems] = useState<BlogItem[]>([])
   const itemsPerPage = 10
 
   useEffect(() => {
     const fetchBlogs = async () => {
-      if (IS_DEV) {
-        setAllItems(
-          MOCK_BLOGS.map((post) => ({
-            title: post.title,
-            date: post.publishedAt
-              ? new Date(post.publishedAt).toLocaleDateString('en-US', {
-                  month: 'long',
-                  day: '2-digit',
-                  year: 'numeric',
-                })
-              : 'Coming soon',
-            category: post.category,
-            href: `/reveries/${post.slug}`,
-            src: post.src,
-          }))
-        )
-        return
-      }
-
       try {
-        const blogs = await client.fetch(BLOGS_QUERY)
+        const blogs = await client.fetch<SanityBlogPost[]>(BLOGS_QUERY)
         setAllItems(
-          blogs.map((post: any) => ({
+          blogs.map((post) => ({
             title: post.title,
             date: post.publishedAt
               ? new Date(post.publishedAt).toLocaleDateString('en-US', {
