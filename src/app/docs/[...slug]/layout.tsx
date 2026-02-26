@@ -53,8 +53,7 @@ export default function DocsLayout({ children }: { children: ReactNode }) {
             )
             .map((block: PortableTextBlock) => ({
               id: block._key,
-              title:
-                block.children?.map((c) => c.text).join('') || 'Untitled',
+              title: block.children?.map((c) => c.text).join('') || 'Untitled',
               style: block.style ?? '',
             })) || []
 
@@ -82,8 +81,7 @@ export default function DocsLayout({ children }: { children: ReactNode }) {
       .filter(Boolean) as HTMLElement[]
 
     sections?.forEach((section) => observer.observe(section))
-    return () =>
-      sections?.forEach((section) => observer.unobserve(section))
+    return () => sections?.forEach((section) => observer.unobserve(section))
   }, [pageData])
 
   const breadcrumbPaths = [
