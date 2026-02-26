@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useCallback } from 'react'
+import { useCallback, useState, useEffect } from 'react'
 import { GridBackground } from '../ui/grid-background'
 import { ChevronLeft, ChevronRight, Mail } from 'lucide-react'
 import Image from 'next/image'
@@ -43,7 +43,7 @@ const team = [
 
 export function TeamSection() {
   const { resolvedTheme } = useTheme()
-  const [mounted, setMounted] = React.useState(false)
+  const [mounted, setMounted] = useState(false)
 
   // Initialize Embla
   const [emblaRef, emblaApi] = useEmblaCarousel({
@@ -60,7 +60,7 @@ export function TeamSection() {
     if (emblaApi) emblaApi.scrollNext()
   }, [emblaApi])
 
-  React.useEffect(() => {
+  useEffect(() => {
     setMounted(true)
   }, [])
 

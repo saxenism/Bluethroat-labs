@@ -1,10 +1,11 @@
-import React from 'react'
 import Link from 'next/link'
+import { cn } from '@/lib/utils'
+import { ReactNode } from 'react'
 
 interface ContentCardProps {
   title: string
   description: string
-  icon?: React.ReactNode
+  icon?: ReactNode
   href?: string
   buttonText?: string
   className?: string
@@ -20,7 +21,10 @@ export function ContentCard({
 }: ContentCardProps) {
   return (
     <div
-      className={`group border-border bg-card hover:border-foreground/20 relative border p-8 transition-all ${className}`}
+      className={cn(
+        'group border-border bg-card hover:border-foreground/20 relative border p-8 transition-all',
+        className
+      )}
     >
       {/* Grid line decoration */}
 

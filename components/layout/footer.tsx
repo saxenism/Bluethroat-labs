@@ -1,10 +1,10 @@
 'use client'
 
-import React from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Copyright, Mail } from 'lucide-react'
 import { smoothScrollTo } from '@/lib/smooth-scroll'
+import { MouseEvent } from 'react'
 
 const navLinks = [
   { href: '/docs', label: 'Docs' },
@@ -15,7 +15,7 @@ const navLinks = [
 export function Footer() {
   const pathname = usePathname()
 
-  const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleLogoClick = (e: MouseEvent<HTMLAnchorElement>) => {
     if (pathname === '/') {
       e.preventDefault()
       smoothScrollTo('hero', 80)
@@ -50,7 +50,7 @@ export function Footer() {
             <Link
               href="/"
               onClick={handleLogoClick}
-              className="items-center md:flex md:hidden"
+              className="items-center max-md:flex md:hidden"
             >
               <svg
                 className="fill-foreground transition-colors"

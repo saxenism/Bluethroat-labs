@@ -1,18 +1,15 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect, ReactNode } from 'react'
 import { useParams } from 'next/navigation'
 import { DocsNavbar } from '@/components/docs/docs-navbar'
 import { DocsSidebar } from '@/components/docs/docs-sidebar'
 import { DocsBreadcrumb } from '@/components/docs/docs-breadcrumb'
 import { DocsFooter } from '@/components/docs/docs-footer'
 import { client } from '@/lib/sanity/client'
+import { cn } from '@/lib/utils'
 
-export default function DocsLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function DocsLayout({ children }: { children: ReactNode }) {
   const params = useParams()
   const slugArray = (params.slug as string[]) || []
   const currentSlug = slugArray.join('/') || ''
@@ -119,18 +116,19 @@ export default function DocsLayout({
                   return (
                     <li
                       key={section.id}
-                      className={`relative ${isSubHeading ? 'pl-8' : 'pl-5'}`}
+                      className={cn('relative', isSubHeading ? 'pl-8' : 'pl-5')}
                     >
                       {isActive && (
                         <div className="bg-foreground absolute top-0 bottom-0 left-[-2px] w-[3px] rounded-full shadow-[0_0_8px_rgba(0,0,0,0.1)]" />
                       )}
                       <a
                         href={`#${section.id}`}
-                        className={`hover:text-foreground block font-mono text-[13px] leading-snug transition-all duration-300 ${
+                        className={cn(
+                          'hover:text-foreground block font-mono text-[13px] leading-snug transition-all duration-300',
                           isActive
                             ? 'text-foreground translate-x-1 font-bold italic'
                             : 'text-muted-foreground'
-                        }`}
+                        )}
                       >
                         {section.title}
                       </a>

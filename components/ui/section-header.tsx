@@ -1,4 +1,4 @@
-import React from 'react'
+import { cn } from '@/lib/utils'
 
 interface SectionHeaderProps {
   title: string
@@ -7,7 +7,7 @@ interface SectionHeaderProps {
 
 export function SectionHeader({ title, className = '' }: SectionHeaderProps) {
   return (
-    <div className={`relative ${className}`}>
+    <div className={cn('relative', className)}>
       <h2 className="font-mono text-xs font-medium tracking-widest uppercase sm:text-sm">
         {title}
       </h2>

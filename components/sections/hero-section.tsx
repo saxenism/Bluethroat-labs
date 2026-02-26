@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { GridBackground } from '../ui/grid-background'
 import Link from 'next/link'
 import { useTheme } from 'next-themes'

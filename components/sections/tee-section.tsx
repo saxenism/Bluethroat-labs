@@ -1,14 +1,14 @@
 'use client'
 
-import React from 'react'
+import { useState, useEffect } from 'react'
 import { GridBackground } from '../ui/grid-background'
 import { useTheme } from 'next-themes'
 
 export function TeeSection() {
   const { resolvedTheme } = useTheme()
-  const [mounted, setMounted] = React.useState(false)
+  const [mounted, setMounted] = useState(false)
 
-  React.useEffect(() => {
+  useEffect(() => {
     setMounted(true)
   }, [])
 

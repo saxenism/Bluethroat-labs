@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import { Instrument_Serif, Geist_Mono, Bai_Jamjuree } from 'next/font/google'
 import './globals.css'
+import { ThemeProvider } from '@/components/providers/theme-provider'
+import { ReactNode } from 'react'
 
 const instrumentSerif = Instrument_Serif({
   subsets: ['latin'],
@@ -28,20 +30,16 @@ export const metadata: Metadata = {
     'Security research collective focused on making TEE-heavy Web3 protocols secure, robust, and reliable.',
 }
 
-import { ThemeProvider } from '@/components/providers/theme-provider'
-
 export default function RootLayout({
   children,
-}: Readonly<{ children: React.ReactNode }>) {
+}: Readonly<{ children: ReactNode }>) {
   return (
     <html
       lang="en"
       className={`${instrumentSerif.variable} ${geistMono.variable} ${baiJamjuree.variable}`}
       suppressHydrationWarning
     >
-      <body
-        className={`selection:bg-foreground selection:text-background font-mono antialiased`}
-      >
+      <body className="selection:bg-foreground selection:text-background font-mono antialiased">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

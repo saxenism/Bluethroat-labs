@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import { useState, useEffect } from 'react'
 import { GridBackground } from '../ui/grid-background'
 import { CornerUpRight } from 'lucide-react'
 import { useTheme } from 'next-themes'
@@ -8,9 +8,9 @@ import Link from 'next/link'
 
 export function PhilosophySection() {
   const { resolvedTheme } = useTheme()
-  const [mounted, setMounted] = React.useState(false)
+  const [mounted, setMounted] = useState(false)
 
-  React.useEffect(() => {
+  useEffect(() => {
     setMounted(true)
   }, [])
 

@@ -1,11 +1,11 @@
 'use client'
 
-import React from 'react'
 import Image from 'next/image'
 import { Copy, Check } from 'lucide-react'
 import { ContentBlock } from '@/lib/reveries-data'
 import { PortableText } from '@portabletext/react'
 import { urlFor } from '@/lib/sanity/image'
+import { useState } from 'react'
 
 interface BlogRendererProps {
   blocks?: ContentBlock[]
@@ -107,7 +107,7 @@ const components = {
 }
 
 function SanityCodeBlock({ value }: any) {
-  const [copied, setCopied] = React.useState(false)
+  const [copied, setCopied] = useState(false)
 
   const handleCopy = () => {
     navigator.clipboard.writeText(value.code || '')

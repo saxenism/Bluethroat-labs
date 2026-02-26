@@ -6,6 +6,7 @@ import { Search, Grid, List, ArrowUpRight } from 'lucide-react'
 import { client } from '@/lib/sanity/client'
 import { urlFor } from '@/lib/sanity/image'
 import { IS_DEV, MOCK_BLOGS } from '@/lib/mock-data'
+import { cn } from '@/lib/utils'
 
 const CATEGORIES = [
   'All Categories',
@@ -162,11 +163,12 @@ export function ReveriesCatalog() {
             <button
               key={cat}
               onClick={() => toggleCategory(cat)}
-              className={`border-border border-r border-b px-8 py-6 font-mono text-base transition-all ${
+              className={cn(
+                'border-border border-r border-b px-8 py-6 font-mono text-base transition-all',
                 selectedCategories.includes(cat)
                   ? 'bg-zinc-900 text-zinc-100 dark:bg-zinc-100 dark:text-zinc-900'
                   : 'text-muted-foreground hover:text-foreground hover:bg-zinc-50 dark:hover:bg-zinc-900'
-              }`}
+              )}
             >
               {cat}
             </button>
@@ -200,13 +202,23 @@ export function ReveriesCatalog() {
       <div className="bg-background mx-auto mt-16 flex max-w-[1300px] justify-end">
         <button
           onClick={() => setViewMode('grid')}
-          className={`border-border border-x border-t p-4 transition-all ${viewMode === 'grid' ? 'text-foreground bg-zinc-100 dark:bg-zinc-900' : 'text-muted-foreground hover:bg-zinc-50'}`}
+          className={cn(
+            'border-border border-x border-t p-4 transition-all',
+            viewMode === 'grid'
+              ? 'text-foreground bg-zinc-100 dark:bg-zinc-900'
+              : 'text-muted-foreground hover:bg-zinc-50'
+          )}
         >
           <Grid className="h-10 w-10" />
         </button>
         <button
           onClick={() => setViewMode('list')}
-          className={`border-border border-t p-4 transition-all ${viewMode === 'list' ? 'text-foreground bg-zinc-100 dark:bg-zinc-900' : 'text-muted-foreground hover:bg-zinc-50'}`}
+          className={cn(
+            'border-border border-t p-4 transition-all',
+            viewMode === 'list'
+              ? 'text-foreground bg-zinc-100 dark:bg-zinc-900'
+              : 'text-muted-foreground hover:bg-zinc-50'
+          )}
         >
           <List className="h-10 w-10" />
         </button>
@@ -315,7 +327,12 @@ export function ReveriesCatalog() {
             <button
               key={i}
               onClick={() => setCurrentPage(i + 1)}
-              className={`border-border border-y px-8 py-5 font-mono text-base font-semibold last:border-r-0 ${currentPage === i + 1 ? 'bg-zinc-900 text-zinc-100 dark:bg-zinc-100 dark:text-zinc-900' : 'text-muted-foreground'}`}
+              className={cn(
+                'border-border border-y px-8 py-5 font-mono text-base font-semibold last:border-r-0',
+                currentPage === i + 1
+                  ? 'bg-zinc-900 text-zinc-100 dark:bg-zinc-100 dark:text-zinc-900'
+                  : 'text-muted-foreground'
+              )}
             >
               {i + 1}
             </button>

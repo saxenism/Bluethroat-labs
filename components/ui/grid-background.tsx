@@ -1,13 +1,14 @@
-import React from 'react'
+import { cn } from '@/lib/utils'
+import { ReactNode } from 'react'
 
 interface GridBackgroundProps {
-  children: React.ReactNode
+  children: ReactNode
   id?: string
   className?: string
   withNoise?: boolean
   backgroundImage?: string
   withCross?: boolean
-  overlay?: React.ReactNode
+  overlay?: ReactNode
 }
 
 export function GridBackground({
@@ -20,7 +21,7 @@ export function GridBackground({
   return (
     <div
       id={id}
-      className={`relative ${className}`}
+      className={cn('relative', className)}
       style={
         backgroundImage
           ? {

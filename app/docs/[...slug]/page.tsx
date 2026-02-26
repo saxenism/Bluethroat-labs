@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import { useState, useEffect } from 'react'
 import { useParams } from 'next/navigation'
 import Link from 'next/link'
 import { client } from '@/lib/sanity/client'
@@ -12,11 +12,11 @@ export default function DocsPage() {
   const params = useParams()
   const slugArray = params.slug as string[]
   const currentSlug = slugArray?.join('/') || ''
-  const [pageData, setPageData] = React.useState<any>(null)
-  const [loading, setLoading] = React.useState(true)
+  const [pageData, setPageData] = useState<any>(null)
+  const [loading, setLoading] = useState(true)
 
-  const [mounted, setMounted] = React.useState(false)
-  React.useEffect(() => {
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => {
     setMounted(true)
     const fetchDoc = async () => {
       if (IS_DEV && MOCK_DOCS[currentSlug as keyof typeof MOCK_DOCS]) {

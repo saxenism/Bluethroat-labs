@@ -1,11 +1,12 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect, MouseEvent } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Menu, X, Moon, Sun } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import { smoothScrollTo } from '@/lib/smooth-scroll'
+import { cn } from '@/lib/utils'
 
 export function StickyNavbar() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -34,7 +35,7 @@ export function StickyNavbar() {
     { href: '/join', label: 'Join Us' },
   ]
 
-  const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleLogoClick = (e: MouseEvent<HTMLAnchorElement>) => {
     if (pathname === '/') {
       e.preventDefault()
       smoothScrollTo('hero', 80)
@@ -44,9 +45,10 @@ export function StickyNavbar() {
 
   return (
     <nav
-      className={`border-border fixed top-0 right-0 left-0 z-50 mx-auto max-w-[1300px] border-t border-b ${
+      className={cn(
+        'border-border fixed top-0 right-0 left-0 z-50 mx-auto max-w-[1300px] border-t border-b',
         isScrolled ? 'bg-background mt-0' : 'bg-background mt-[50px]'
-      }`}
+      )}
     >
       <div className="border-border mx-auto flex h-16 max-w-[1300px] items-center border-x">
         {/* Logo Section */}
@@ -106,11 +108,12 @@ export function StickyNavbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`font-mono text-lg font-medium ${
+                className={cn(
+                  'font-mono text-lg font-medium',
                   isActive
                     ? 'text-foreground font-bold'
                     : 'text-foreground/70 hover:text-foreground'
-                }`}
+                )}
               >
                 {link.label}
               </Link>
@@ -161,7 +164,10 @@ export function StickyNavbar() {
 
       {/* Mobile Menu Dropdown */}
       <div
-        className={`bg-background border-border absolute top-full right-[-1px] left-[-1px] overflow-hidden border md:hidden ${isMobileMenuOpen ? 'max-h-[400px] opacity-100' : 'max-h-0 opacity-0'} `}
+        className={cn(
+          'bg-background border-border absolute top-full -right-px -left-px overflow-hidden border md:hidden',
+          isMobileMenuOpen ? 'max-h-[400px] opacity-100' : 'max-h-0 opacity-0'
+        )}
       >
         {/* Navigation Links */}
         <div className="mb-4 flex flex-col">
@@ -181,13 +187,14 @@ export function StickyNavbar() {
             <Link
               href="/contact"
               onClick={() => setIsMobileMenuOpen(false)}
-              className={`border-border flex flex-1 items-center justify-center border-r font-mono text-xl font-bold tracking-widest ${
+              className={cn(
+                'border-border flex flex-1 items-center justify-center border-r font-mono text-xl font-bold tracking-widest',
                 !mounted
                   ? 'bg-muted text-muted-foreground'
                   : resolvedTheme === 'dark'
                     ? 'bg-white text-black hover:bg-zinc-200'
                     : 'bg-black text-white hover:bg-zinc-800'
-              }`}
+              )}
             >
               Talk to Us
             </Link>

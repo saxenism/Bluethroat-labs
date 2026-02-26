@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import { useState, useEffect } from 'react'
 import { GridBackground } from '../ui/grid-background'
 import { ArrowUpRight } from 'lucide-react'
 import Link from 'next/link'
@@ -22,10 +22,10 @@ const BLOGS_QUERY = `*[_type == "blog"] | order(publishedAt desc) [0..2] {
 
 export function ReveriesSection() {
   const { resolvedTheme } = useTheme()
-  const [mounted, setMounted] = React.useState(false)
-  const [displayBlogs, setDisplayBlogs] = React.useState<any[]>([])
+  const [mounted, setMounted] = useState(false)
+  const [displayBlogs, setDisplayBlogs] = useState<any[]>([])
 
-  React.useEffect(() => {
+  useEffect(() => {
     setMounted(true)
 
     const fetchBlogs = async () => {

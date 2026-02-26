@@ -1,9 +1,10 @@
-import React, { useState, useMemo, useEffect } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import Link from 'next/link'
 import { useParams, usePathname } from 'next/navigation'
 import { Search, ChevronDown, ChevronRight } from 'lucide-react'
 import { client } from '@/lib/sanity/client'
 import { IS_DEV, MOCK_DOC_NAVIGATION, MOCK_DOCS } from '@/lib/mock-data'
+import { cn } from '@/lib/utils'
 
 export function DocsSidebar() {
   const [searchQuery, setSearchQuery] = useState('')
@@ -179,7 +180,13 @@ function SidebarItem({
 
   const content = (
     <div
-      className={`group hover:bg-muted flex cursor-pointer items-center justify-between py-5 font-mono text-sm transition-colors ${paddingLeft} ${isActive ? 'bg-muted text-foreground border-border border-y' : 'text-muted-foreground hover:text-foreground'}`}
+      className={cn(
+        'group hover:bg-muted flex cursor-pointer items-center justify-between py-5 font-mono text-sm transition-colors',
+        paddingLeft,
+        isActive
+          ? 'bg-muted text-foreground border-border border-y'
+          : 'text-muted-foreground hover:text-foreground'
+      )}
     >
       <span className="flex-1 text-sm">{item.title}</span>
       {hasItems && (
