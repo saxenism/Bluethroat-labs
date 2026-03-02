@@ -60,8 +60,8 @@ export default async function BlogPostPage({ params }: Props) {
 
           <article className="border-border bg-background border-b">
             <BlogRenderer
-              blocks={[]} // Pass empty array if content is handled via PortableText in BlogRenderer
-              sanityContent={post.content}
+              blocks={[]}
+              markdown={post.content}
               metadata={{
                 category: post.category,
                 date: post.publishedAt

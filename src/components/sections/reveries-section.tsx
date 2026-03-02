@@ -6,66 +6,18 @@ import { ArrowUpRight } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useTheme } from 'next-themes'
-import { client } from '@/lib/sanity/client'
-import { urlFor } from '@/lib/sanity/image'
+import type { BlogItem } from '@/lib/sanity/reveries'
 
-interface BlogItem {
-  title: string
-  date: string
-  category: string
-  href: string
-  src: string | null
+interface ReveriesSectionProps {
+  blogs: BlogItem[]
 }
 
-interface SanityBlogPost {
-  title: string
-  slug: string
-  bannerImage?: { asset: { _ref: string; _type: string } }
-  category?: string
-  publishedAt?: string
-}
-
-const BLOGS_QUERY = `*[_type == "blog"] | order(publishedAt desc) [0..2] {
-    title,
-    "slug": slug.current,
-    bannerImage,
-    category,
-    publishedAt,
-    content
-}`
-
-export function ReveriesSection() {
+export function ReveriesSection({ blogs }: ReveriesSectionProps) {
   const { resolvedTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
-  const [displayBlogs, setDisplayBlogs] = useState<BlogItem[]>([])
 
   useEffect(() => {
     setMounted(true)
-
-    const fetchBlogs = async () => {
-      try {
-        const blogs = await client.fetch<SanityBlogPost[]>(BLOGS_QUERY)
-        setDisplayBlogs(
-          blogs.map((post) => ({
-            title: post.title,
-            date: post.publishedAt
-              ? new Date(post.publishedAt).toLocaleDateString('en-US', {
-                  month: 'long',
-                  day: '2-digit',
-                  year: 'numeric',
-                })
-              : 'Coming soon',
-            category: post.category || 'General',
-            href: `/reveries/${post.slug}`,
-            src: post.bannerImage ? urlFor(post.bannerImage).url() : null,
-          }))
-        )
-      } catch (error) {
-        console.error('Sanity fetch failed:', error)
-      }
-    }
-
-    fetchBlogs()
   }, [])
 
   const isDark = mounted && resolvedTheme === 'dark'
@@ -104,7 +56,7 @@ export function ReveriesSection() {
         </div>
 
         <div className="border-border mt-12 border-t">
-          {displayBlogs.map((blog, index) => (
+          {blogs.map((blog, index) => (
             <Link
               key={index}
               href={blog.href}

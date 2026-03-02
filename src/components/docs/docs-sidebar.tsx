@@ -1,79 +1,35 @@
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useMemo } from 'react'
 import Link from 'next/link'
 import { useParams, usePathname } from 'next/navigation'
 import { Search, ChevronDown, ChevronRight } from 'lucide-react'
-import { client } from '@/lib/sanity/client'
 import { cn } from '@/lib/utils'
+import type { NavItem, SearchableDoc } from '@/lib/sanity/docs-nav'
 
-interface NavItem {
-  title: string
-  slug?: string
-  items?: NavItem[]
+interface DocsSidebarProps {
+  navigation: NavItem[]
+  searchableDocs: SearchableDoc[]
 }
 
-interface SearchResult {
-  title: string
-  slug: string
-}
-
-export function DocsSidebar() {
+export function DocsSidebar({ navigation, searchableDocs }: DocsSidebarProps) {
   const [searchQuery, setSearchQuery] = useState('')
-  const [navigation, setNavigation] = useState<NavItem[]>([])
-  const [searchResults, setSearchResults] = useState<SearchResult[] | null>(
-    null
-  )
   const params = useParams()
   const pathname = usePathname()
   const currentSlug = (params.slug as string[])?.join('/') || ''
 
-  useEffect(() => {
-    const fetchNav = async () => {
-      const query = `*[_type == "docNavigation"][0] {
-                items[] {
-                    title,
-                    "slug": doc->slug.current,
-                    items[] {
-                        title,
-                        "slug": doc->slug.current,
-                        items[] {
-                            title,
-                            "slug": doc->slug.current
-                        }
-                    }
-                }
-            }`
-      const data = await client.fetch(query)
-      if (data?.items) {
-        setNavigation(data.items)
-      }
-    }
-    fetchNav()
-  }, [])
+  // Client-side search over pre-fetched doc list (statically generated)
+  const searchResults = useMemo(() => {
+    const q = searchQuery.trim().toLowerCase()
+    if (!q) return null
+    return searchableDocs.filter(
+      (doc) =>
+        doc.title.toLowerCase().includes(q) ||
+        (doc.slug && doc.slug.toLowerCase().includes(q))
+    )
+  }, [searchQuery, searchableDocs])
 
-  // Content-based search using GROQ
-  useEffect(() => {
-    const timer = setTimeout(async () => {
-      if (!searchQuery.trim()) {
-        setSearchResults(null)
-        return
-      }
-
-      // Search in titles AND content
-      const query = `*[_type == "doc" && [title, pt::text(content)] match $searchQuery + "*"] {
-                title,
-                "slug": slug.current
-            }[0...10]`
-
-      const results = await client.fetch(query, { searchQuery })
-      setSearchResults(results)
-    }, 300)
-
-    return () => clearTimeout(timer)
-  }, [searchQuery])
-
-  // Simple search filtering for the sidebar tree
+  // Filter nav tree by title when not showing search results
   const filteredNavigation = useMemo(() => {
-    if (!searchQuery || searchResults) return navigation // If results exist, we'll show them separately or instead
+    if (!searchQuery || searchResults !== null) return navigation
 
     const filterItems = (items: NavItem[]): NavItem[] => {
       return items.reduce((acc: NavItem[], item) => {
@@ -111,7 +67,7 @@ export function DocsSidebar() {
         </div>
       </div>
 
-      {/* Navigation Section */}
+      {/* Doc navigation tree */}
       <div>
         <nav>
           {searchResults ? (
@@ -120,8 +76,8 @@ export function DocsSidebar() {
                 Search Results
               </div>
               {searchResults.length > 0 ? (
-                searchResults.map((result, idx: number) => (
-                  <Link key={idx} href={`/docs/${result.slug}`}>
+                searchResults.map((result) => (
+                  <Link key={result.slug} href={`/docs/${result.slug}`}>
                     <div className="hover:bg-muted border-border/50 border-b px-6 py-4 font-mono text-sm">
                       {result.title}
                     </div>

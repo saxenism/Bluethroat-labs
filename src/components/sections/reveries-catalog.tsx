@@ -3,25 +3,8 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Search, Grid, List, ArrowUpRight } from 'lucide-react'
-import { client } from '@/lib/sanity/client'
-import { urlFor } from '@/lib/sanity/image'
 import { cn } from '@/lib/utils'
-
-interface BlogItem {
-  title: string
-  date: string
-  category: string
-  href: string
-  src: string | null
-}
-
-interface SanityBlogPost {
-  title: string
-  slug: string
-  bannerImage?: { asset: { _ref: string; _type: string } }
-  category?: string
-  publishedAt?: string
-}
+import type { BlogItem } from '@/lib/sanity/reveries'
 
 const CATEGORIES = [
   'All Categories',
@@ -31,15 +14,11 @@ const CATEGORIES = [
   'Signum Dolor',
 ]
 
-const BLOGS_QUERY = `*[_type == "blog"] | order(publishedAt desc) {
-    title,
-    "slug": slug.current,
-    bannerImage,
-    category,
-    publishedAt
-}`
+interface ReveriesCatalogProps {
+  initialItems: BlogItem[]
+}
 
-export function ReveriesCatalog() {
+export function ReveriesCatalog({ initialItems }: ReveriesCatalogProps) {
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedCategories, setSelectedCategories] = useState<string[]>([
     'All Categories',
@@ -47,34 +26,8 @@ export function ReveriesCatalog() {
   const [customFilters, setCustomFilters] = useState<string[]>([])
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('list')
   const [currentPage, setCurrentPage] = useState(1)
-  const [allItems, setAllItems] = useState<BlogItem[]>([])
+  const allItems = initialItems
   const itemsPerPage = 10
-
-  useEffect(() => {
-    const fetchBlogs = async () => {
-      try {
-        const blogs = await client.fetch<SanityBlogPost[]>(BLOGS_QUERY)
-        setAllItems(
-          blogs.map((post) => ({
-            title: post.title,
-            date: post.publishedAt
-              ? new Date(post.publishedAt).toLocaleDateString('en-US', {
-                  month: 'long',
-                  day: '2-digit',
-                  year: 'numeric',
-                })
-              : 'Coming soon',
-            category: post.category || 'General',
-            href: `/reveries/${post.slug}`,
-            src: post.bannerImage ? urlFor(post.bannerImage).url() : null,
-          }))
-        )
-      } catch (err) {
-        console.error('Failed to fetch Sanity blogs', err)
-      }
-    }
-    fetchBlogs()
-  }, [])
 
   const toggleCategory = (cat: string) => {
     setSelectedCategories((prev) => {

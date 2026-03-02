@@ -7,6 +7,7 @@ import type { PortableTextBlock } from '@portabletext/types'
 import { urlFor } from '@/lib/sanity/image'
 import { useState } from 'react'
 import type { ReactNode } from 'react'
+import { MarkdownRenderer } from '@/components/markdown'
 
 type BlockType =
   | 'tag'
@@ -33,7 +34,10 @@ interface ContentBlock {
 
 interface BlogRendererProps {
   blocks?: ContentBlock[]
+  /** Portable Text block content (used when markdown is not set). */
   sanityContent?: PortableTextBlock[]
+  /** Raw markdown (full basic syntax). When set, used instead of sanityContent. */
+  markdown?: string | null
   metadata?: { category?: string; date?: string }
 }
 
@@ -188,6 +192,7 @@ function SanityCodeBlock({ value }: { value: SanityCodeValue }) {
 export function BlogRenderer({
   blocks,
   sanityContent,
+  markdown,
   metadata,
 }: BlogRendererProps) {
   return (
@@ -199,9 +204,11 @@ export function BlogRenderer({
           <span>{metadata.date}</span>
         </div>
       )}
-      {sanityContent ? (
+      {markdown?.trim() ? (
+        <MarkdownRenderer content={markdown} />
+      ) : sanityContent ? (
         <PortableText value={sanityContent} components={components} />
-      ) : blocks ? (
+      ) : blocks?.length ? (
         blocks.map((block, index) => (
           <div key={index}>
             <BlockSelector block={block} />

@@ -1,12 +1,9 @@
-'use client'
-
-import { useState, useEffect } from 'react'
-import { useParams } from 'next/navigation'
 import Link from 'next/link'
+import { notFound } from 'next/navigation'
+import type { Metadata } from 'next'
 import { client } from '@/lib/sanity/client'
 import { urlFor } from '@/lib/sanity/image'
-import { BlogRenderer } from '@/components/reveries/blog-renderer'
-import type { PortableTextBlock } from '@portabletext/types'
+import { DocContentRenderer } from '@/components/docs/content-renderer'
 
 interface RelatedBlog {
   title: string
@@ -18,57 +15,58 @@ interface RelatedBlog {
 interface DocPageData {
   title: string
   heroImage?: { asset: { _ref: string; _type: string } }
-  content?: PortableTextBlock[]
+  /** Markdown string (doc schema "content" field). */
+  content?: string
   relatedBlogs?: RelatedBlog[]
 }
 
-export default function DocsPage() {
-  const params = useParams()
-  const slugArray = params.slug as string[]
-  const currentSlug = slugArray?.join('/') || ''
-  const [pageData, setPageData] = useState<DocPageData | null>(null)
-  const [loading, setLoading] = useState(true)
+type Props = { params: Promise<{ slug: string[] }> }
 
-  const [mounted, setMounted] = useState(false)
-  useEffect(() => {
-    setMounted(true)
-    const fetchDoc = async () => {
-      const query = `*[_type == "doc" && slug.current == $slug][0] {
-                title,
-                heroImage,
-                content,
-                relatedBlogs[]-> {
-                    title,
-                    "slug": slug.current,
-                    category,
-                    publishedAt
-                }
-            }`
-      const data = await client.fetch(query, { slug: currentSlug })
-      console.log('DocsPage Fetch:', { slug: currentSlug, data })
-      setPageData(data)
-      setLoading(false)
-    }
-    fetchDoc()
-  }, [currentSlug])
+async function getDoc(slug: string): Promise<DocPageData | null> {
+  const query = `*[_type == "doc" && slug.current == $slug][0] {
+        title,
+        heroImage,
+        content,
+        relatedBlogs[]-> {
+            title,
+            "slug": slug.current,
+            category,
+            publishedAt
+        }
+    }`
 
-  if (loading) {
-    return <div className="min-h-screen animate-pulse bg-zinc-100/10" />
+  return client.fetch(query, { slug })
+}
+
+function getCurrentSlug(slugArray: string[]): string {
+  return (slugArray || []).join('/') || ''
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params
+  const currentSlug = getCurrentSlug(slug ?? [])
+  const doc = await getDoc(currentSlug)
+
+  if (!doc) {
+    return { title: 'Docs | Bluethroat Labs' }
   }
 
+  return { title: `${doc.title} | Bluethroat Labs` }
+}
+
+export default async function DocsPage({ params }: Props) {
+  const { slug } = await params
+  const currentSlug = getCurrentSlug(slug ?? [])
+  const pageData = await getDoc(currentSlug)
+
   if (!pageData) {
-    return (
-      <div className="flex min-h-[78vh] flex-col items-center justify-center font-mono">
-        <h1 className="mb-4 text-4xl font-bold">404</h1>
-        <p className="text-muted-foreground">Document not found.</p>
-      </div>
-    )
+    notFound()
   }
 
   return (
     <article className="prose prose-invert max-w-none">
       {/* Header / Banner Image */}
-      {mounted && pageData.heroImage && (
+      {pageData.heroImage && (
         <div className="bg-muted relative aspect-21/6 w-full overflow-hidden">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -85,7 +83,7 @@ export default function DocsPage() {
           {pageData.title}
         </h1>
 
-        <BlogRenderer sanityContent={pageData.content} />
+        <DocContentRenderer markdown={pageData.content} />
 
         {/* Blog Highlights Section */}
         {pageData.relatedBlogs && pageData.relatedBlogs.length > 0 && (
@@ -119,4 +117,13 @@ export default function DocsPage() {
       </div>
     </article>
   )
+}
+
+export async function generateStaticParams() {
+  const query = `*[_type == "doc"] { "slug": slug.current }`
+  const docs = await client.fetch<Array<{ slug: string }>>(query)
+
+  return docs
+    .filter((doc) => doc.slug)
+    .map((doc) => ({ slug: doc.slug.split('/') }))
 }
