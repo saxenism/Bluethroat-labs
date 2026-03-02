@@ -3,7 +3,7 @@
 import { useCallback, useState, useEffect } from 'react'
 import { GridBackground } from '../ui/grid-background'
 import { ChevronLeft, ChevronRight, Mail } from 'lucide-react'
-import Image from 'next/image'
+import Image from 'next-export-optimize-images/image'
 import { useTheme } from 'next-themes'
 import useEmblaCarousel from 'embla-carousel-react'
 

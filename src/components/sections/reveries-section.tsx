@@ -1,11 +1,8 @@
-'use client'
-
-import { useState, useEffect } from 'react'
 import { GridBackground } from '../ui/grid-background'
 import { ArrowUpRight } from 'lucide-react'
 import Link from 'next/link'
-import Image from 'next/image'
-import { useTheme } from 'next-themes'
+import Image from 'next-export-optimize-images/image'
+import RemoteImage from 'next-export-optimize-images/remote-image'
 import type { BlogItem } from '@/lib/sanity/reveries'
 
 interface ReveriesSectionProps {
@@ -13,20 +10,6 @@ interface ReveriesSectionProps {
 }
 
 export function ReveriesSection({ blogs }: ReveriesSectionProps) {
-  const { resolvedTheme } = useTheme()
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  const isDark = mounted && resolvedTheme === 'dark'
-  const stripImage = mounted
-    ? isDark
-      ? '/dark-mode/dark-strip.png'
-      : '/light-mode/light-strip.png'
-    : null
-
   return (
     <GridBackground
       id="reveries"
@@ -44,14 +27,12 @@ export function ReveriesSection({ blogs }: ReveriesSectionProps) {
             </div>
           </div>
           <div className="relative h-full flex-1 overflow-hidden">
-            {mounted && stripImage && (
-              <Image
-                src={stripImage}
-                alt="Decorative strip"
-                fill
-                className="object-cover"
-              />
-            )}
+            <Image
+              src="/dark-mode/dark-strip.png"
+              alt="Decorative strip"
+              fill
+              className="object-cover"
+            />
           </div>
         </div>
 
@@ -67,7 +48,7 @@ export function ReveriesSection({ blogs }: ReveriesSectionProps) {
                 {/* Thumbnail */}
                 <div className="border-border relative mb-4 aspect-video w-full shrink-0 overflow-hidden border bg-zinc-200 sm:mr-8 sm:mb-0 sm:w-48 dark:bg-zinc-800">
                   {blog.src ? (
-                    <Image
+                    <RemoteImage
                       src={blog.src}
                       alt={blog.title}
                       fill

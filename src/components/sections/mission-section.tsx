@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { GridBackground } from '../ui/grid-background'
 import { useTheme } from 'next-themes'
-import Image from 'next/image'
+import Image from 'next-export-optimize-images/image'
 
 export function MissionSection() {
   const { resolvedTheme } = useTheme()
