@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation'
 import { Moon, Sun } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import { cn } from '@/lib/utils'
+import { SanskritHoverText } from '@/components/ui/sanskrit-hover-text'
 import { IconLogo, TextLogo } from '@/assets/logos'
 import { ZCAL_LINK } from '@/lib/constants'
 
@@ -66,14 +67,17 @@ export function StickyNavbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={cn(
-                  'font-mono text-lg font-medium',
-                  isActive
-                    ? 'text-foreground font-bold'
-                    : 'text-foreground/70 hover:text-foreground'
-                )}
+                className={cn('font-mono text-lg', isActive && 'font-bold')}
               >
-                {link.label}
+                <SanskritHoverText
+                  text={link.label}
+                  inactiveCharClassName={
+                    isActive
+                      ? 'text-foreground'
+                      : 'text-foreground/70 group-hover:text-foreground'
+                  }
+                  className={isActive ? 'font-bold' : 'group'}
+                />
               </Link>
             )
           })}

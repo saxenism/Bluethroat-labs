@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Copyright } from 'lucide-react'
 import { MouseEvent } from 'react'
+import { SanskritHoverText } from '@/components/ui/sanskrit-hover-text'
 import { IconLogo, TextLogo } from '@/assets/logos'
 import Image from 'next-export-optimize-images/image'
 import { MailIcon, XIcon } from '@/assets/icons'
@@ -54,9 +55,13 @@ export function Footer() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="text-foreground/70 hover:text-foreground font-mono text-lg font-medium"
+                  className="font-mono text-lg"
                 >
-                  {link.label}
+                  <SanskritHoverText
+                    text={link.label}
+                    inactiveCharClassName="text-foreground/70 group-hover:text-foreground"
+                    className="group"
+                  />
                 </Link>
               ))}
             </div>

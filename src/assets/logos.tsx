@@ -15,9 +15,9 @@ export const IconLogo = ({ className }: { className?: string }) => (
   </svg>
 )
 
-export const TextLogo = () => (
+export const TextLogo = ({ className }: { className?: string }) => (
   <svg
-    className="fill-foreground"
+    className={cn('fill-foreground', className)}
     width="198"
     height="32"
     viewBox="42.5 0 155.5 32"
