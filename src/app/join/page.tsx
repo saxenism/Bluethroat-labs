@@ -6,7 +6,7 @@ export default function JoinUsPage() {
   return (
     <div className="bg-background border-border relative container mx-auto min-h-screen border-x pt-12">
       <StickyNavbar />
-      <main className="font-mono">
+      <main>
         <JoinUsSection />
         <Footer />
       </main>

@@ -26,7 +26,7 @@ export function Footer() {
   }
 
   return (
-    <footer className="bg-background border-border mt-17 border-y">
+    <footer className="bg-background border-border mt-18 border-y">
       <div className="border-border border-b bg-zinc-50/50 dark:bg-zinc-950/50">
         <div className="border-border container mx-auto flex flex-col items-stretch md:flex-row">
           <div className="border-border group flex items-center justify-center border-b px-5 py-6 md:h-17 md:justify-start md:border-r md:border-b-0 md:py-0">
