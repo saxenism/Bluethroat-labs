@@ -28,6 +28,8 @@ export const metadata: Metadata = {
   title: 'Bluethroat Labs',
   description:
     'Security research collective focused on making TEE-heavy Web3 protocols secure, robust, and reliable.',
+  icons: { icon: '/favicon.svg', apple: '/apple-touch-icon.png' },
+  manifest: '/site.webmanifest',
 }
 
 export default function RootLayout({

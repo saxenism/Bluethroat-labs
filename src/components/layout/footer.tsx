@@ -79,7 +79,7 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="relative mt-12 h-64 w-full overflow-hidden bg-[#f2f2f2] sm:h-80 md:h-[400px] dark:bg-[#191919]">
+      <div className="none relative mt-12 h-64 w-full overflow-hidden bg-[#f2f2f2] sm:h-80 md:h-[400px] dark:bg-[#191919]">
         <Image
           src="/landing/footer-bg-light.png"
           alt="Footer"
