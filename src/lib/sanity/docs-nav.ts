@@ -3,7 +3,7 @@
  * and by types in the sidebar.
  */
 
-const DOC_NAV_MAX_DEPTH = 8
+import { DOC_NAV_MAX_DEPTH } from '../constants'
 
 function buildNavFragment(depth: number): string {
   const base = '"title": coalesce(title, doc->title), "slug": doc->slug.current'

@@ -23,20 +23,18 @@ export default async function Home() {
   )
 
   return (
-    <div className="min-h-screen dark:bg-black">
-      <div className="bg-background border-border relative mx-auto min-h-screen max-w-[1300px] border-x">
-        <StickyNavbar />
-        <main className="pt-24 font-mono">
-          <HeroSection />
-          <MissionSection />
-          <TeeSection />
-          <PhilosophySection />
-          <WorkSection />
-          <ReveriesSection blogs={blogs} />
-          <TeamSection />
-          <Footer />
-        </main>
-      </div>
+    <div className="bg-background border-border relative container mx-auto min-h-screen border-x pt-12">
+      <StickyNavbar />
+      <main className="font-mono">
+        <HeroSection />
+        <MissionSection />
+        <TeeSection />
+        <PhilosophySection />
+        <WorkSection />
+        <ReveriesSection blogs={blogs} />
+        <TeamSection />
+        <Footer />
+      </main>
     </div>
   )
 }

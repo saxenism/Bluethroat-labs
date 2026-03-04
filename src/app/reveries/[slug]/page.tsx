@@ -34,49 +34,47 @@ export default async function BlogPostPage({ params }: Props) {
   }
 
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-black">
-      <div className="bg-background border-border relative mx-auto min-h-screen max-w-[1300px] border-x">
-        <StickyNavbar />
-        <main className="pt-40">
-          {/* Banner Area */}
-          <div className="w-full">
-            <div className="border-border relative aspect-video w-full overflow-hidden border-b bg-zinc-100 transition-all duration-700 sm:aspect-30/9 dark:bg-zinc-900">
-              {post.bannerImage ? (
-                <div
-                  className="absolute inset-0 scale-110 bg-cover bg-center grayscale transition-transform duration-1000 hover:scale-100"
-                  style={{
-                    backgroundImage: `url(${urlFor(post.bannerImage).url()})`,
-                  }}
-                />
-              ) : (
-                <div
-                  className="absolute inset-0 scale-110 bg-cover bg-center grayscale transition-transform duration-1000 hover:scale-100"
-                  style={{ backgroundImage: 'url(/dark-mode/dark-footer.png)' }}
-                />
-              )}
-              <div className="absolute inset-0 bg-black/20" />
-            </div>
+    <div className="bg-background border-border relative container mx-auto min-h-screen border-x pt-12">
+      <StickyNavbar />
+      <main className="">
+        {/* Banner Area */}
+        <div className="w-full">
+          <div className="border-border relative aspect-video w-full overflow-hidden border-b bg-zinc-100 transition-all duration-700 sm:aspect-30/9 dark:bg-zinc-900">
+            {post.bannerImage ? (
+              <div
+                className="absolute inset-0 scale-110 bg-cover bg-center grayscale transition-transform duration-1000 hover:scale-100"
+                style={{
+                  backgroundImage: `url(${urlFor(post.bannerImage).url()})`,
+                }}
+              />
+            ) : (
+              <div
+                className="absolute inset-0 scale-110 bg-cover bg-center grayscale transition-transform duration-1000 hover:scale-100"
+                style={{ backgroundImage: 'url(/dark-mode/dark-footer.png)' }}
+              />
+            )}
+            <div className="absolute inset-0 bg-black/20" />
           </div>
+        </div>
 
-          <article className="border-border bg-background border-b">
-            <BlogRenderer
-              blocks={[]}
-              markdown={post.content}
-              metadata={{
-                category: post.category,
-                date: post.publishedAt
-                  ? new Date(post.publishedAt).toLocaleDateString('en-US', {
-                      month: 'long',
-                      day: '2-digit',
-                      year: 'numeric',
-                    })
-                  : undefined,
-              }}
-            />
-          </article>
-          <Footer />
-        </main>
-      </div>
+        <article className="border-border bg-background border-b">
+          <BlogRenderer
+            blocks={[]}
+            markdown={post.content}
+            metadata={{
+              category: post.category,
+              date: post.publishedAt
+                ? new Date(post.publishedAt).toLocaleDateString('en-US', {
+                    month: 'long',
+                    day: '2-digit',
+                    year: 'numeric',
+                  })
+                : undefined,
+            }}
+          />
+        </article>
+        <Footer />
+      </main>
     </div>
   )
 }

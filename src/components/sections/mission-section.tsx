@@ -21,10 +21,7 @@ export function MissionSection() {
     : null
 
   return (
-    <GridBackground
-      className="bg-background border-border z-2 mx-auto mt-18 max-w-[1400px] border-b"
-      withNoise={false}
-    >
+    <GridBackground className="bg-background border-border z-2 container mx-auto mt-18 border-b">
       {/* Segment Divider for Mission - Architectural Slices */}
       <div className="border-border flex h-16 items-stretch border-y bg-zinc-50 px-0 dark:bg-zinc-950">
         <div className="flex h-full items-center">

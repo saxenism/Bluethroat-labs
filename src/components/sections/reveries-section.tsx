@@ -14,9 +14,8 @@ export function ReveriesSection({ blogs }: ReveriesSectionProps) {
     <GridBackground
       id="reveries"
       className="bg-background border-border border-t border-b py-16"
-      withNoise={true}
     >
-      <div className="border-border mx-auto max-w-[1300px] border-b">
+      <div className="border-border container mx-auto border-b">
         {/* Architectural Header */}
         <div className="border-border mb-0 flex h-16 items-stretch border-y bg-zinc-50 dark:bg-zinc-950">
           <div className="flex h-full items-center">

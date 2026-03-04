@@ -85,7 +85,7 @@ export function ReveriesCatalog({ initialItems }: ReveriesCatalogProps) {
           }}
         />
 
-        <div className="absolute inset-0 mt-auto flex max-w-[1300px] items-baseline-last justify-start px-6 py-4">
+        <div className="absolute inset-0 container mx-auto mt-auto flex items-baseline-last justify-start px-6 py-4">
           <h1 className="font-instrumental text-6xl text-zinc-100 drop-shadow-2xl sm:text-8xl">
             Reveries
           </h1>
@@ -95,7 +95,7 @@ export function ReveriesCatalog({ initialItems }: ReveriesCatalogProps) {
       {/* Filter Section */}
       <div>
         {/* Search Bar */}
-        <div className="bg-background mx-auto flex h-20 max-w-[1300px] items-center px-8">
+        <div className="bg-background container mx-auto flex h-20 items-center px-8">
           <Search className="text-muted-foreground mr-6 h-6 w-6" />
           <input
             type="text"
@@ -107,7 +107,7 @@ export function ReveriesCatalog({ initialItems }: ReveriesCatalogProps) {
         </div>
 
         {/* Categories */}
-        <div className="border-border bg-background mx-auto flex max-w-[1300px] flex-wrap border-t">
+        <div className="border-border bg-background container mx-auto flex flex-wrap border-t">
           {[...CATEGORIES, ...customFilters].map((cat) => (
             <button
               key={cat}
@@ -148,7 +148,7 @@ export function ReveriesCatalog({ initialItems }: ReveriesCatalogProps) {
       </div>
 
       {/* View Toggle */}
-      <div className="bg-background mx-auto mt-16 flex max-w-[1300px] justify-end">
+      <div className="bg-background container mx-auto mt-16 flex justify-end">
         <button
           onClick={() => setViewMode('grid')}
           className={cn(
@@ -174,7 +174,7 @@ export function ReveriesCatalog({ initialItems }: ReveriesCatalogProps) {
       </div>
 
       {/* Content Section */}
-      <div className="border-border bg-background mx-auto min-h-[600px] max-w-[1300px] border-t">
+      <div className="border-border bg-background container mx-auto min-h-[600px] border-t">
         {viewMode === 'list' ? (
           <div className="flex flex-col">
             {paginatedReveries.map((blog, index) => (
@@ -263,7 +263,7 @@ export function ReveriesCatalog({ initialItems }: ReveriesCatalogProps) {
       </div>
 
       {/* Pagination Section */}
-      <div className="mx-auto flex max-w-[1300px] justify-center bg-zinc-50/30 p-12 dark:bg-zinc-950/30">
+      <div className="container mx-auto flex justify-center bg-zinc-50/30 p-12 dark:bg-zinc-950/30">
         <div className="border-border bg-background flex border shadow-sm">
           <button
             onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}

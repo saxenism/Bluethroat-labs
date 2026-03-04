@@ -72,11 +72,8 @@ export function TeamSection() {
     : null
 
   return (
-    <GridBackground
-      className="bg-background border-border border-b py-17"
-      withNoise={true}
-    >
-      <div className="mx-auto max-w-[1300px]">
+    <GridBackground className="bg-background border-border border-b py-17">
+      <div className="container mx-auto">
         {/* Architectural Header */}
         <div className="border-border flex h-17 items-stretch border-y">
           <div className="flex h-full items-center">

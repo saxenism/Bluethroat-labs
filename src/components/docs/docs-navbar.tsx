@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Moon, Sun } from 'lucide-react'
 import { useTheme } from 'next-themes'
+import { ZCAL_LINK } from '@/lib/constants'
 
 export function DocsNavbar() {
   const { setTheme, resolvedTheme } = useTheme()
@@ -67,7 +68,8 @@ export function DocsNavbar() {
             Reveries
           </Link>
           <Link
-            href="/contact"
+            href={ZCAL_LINK}
+            target="_blank"
             className="text-md hover:text-foreground/70 font-mono font-medium transition-colors"
           >
             Talk to Us

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import Image from 'next-export-optimize-images/image'
 import Link from 'next/link'
 import { useTheme } from 'next-themes'
+import { ZCAL_LINK } from '@/lib/constants'
 
 export function WorkSection() {
   const { resolvedTheme } = useTheme()
@@ -129,7 +130,8 @@ export function WorkSection() {
             </p>
           </div>
           <Link
-            href="/contact"
+            href={ZCAL_LINK}
+            target="_blank"
             className="text-foreground bg-background hover:bg-foreground hover:text-background border-border flex h-18 items-center justify-center border-t text-xl font-semibold transition-colors"
           >
             Talk to Us
