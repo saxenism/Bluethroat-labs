@@ -67,7 +67,7 @@ export function StickyNavbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={cn('font-mono text-lg', isActive && 'font-bold')}
+                className={cn('text-lg', isActive && 'font-bold')}
               >
                 <SanskritHoverText
                   text={link.label}
@@ -88,7 +88,7 @@ export function StickyNavbar() {
           <Link
             href={ZCAL_LINK}
             target="_blank"
-            className="hover:bg-foreground hover:text-background flex h-full items-center justify-center px-8 font-mono text-xl font-semibold"
+            className="hover:bg-foreground hover:text-background flex h-full items-center justify-center px-8 text-xl font-semibold"
           >
             Talk to Us
           </Link>
@@ -144,7 +144,7 @@ export function StickyNavbar() {
       {/* Mobile Menu Dropdown */}
       <div
         className={cn(
-          'bg-background border-border absolute top-full -right-px -left-px overflow-hidden border lg:hidden',
+          'bg-background border-border absolute top-full right-0 left-0 overflow-hidden border-t border-b lg:hidden',
           isMobileMenuOpen ? 'max-h-[400px] opacity-100' : 'max-h-0 opacity-0'
         )}
       >
@@ -155,7 +155,7 @@ export function StickyNavbar() {
               key={link.href}
               href={link.href}
               onClick={() => setIsMobileMenuOpen(false)}
-              className="text-foreground/80 hover:text-foreground hover:bg-muted p-4 font-mono text-lg font-semibold tracking-tighter"
+              className="text-foreground/80 hover:text-foreground hover:bg-muted p-4 text-lg font-semibold tracking-tighter"
             >
               {link.label}
             </Link>
@@ -168,7 +168,7 @@ export function StickyNavbar() {
               target="_blank"
               onClick={() => setIsMobileMenuOpen(false)}
               className={cn(
-                'border-border flex flex-1 items-center justify-center border-r font-mono text-xl font-bold tracking-widest',
+                'border-border flex flex-1 items-center justify-center border-r text-xl font-bold tracking-widest',
                 !mounted
                   ? 'bg-muted text-muted-foreground'
                   : resolvedTheme === 'dark'

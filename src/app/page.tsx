@@ -2,7 +2,6 @@ import { StickyNavbar } from '@/components/layout/sticky-navbar'
 import { HeroSection } from '@/components/sections/hero-section'
 import { MissionSection } from '@/components/sections/mission-section'
 import { WorkSection } from '@/components/sections/work-section'
-import { PhilosophySection } from '@/components/sections/philosophy-section'
 import { ReveriesSection } from '@/components/sections/reveries-section'
 import { TeamSection } from '@/components/sections/team-section'
 import { Footer } from '@/components/layout/footer'
@@ -25,11 +24,10 @@ export default async function Home() {
   return (
     <div className="bg-background border-border relative container mx-auto min-h-screen border-x pt-12">
       <StickyNavbar />
-      <main className="font-mono">
+      <main>
         <HeroSection />
         <MissionSection />
         <TeeSection />
-        <PhilosophySection />
         <WorkSection />
         <ReveriesSection blogs={blogs} />
         <TeamSection />

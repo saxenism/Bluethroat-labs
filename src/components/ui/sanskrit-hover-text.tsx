@@ -20,7 +20,7 @@ interface AnimatedCharacterProps {
  * Renders a single character with optional scramble animation and box.
  * Purely visual; parent controls `isActive`.
  */
-function AnimatedCharacter({
+const AnimatedCharacter = ({
   char,
   isActive,
   scrambleChars,
@@ -28,7 +28,7 @@ function AnimatedCharacter({
   inactiveClassName = 'text-foreground',
   boxClassName = 'bg-foreground',
   stepDuration = 150,
-}: AnimatedCharacterProps) {
+}: AnimatedCharacterProps) => {
   const [displayChar, setDisplayChar] = useState(char)
   const cycleIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
@@ -99,7 +99,7 @@ export interface SanskritHoverTextProps {
  * scramble set (default: Sanskrit). Use inside Link for nav items or
  * as="button" for standalone buttons.
  */
-export function SanskritHoverText({
+export const SanskritHoverText = ({
   text,
   scrambleChars = DEFAULT_SANSKRIT_CHARS,
   stepDuration = 125,
@@ -110,7 +110,7 @@ export function SanskritHoverText({
   activeCharClassName,
   inactiveCharClassName,
   boxClassName,
-}: SanskritHoverTextProps) {
+}: SanskritHoverTextProps) => {
   const [activeIndex, setActiveIndex] = useState(-1)
   const [isHovered, setIsHovered] = useState(false)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
