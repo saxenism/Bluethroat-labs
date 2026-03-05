@@ -42,6 +42,7 @@ export default async function DocsLayout({ children, params }: Props) {
       breadcrumbPaths={breadcrumbPaths}
       navigation={navData?.items ?? []}
       searchableDocs={searchableDocs ?? []}
+      version={navData?.version}
     >
       {children}
     </DocsLayoutShell>

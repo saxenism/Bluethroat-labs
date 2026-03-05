@@ -6,7 +6,7 @@ import { Moon, Sun } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import { ZCAL_LINK } from '@/lib/constants'
 
-export function DocsNavbar() {
+export function DocsNavbar({ version }: { version?: string }) {
   const { setTheme, resolvedTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
 
@@ -48,9 +48,11 @@ export function DocsNavbar() {
               />
             </div>
           </Link>
-          <div className="bg-muted text-muted-foreground ml-10 px-2 py-1 font-mono text-[12px] font-semibold">
-            v2.6
-          </div>
+          {version && (
+            <div className="bg-muted text-muted-foreground ml-10 px-2 py-1 font-mono text-[12px] font-semibold">
+              {version}
+            </div>
+          )}
         </div>
 
         {/* Navbar Links */}

@@ -13,7 +13,7 @@ function buildNavFragment(depth: number): string {
 
 export function buildDocsNavQuery(): string {
   const inner = buildNavFragment(DOC_NAV_MAX_DEPTH)
-  return `*[_type == "docNavigation"][0] { items[] { ${inner} } }`
+  return `*[_type == "docNavigation"][0] { version, items[] { ${inner} } }`
 }
 
 export interface NavItem {
@@ -23,6 +23,7 @@ export interface NavItem {
 }
 
 export interface DocsNavData {
+  version?: string
   items?: NavItem[]
 }
 

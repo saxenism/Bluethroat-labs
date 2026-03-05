@@ -14,6 +14,12 @@ const docNavigation = {
       hidden: true,
     },
     {
+      name: 'version',
+      title: 'Version',
+      type: 'string',
+      description: 'Displayed in the navbar (e.g. "v2.6")',
+    },
+    {
       name: 'items',
       title: 'Sidebar items',
       type: 'array',

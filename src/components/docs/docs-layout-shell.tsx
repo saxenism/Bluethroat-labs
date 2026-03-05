@@ -16,6 +16,7 @@ interface DocsLayoutShellProps {
   breadcrumbPaths: string[]
   navigation: NavItem[]
   searchableDocs: SearchableDoc[]
+  version?: string
 }
 
 export function DocsLayoutShell({
@@ -24,6 +25,7 @@ export function DocsLayoutShell({
   breadcrumbPaths,
   navigation,
   searchableDocs,
+  version,
 }: DocsLayoutShellProps) {
   const [isContentsOpen, setIsContentsOpen] = useState(false)
   const [activeSection, setActiveSection] = useState<string>('')
@@ -56,7 +58,7 @@ export function DocsLayoutShell({
     <DocsTocProvider subSections={subSections} activeSection={activeSection}>
       <div className="bg-background text-foreground selection:bg-foreground selection:text-background flex h-screen flex-col overflow-hidden leading-relaxed">
         {/* Navbar */}
-        <DocsNavbar />
+        <DocsNavbar version={version} />
 
         <div className="flex flex-1 overflow-hidden pt-16">
           {/* 1. Left Sidebar */}
