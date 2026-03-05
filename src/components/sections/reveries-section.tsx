@@ -1,7 +1,7 @@
 import Link from 'next/link'
-import Image from 'next/image'
 import type { BlogItem } from '@/lib/sanity/reveries'
 import { BlogCard } from '@/components/reveries/blog-card'
+import { LandingStripImage } from '../ui/landing-strip-image'
 
 interface ReveriesSectionProps {
   blogs: BlogItem[]
@@ -22,18 +22,7 @@ export function ReveriesSection({ blogs }: ReveriesSectionProps) {
           </div>
 
           <div className="none relative h-full flex-1 overflow-hidden">
-            <Image
-              src="/landing/footer-bg-light.png"
-              alt="Footer"
-              fill
-              className="object-cover dark:hidden"
-            />
-            <Image
-              src="/landing/footer-bg-dark.png"
-              alt="Footer"
-              fill
-              className="hidden object-cover dark:block"
-            />
+            <LandingStripImage />
           </div>
         </div>
 
@@ -48,7 +37,7 @@ export function ReveriesSection({ blogs }: ReveriesSectionProps) {
             href="/reveries"
             className="group-hover:text-secondary hover:bg-foreground md:border-border flex h-18 w-full items-center justify-center p-5 text-xl font-semibold text-[#1F1F1F] hover:text-[#EBEBEB] md:w-auto md:border-l md:px-30 dark:text-[#EBEBEB] dark:hover:text-[#292929]"
           >
-            Checkout Blogs
+            Checkout Reveries
           </Link>
         </div>
       </div>

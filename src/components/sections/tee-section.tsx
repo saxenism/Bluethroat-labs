@@ -80,7 +80,7 @@ export function TeeSection() {
               The{' '}
               <Link
                 href="/docs"
-                className="border-b border-transparent text-[#8F8F8F] italic hover:border-[#292929] hover:text-[#292929] dark:text-[#7D7D7D] dark:hover:border-[#E6E6E6] dark:hover:text-[#E6E6E6]"
+                className="text-[#8F8F8F] italic hover:text-[#292929] dark:text-[#7D7D7D] dark:hover:border-[#E6E6E6] dark:hover:text-[#E6E6E6]"
               >
                 TEE Security Handbook{' '}
                 <CornerUpRightIcon className="stroke-1.5 mr-1 ml-1 inline-block" />

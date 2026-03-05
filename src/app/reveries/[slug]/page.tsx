@@ -6,6 +6,7 @@ import { Metadata } from 'next'
 import { StickyNavbar } from '@/components/layout/sticky-navbar'
 import { Footer } from '@/components/layout/footer'
 import Image from 'next/image'
+import { LandingStripImage } from '@/components/ui/landing-strip-image'
 
 type Props = { params: Promise<{ slug: string }> }
 
@@ -49,20 +50,7 @@ export default async function BlogPostPage({ params }: Props) {
                 className="object-cover"
               />
             ) : (
-              <>
-                <Image
-                  src="/landing/footer-bg-light.png"
-                  alt="Footer"
-                  fill
-                  className="object-cover dark:hidden"
-                />
-                <Image
-                  src="/landing/footer-bg-dark.png"
-                  alt="Footer"
-                  fill
-                  className="hidden object-cover dark:block"
-                />
-              </>
+              <LandingStripImage />
             )}
           </div>
         </div>

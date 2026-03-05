@@ -1,6 +1,11 @@
 'use client'
 
-import { parseAsInteger, parseAsString, useQueryState } from 'nuqs'
+import {
+  parseAsInteger,
+  parseAsString,
+  parseAsArrayOf,
+  useQueryState,
+} from 'nuqs'
 import { Search } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import type { BlogItem } from '@/lib/sanity/reveries'
@@ -23,16 +28,16 @@ interface ReveriesCatalogProps {
   categories: string[]
 }
 
-const ITEMS_PER_PAGE = 4
+const ITEMS_PER_PAGE = 10
 
 export function ReveriesCatalog({
   initialItems,
   categories,
 }: ReveriesCatalogProps) {
   const [search, setSearch] = useQueryState('q', parseAsString.withDefault(''))
-  const [category, setCategory] = useQueryState(
+  const [selectedCats, setSelectedCats] = useQueryState(
     'cat',
-    parseAsString.withDefault('All')
+    parseAsArrayOf(parseAsString).withDefault([])
   )
   const [page, setPage] = useQueryState('page', parseAsInteger.withDefault(1))
   const [view, setView] = useQueryState(
@@ -45,8 +50,8 @@ export function ReveriesCatalog({
       .toLowerCase()
       .includes(search.toLowerCase())
     const matchesCategory =
-      category === 'All' ||
-      item.category.toLowerCase() === category.toLowerCase()
+      selectedCats.length === 0 ||
+      selectedCats.some((c) => item.category.toLowerCase() === c.toLowerCase())
     return matchesSearch && matchesCategory
   })
 
@@ -62,7 +67,14 @@ export function ReveriesCatalog({
   }
 
   function handleCategory(cat: string) {
-    setCategory(cat === 'All' ? null : cat)
+    if (cat === 'All') {
+      setSelectedCats(null)
+    } else {
+      const next = selectedCats.includes(cat)
+        ? selectedCats.filter((c) => c !== cat)
+        : [...selectedCats, cat]
+      setSelectedCats(next.length > 0 ? next : null)
+    }
     setPage(null)
   }
 
@@ -93,11 +105,11 @@ export function ReveriesCatalog({
 
       <div className="border-border border-b">
         <div className="flex h-12 items-center px-4 md:h-18 md:px-8">
-          <Search className="text-muted-foreground mr-6 h-5 w-5 shrink-0" />
+          <Search className="text-muted-foreground mr-4 size-4 shrink-0 md:mr-6 md:size-5" />
           <input
             type="text"
             placeholder="Search Blogs..."
-            className="text-foreground placeholder:text-muted-foreground flex-1 border-none bg-transparent font-mono text-xl outline-none"
+            className="text-foreground placeholder:text-muted-foreground flex-1 border-none bg-transparent font-mono text-sm outline-none md:text-xl"
             value={search}
             onChange={(e) => handleSearch(e.target.value)}
           />
@@ -106,13 +118,16 @@ export function ReveriesCatalog({
 
       <div className="flex flex-wrap md:mt-8">
         {visibleCats.map((cat) => {
-          const isActive = cat === 'All' ? category === 'All' : category === cat
+          const isActive =
+            cat === 'All'
+              ? selectedCats.length === 0
+              : selectedCats.includes(cat)
           return (
             <button
               key={cat}
               onClick={() => handleCategory(cat)}
               className={cn(
-                'border-border -mt-px border-t border-r border-b px-8 py-6 text-lg leading-none font-medium',
+                'border-border -mt-px border-t border-r border-b px-5 py-4 text-sm leading-none font-medium md:px-8 md:py-6 md:text-lg',
                 isActive
                   ? 'bg-foreground text-background'
                   : 'text-muted-foreground hover:text-foreground hover:bg-[#f2f2f2] dark:hover:bg-[#191919]'
@@ -125,7 +140,7 @@ export function ReveriesCatalog({
         {overflowCats.length > 0 && (
           <div className="border-border -mt-px border-t border-r border-b">
             <Popover>
-              <PopoverTrigger className="text-muted-foreground hover:text-foreground px-8 py-6 text-lg leading-none font-medium hover:bg-[#f2f2f2] dark:hover:bg-[#191919]">
+              <PopoverTrigger className="text-muted-foreground hover:text-foreground px-5 py-4 text-sm leading-none font-medium hover:bg-[#f2f2f2] md:px-8 md:py-6 md:text-lg dark:hover:bg-[#191919]">
                 + {overflowCats.length} More
               </PopoverTrigger>
               <PopoverContent className="border-border bg-background w-auto min-w-[150px] rounded-none border p-0 shadow-lg">
@@ -134,8 +149,8 @@ export function ReveriesCatalog({
                     key={cat}
                     onClick={() => handleCategory(cat)}
                     className={cn(
-                      'border-border block w-full border-b px-8 py-6 text-left text-lg leading-none font-medium wrap-break-word',
-                      category === cat
+                      'border-border block w-full border-b px-5 py-4 text-left text-sm leading-none font-medium wrap-break-word md:px-8 md:py-6 md:text-lg',
+                      selectedCats.includes(cat)
                         ? 'bg-foreground text-background'
                         : 'text-muted-foreground hover:text-foreground hover:bg-[#f2f2f2] dark:hover:bg-[#191919]'
                     )}
@@ -181,7 +196,7 @@ export function ReveriesCatalog({
             <button
               onClick={() => {
                 setSearch(null)
-                setCategory(null)
+                setSelectedCats(null)
                 setPage(null)
               }}
               className="border-border hover:bg-foreground hover:text-background border px-8 py-3 text-sm"

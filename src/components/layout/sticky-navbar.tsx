@@ -7,7 +7,7 @@ import { Moon, Sun } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import { cn } from '@/lib/utils'
 import { SanskritHoverText } from '@/components/ui/sanskrit-hover-text'
-import { IconLogo, TextLogo } from '@/assets/logos'
+import { FullLogo, IconLogo } from '@/assets/logos'
 import { ZCAL_LINK } from '@/lib/constants'
 
 export function StickyNavbar() {
@@ -42,22 +42,14 @@ export function StickyNavbar() {
     <nav className="border-border bg-background sticky top-0 right-0 left-0 z-50 container mx-auto border-t border-b">
       <div className="border-border container mx-auto flex h-12 items-center lg:h-18">
         {/* Logo Section */}
-        <div className="border-border flex h-full min-w-0 items-center border-r px-3 sm:pl-4 md:px-4 lg:pr-0">
-          <Link
-            href="/"
-            onClick={handleLogoClick}
-            className="group flex items-center"
-          >
-            <IconLogo className="max-lg:size-6" />
-          </Link>
-          <Link
-            href="/"
-            onClick={handleLogoClick}
-            className="hidden items-center lg:flex"
-          >
-            <TextLogo />
-          </Link>
-        </div>
+        <Link
+          href="/"
+          onClick={handleLogoClick}
+          className="border-border h-full border-r p-3 lg:px-6 lg:py-5"
+        >
+          <FullLogo className="max-lg:hidden" />
+          <IconLogo className="size-6 lg:hidden" />
+        </Link>
 
         {/* Desktop Navigation Section */}
         <div className="border-border hidden h-full flex-1 items-center space-x-10 border-r px-8 lg:flex">

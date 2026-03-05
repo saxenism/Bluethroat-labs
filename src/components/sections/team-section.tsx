@@ -5,6 +5,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 import Image from 'next/image'
 import useEmblaCarousel from 'embla-carousel-react'
 import { MailIcon, XIcon } from '@/assets/icons'
+import { LandingStripImage } from '../ui/landing-strip-image'
 
 export function TeamSection() {
   const [emblaRef, emblaApi] = useEmblaCarousel({
@@ -34,18 +35,7 @@ export function TeamSection() {
         </div>
 
         <div className="none relative h-full flex-1 overflow-hidden">
-          <Image
-            src="/landing/footer-bg-light.png"
-            alt="Footer"
-            fill
-            className="object-cover dark:hidden"
-          />
-          <Image
-            src="/landing/footer-bg-dark.png"
-            alt="Footer"
-            fill
-            className="hidden object-cover dark:block"
-          />
+          <LandingStripImage />
         </div>
       </div>
 

@@ -5,9 +5,9 @@ import { usePathname } from 'next/navigation'
 import { Copyright } from 'lucide-react'
 import { MouseEvent } from 'react'
 import { SanskritHoverText } from '@/components/ui/sanskrit-hover-text'
-import { IconLogo, TextLogo } from '@/assets/logos'
-import Image from 'next/image'
+import { FullLogo, IconLogo } from '@/assets/logos'
 import { MailIcon, XIcon } from '@/assets/icons'
+import { LandingStripImage } from '../ui/landing-strip-image'
 
 const navLinks = [
   { href: '/docs', label: 'Docs' },
@@ -27,24 +27,16 @@ export function Footer() {
 
   return (
     <footer className="bg-background border-border mt-18 border-y">
-      <div className="border-border border-b bg-zinc-50/50 dark:bg-zinc-950/50">
+      <div className="border-border border-b">
         <div className="border-border container mx-auto flex flex-col items-stretch md:flex-row">
-          <div className="border-border group flex items-center justify-center border-b px-5 py-6 md:h-17 md:justify-start md:border-r md:border-b-0 md:py-0">
-            <Link
-              href="/"
-              onClick={handleLogoClick}
-              className="group flex items-center"
-            >
-              <IconLogo />
-            </Link>
-            <Link
-              href="/"
-              onClick={handleLogoClick}
-              className="items-center max-md:flex md:hidden"
-            >
-              <TextLogo />
-            </Link>
-          </div>
+          <Link
+            href="/"
+            onClick={handleLogoClick}
+            className="border-border group flex h-12 items-center justify-center border-b px-4.5 max-md:bg-[#f2f2f2] md:h-17 md:justify-start md:border-r md:border-b-0 md:py-0 dark:max-md:bg-[#191919]"
+          >
+            <FullLogo className="h-6 w-auto md:hidden" />
+            <IconLogo className="max-md:hidden" />
+          </Link>
 
           <div className="border-border flex w-full flex-col border-b md:flex-row md:items-center md:border-b-0">
             <div className="flex flex-1 flex-col items-center justify-center space-y-6 px-8 py-8 md:flex-row md:justify-start md:space-y-0 md:space-x-10 md:py-0">
@@ -80,18 +72,7 @@ export function Footer() {
       </div>
 
       <div className="none relative mt-12 h-64 w-full overflow-hidden bg-[#f2f2f2] sm:h-80 md:h-[400px] dark:bg-[#191919]">
-        <Image
-          src="/landing/footer-bg-light.png"
-          alt="Footer"
-          fill
-          className="object-cover dark:hidden"
-        />
-        <Image
-          src="/landing/footer-bg-dark.png"
-          alt="Footer"
-          fill
-          className="hidden object-cover dark:block"
-        />
+        <LandingStripImage />
       </div>
 
       <div className="border-border text-foreground flex items-center justify-center border-t bg-[#f2f2f2] p-3 text-sm dark:bg-[#191919]">

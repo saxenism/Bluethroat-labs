@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import { LandingStripImage } from '../ui/landing-strip-image'
 
 export function MissionSection() {
   return (
@@ -14,18 +14,7 @@ export function MissionSection() {
         </div>
 
         <div className="none relative h-full flex-1 overflow-hidden">
-          <Image
-            src="/landing/footer-bg-light.png"
-            alt="Footer"
-            fill
-            className="object-cover dark:hidden"
-          />
-          <Image
-            src="/landing/footer-bg-dark.png"
-            alt="Footer"
-            fill
-            className="hidden object-cover dark:block"
-          />
+          <LandingStripImage />
         </div>
       </div>
 

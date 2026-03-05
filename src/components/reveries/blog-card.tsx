@@ -33,7 +33,7 @@ export const BlogCard = ({
         />
 
         <div className="mb-auto flex items-start justify-between gap-4">
-          <h3 className="text-xl leading-snug font-bold">{blog.title}</h3>
+          <h3 className="text-xl leading-snug font-semibold">{blog.title}</h3>
           <div className="border-border group-hover:bg-foreground grid size-14 shrink-0 place-items-center border max-md:hidden">
             <ArrowUpRightIcon className="size-10 text-[#292929] group-hover:text-[#EBEBEB] dark:text-[#E6E6E6] dark:group-hover:text-[#292929]" />
           </div>
@@ -66,7 +66,9 @@ export const BlogCard = ({
         />
 
         <div className="flex-1 align-text-top">
-          <h3 className="mb-10 text-xl leading-snug font-bold">{blog.title}</h3>
+          <h3 className="mb-10 text-xl leading-snug font-semibold">
+            {blog.title}
+          </h3>
 
           <div className="flex items-center gap-2 text-base font-medium text-[#777777] dark:text-[#CACACA]">
             <span>{blog.category}</span>

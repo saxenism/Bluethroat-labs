@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ZCAL_LINK } from '@/lib/constants'
 import { cn } from '@/lib/utils'
+import { LandingStripImage } from '../ui/landing-strip-image'
 
 export function WorkSection() {
   return (
@@ -14,18 +15,7 @@ export function WorkSection() {
         </div>
 
         <div className="none relative h-full flex-1 overflow-hidden">
-          <Image
-            src="/landing/footer-bg-light.png"
-            alt="Footer"
-            fill
-            className="object-cover dark:hidden"
-          />
-          <Image
-            src="/landing/footer-bg-dark.png"
-            alt="Footer"
-            fill
-            className="hidden object-cover dark:block"
-          />
+          <LandingStripImage />
         </div>
       </div>
 
