@@ -7,7 +7,7 @@ interface BlogRendererProps {
 
 export function BlogRenderer({ markdown, metadata }: BlogRendererProps) {
   return (
-    <div className="mx-auto max-w-6xl space-y-8 px-6 md:space-y-12">
+    <div className="space-y-8 px-4 md:space-y-12 lg:px-24">
       <div className="space-y-6">
         <div className="flex gap-2 text-xs font-medium text-[#7D7D7D] md:text-base dark:text-[#A9A9A9]">
           <span>{metadata.category}</span>

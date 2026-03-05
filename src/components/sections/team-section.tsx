@@ -105,7 +105,7 @@ const TeamCard = ({ member }: { member: (typeof TEAM_MEMBERS)[number] }) => {
             </a>
           )}
           <a
-            href="https://x.com/bluethroat_labs"
+            href={member.xUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="bg-background grid size-14 place-items-center hover:bg-[#E6E6E6] md:size-18 dark:hover:bg-[#292929]"
