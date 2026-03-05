@@ -6,15 +6,11 @@ import {
   parseAsArrayOf,
   useQueryState,
 } from 'nuqs'
+import { useState } from 'react'
 import { Search } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import type { BlogItem } from '@/lib/sanity/reveries'
 import { BlogCard } from '@/components/reveries/blog-card'
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover'
 import Image from 'next/image'
 import {
   GridActiveIcon,
@@ -29,6 +25,7 @@ interface ReveriesCatalogProps {
 }
 
 const ITEMS_PER_PAGE = 10
+const DEFAULT_CATEGORIES_VISIBLE = 5
 
 export function ReveriesCatalog({
   initialItems,
@@ -44,6 +41,7 @@ export function ReveriesCatalog({
     'view',
     parseAsString.withDefault('grid')
   )
+  const [showAll, setShowAll] = useState(false)
 
   const filtered = initialItems.filter((item) => {
     const matchesSearch = item.title
@@ -83,8 +81,10 @@ export function ReveriesCatalog({
   }
 
   const allCats = ['All', ...categories]
-  const visibleCats = allCats.slice(0, 5)
-  const overflowCats = allCats.slice(5)
+  const visibleCats = showAll
+    ? allCats
+    : allCats.slice(0, DEFAULT_CATEGORIES_VISIBLE)
+  const hasOverflow = allCats.length > DEFAULT_CATEGORIES_VISIBLE
 
   return (
     <section id="reveries" className="w-full">
@@ -137,30 +137,15 @@ export function ReveriesCatalog({
             </button>
           )
         })}
-        {overflowCats.length > 0 && (
-          <div className="border-border -mt-px border-t border-r border-b">
-            <Popover>
-              <PopoverTrigger className="text-muted-foreground hover:text-foreground px-5 py-4 text-sm leading-none font-medium hover:bg-[#f2f2f2] md:px-8 md:py-6 md:text-lg dark:hover:bg-[#191919]">
-                + {overflowCats.length} More
-              </PopoverTrigger>
-              <PopoverContent className="border-border bg-background w-auto min-w-[150px] rounded-none border p-0 shadow-lg">
-                {overflowCats.map((cat) => (
-                  <button
-                    key={cat}
-                    onClick={() => handleCategory(cat)}
-                    className={cn(
-                      'border-border block w-full border-b px-5 py-4 text-left text-sm leading-none font-medium wrap-break-word md:px-8 md:py-6 md:text-lg',
-                      selectedCats.includes(cat)
-                        ? 'bg-foreground text-background'
-                        : 'text-muted-foreground hover:text-foreground hover:bg-[#f2f2f2] dark:hover:bg-[#191919]'
-                    )}
-                  >
-                    {cat}
-                  </button>
-                ))}
-              </PopoverContent>
-            </Popover>
-          </div>
+        {hasOverflow && (
+          <button
+            onClick={() => setShowAll((v) => !v)}
+            className="border-border text-muted-foreground hover:text-foreground -mt-px border-t border-r border-b px-5 py-4 text-sm leading-none font-medium hover:bg-[#f2f2f2] md:px-8 md:py-6 md:text-lg dark:hover:bg-[#191919]"
+          >
+            {showAll
+              ? '- Less'
+              : `+ ${allCats.length - DEFAULT_CATEGORIES_VISIBLE} More`}
+          </button>
         )}
       </div>
 
