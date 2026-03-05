@@ -2,7 +2,7 @@
 
 import { useCallback } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import Image from 'next-export-optimize-images/image'
+import Image from 'next/image'
 import useEmblaCarousel from 'embla-carousel-react'
 import { MailIcon, XIcon } from '@/assets/icons'
 
@@ -68,13 +68,13 @@ export function TeamSection() {
       <div className="border-border flex items-center justify-end border-b">
         <button
           onClick={scrollPrev}
-          className="border-border border-l p-2 hover:bg-zinc-200 dark:hover:bg-zinc-900"
+          className="border-border border-l p-2 hover:bg-[#E6E6E6] dark:hover:bg-[#292929]"
         >
           <ChevronLeft className="h-14 w-14 opacity-70" />
         </button>
         <button
           onClick={scrollNext}
-          className="border-border border-l p-2 hover:bg-zinc-200 dark:hover:bg-zinc-900"
+          className="border-border border-l p-2 hover:bg-[#E6E6E6] dark:hover:bg-[#292929]"
         >
           <ChevronRight className="h-14 w-14 opacity-70" />
         </button>

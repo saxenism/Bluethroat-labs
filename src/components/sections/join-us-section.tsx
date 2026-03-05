@@ -1,7 +1,7 @@
 'use client'
 
 import { MailIcon } from '@/assets/icons'
-import Image from 'next-export-optimize-images/image'
+import Image from 'next/image'
 
 export function JoinUsSection() {
   return (

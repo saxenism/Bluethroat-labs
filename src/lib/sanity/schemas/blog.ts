@@ -28,13 +28,8 @@ const blog = {
     {
       name: 'category',
       title: 'Category',
-      type: 'string',
-      options: {
-        list: [
-          { title: 'TEE Security', value: 'TEE Security' },
-          { title: 'General', value: 'General' },
-        ],
-      },
+      type: 'reference',
+      to: [{ type: 'blogCategory' }],
     },
     { name: 'publishedAt', title: 'Published at', type: 'datetime' },
     {

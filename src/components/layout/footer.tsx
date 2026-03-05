@@ -6,7 +6,7 @@ import { Copyright } from 'lucide-react'
 import { MouseEvent } from 'react'
 import { SanskritHoverText } from '@/components/ui/sanskrit-hover-text'
 import { IconLogo, TextLogo } from '@/assets/logos'
-import Image from 'next-export-optimize-images/image'
+import Image from 'next/image'
 import { MailIcon, XIcon } from '@/assets/icons'
 
 const navLinks = [

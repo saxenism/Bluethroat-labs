@@ -13,7 +13,7 @@ async function getPost(slug: string) {
         title,
         bannerImage,
         content,
-        category,
+        "category": category->title,
         publishedAt
     }`
   return await client.fetch(query, { slug })

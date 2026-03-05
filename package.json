@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && next-export-optimize-images",
+    "build": "next build",
     "start": "next start",
     "lint": "eslint",
     "format": "prettier --write ."
@@ -21,6 +21,8 @@
     "next": "16.1.6",
     "next-sanity": "12.1.0",
     "next-themes": "0.4.6",
+    "nuqs": "2.8.9",
+    "radix-ui": "1.4.3",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "react-markdown": "10.1.0",
@@ -37,7 +39,6 @@
     "@types/react-dom": "19.2.3",
     "eslint": "10.0.2",
     "eslint-config-next": "16.1.6",
-    "next-export-optimize-images": "4.7.0",
     "prettier": "3.8.1",
     "prettier-plugin-tailwindcss": "0.7.2",
     "tailwindcss": "4.2.1",

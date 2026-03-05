@@ -1,6 +1,6 @@
 'use client'
 
-import Image from 'next-export-optimize-images/image'
+import Image from 'next/image'
 import { Copy, Check } from 'lucide-react'
 import { PortableText, PortableTextComponents } from '@portabletext/react'
 import type { PortableTextBlock } from '@portabletext/types'
