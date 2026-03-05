@@ -31,6 +31,12 @@ const blog = {
       type: 'reference',
       to: [{ type: 'blogCategory' }],
     },
+    {
+      name: 'author',
+      title: 'Author',
+      type: 'reference',
+      to: [{ type: 'blogAuthor' }],
+    },
     { name: 'publishedAt', title: 'Published at', type: 'datetime' },
     {
       name: 'content',

@@ -41,7 +41,7 @@ export const BlogCard = ({
 
         <div className="mt-10 flex items-center gap-2 text-base font-medium text-[#777777] md:mt-12 dark:text-[#CACACA]">
           <span>{blog.category}</span>
-          <span className="text-2xl leading-none">•</span>
+          <span className="text-xl leading-none">•</span>
           <span>{blog.date}</span>
         </div>
       </Link>
@@ -70,7 +70,7 @@ export const BlogCard = ({
 
           <div className="flex items-center gap-2 text-base font-medium text-[#777777] dark:text-[#CACACA]">
             <span>{blog.category}</span>
-            <span className="text-2xl leading-none">•</span>
+            <span className="text-xl leading-none">•</span>
             <span>{blog.date}</span>
           </div>
         </div>

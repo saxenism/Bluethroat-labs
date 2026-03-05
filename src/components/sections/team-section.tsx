@@ -121,7 +121,7 @@ const TeamCard = ({ member }: { member: (typeof TEAM_MEMBERS)[number] }) => {
           {member.role}
           {member.exRole && (
             <>
-              <span className="text-2xl leading-none">•</span>
+              <span className="text-xl leading-none">•</span>
               {member.exRole}
             </>
           )}

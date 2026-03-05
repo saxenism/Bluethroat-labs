@@ -5,6 +5,7 @@ import { BlogRenderer } from '@/components/reveries/blog-renderer'
 import { Metadata } from 'next'
 import { StickyNavbar } from '@/components/layout/sticky-navbar'
 import { Footer } from '@/components/layout/footer'
+import Image from 'next/image'
 
 type Props = { params: Promise<{ slug: string }> }
 
@@ -14,7 +15,8 @@ async function getPost(slug: string) {
         bannerImage,
         content,
         "category": category->title,
-        publishedAt
+        publishedAt,
+        "author": author->name
     }`
   return await client.fetch(query, { slug })
 }
@@ -36,32 +38,40 @@ export default async function BlogPostPage({ params }: Props) {
   return (
     <div className="bg-background border-border relative container mx-auto min-h-screen border-x pt-12">
       <StickyNavbar />
-      <main className="">
-        {/* Banner Area */}
-        <div className="w-full">
-          <div className="border-border relative aspect-video w-full overflow-hidden border-b bg-zinc-100 transition-all duration-700 sm:aspect-30/9 dark:bg-zinc-900">
+      <main>
+        <div className="w-full pt-12 pb-8 md:py-12">
+          <div className="none relative h-[226px] w-full overflow-hidden md:h-[400px]">
             {post.bannerImage ? (
-              <div
-                className="absolute inset-0 scale-110 bg-cover bg-center grayscale transition-transform duration-1000 hover:scale-100"
-                style={{
-                  backgroundImage: `url(${urlFor(post.bannerImage).url()})`,
-                }}
+              <Image
+                src={urlFor(post.bannerImage).url()}
+                alt={post.title}
+                fill
+                className="object-cover"
               />
             ) : (
-              <div
-                className="absolute inset-0 scale-110 bg-cover bg-center grayscale transition-transform duration-1000 hover:scale-100"
-                style={{ backgroundImage: 'url(/dark-mode/dark-footer.png)' }}
-              />
+              <>
+                <Image
+                  src="/landing/footer-bg-light.png"
+                  alt="Footer"
+                  fill
+                  className="object-cover dark:hidden"
+                />
+                <Image
+                  src="/landing/footer-bg-dark.png"
+                  alt="Footer"
+                  fill
+                  className="hidden object-cover dark:block"
+                />
+              </>
             )}
-            <div className="absolute inset-0 bg-black/20" />
           </div>
         </div>
 
-        <article className="border-border bg-background border-b">
+        <article>
           <BlogRenderer
-            blocks={[]}
             markdown={post.content}
             metadata={{
+              title: post.title,
               category: post.category,
               date: post.publishedAt
                 ? new Date(post.publishedAt).toLocaleDateString('en-US', {
@@ -70,9 +80,11 @@ export default async function BlogPostPage({ params }: Props) {
                     year: 'numeric',
                   })
                 : undefined,
+              author: post.author ?? undefined,
             }}
           />
         </article>
+
         <Footer />
       </main>
     </div>
