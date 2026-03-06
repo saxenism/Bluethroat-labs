@@ -34,13 +34,27 @@ export function parseMarkdownHeadings(
   const result: MarkdownHeading[] = []
 
   const headingRe = /^(#{1,6})\s+(.+)$/
+  let inCodeBlock = false
 
   for (const line of lines) {
+    if (line.trimStart().startsWith('```')) {
+      inCodeBlock = !inCodeBlock
+      continue
+    }
+    if (inCodeBlock) continue
+
     const match = line.match(headingRe)
     if (!match) continue
 
     const level = match[1].length
-    const title = match[2].trim()
+    const raw = match[2].trim()
+    // Strip inline markdown: code spans, bold/italic, links
+    const title = raw
+      .replace(/`[^`]*`/g, (m) => m.slice(1, -1)) // `code` → code
+      .replace(/\*\*([^*]+)\*\*/g, '$1') // **bold** → bold
+      .replace(/\*([^*]+)\*/g, '$1') // *italic* → italic
+      .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1') // [text](url) → text
+      .trim()
     if (!title) continue
 
     const baseId = slugify(title)

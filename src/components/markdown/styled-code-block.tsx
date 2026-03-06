@@ -3,24 +3,27 @@
 import { useState, useEffect } from 'react'
 import { Copy, Check } from 'lucide-react'
 import { codeToHtml } from 'shiki'
+import { useTheme } from 'next-themes'
 
 export interface StyledCodeBlockProps {
   code: string
   language?: string
-  filename?: string
 }
 
-export function StyledCodeBlock({
-  code,
-  language,
-  filename,
-}: StyledCodeBlockProps) {
+export function StyledCodeBlock({ code, language }: StyledCodeBlockProps) {
+  const { resolvedTheme } = useTheme()
   const [copied, setCopied] = useState(false)
   const [highlighted, setHighlighted] = useState<string | null>(null)
 
   useEffect(() => {
     let cancelled = false
-    codeToHtml(code, { lang: language ?? 'text', theme: 'github-dark-default' })
+    codeToHtml(code, {
+      lang: language ?? 'text',
+      theme:
+        resolvedTheme === 'dark'
+          ? 'github-dark-default'
+          : 'github-light-default',
+    })
       .then((html) => {
         if (!cancelled) setHighlighted(html)
       })
@@ -30,7 +33,7 @@ export function StyledCodeBlock({
     return () => {
       cancelled = true
     }
-  }, [code, language])
+  }, [code, language, resolvedTheme])
 
   const handleCopy = () => {
     navigator.clipboard.writeText(code || '')
@@ -39,28 +42,30 @@ export function StyledCodeBlock({
   }
 
   return (
-    <div className="border-border my-10 overflow-hidden rounded-sm border bg-[#0d1117]">
-      <div className="flex items-center justify-between border-b border-white/10 bg-white/5 px-4 py-2">
-        <div className="flex items-center gap-2">
-          <div className="flex gap-1.5">
-            <div className="h-3 w-3 rounded-full bg-red-500/80" />
-            <div className="h-3 w-3 rounded-full bg-amber-500/80" />
-            <div className="h-3 w-3 rounded-full bg-emerald-500/80" />
-          </div>
-          {language && (
-            <span className="font-mono text-xs text-white/50">{language}</span>
-          )}
+    <div className="border-border bg-background my-10 overflow-hidden rounded-sm border">
+      <div className="border-border flex items-center justify-between border-b bg-[#EBEBEB] px-4 py-2 dark:bg-[#1F1F1F]">
+        <div className="flex items-center gap-1.5">
+          <div className="size-3 rounded-full bg-[#FF5F57]" />
+          <div className="size-3 rounded-full bg-[#FEBC2E]" />
+          <div className="size-3 rounded-full bg-[#29C840]" />
         </div>
+
         <button
           onClick={handleCopy}
           type="button"
-          className="group rounded-md p-1.5 hover:bg-white/10"
+          className="group border-border flex items-center gap-2.5 border bg-[#E6E6E6] px-2 py-0.5 text-sm text-[#454545] hover:bg-[#D9D9D9] dark:bg-[#292929] dark:text-[#CACACA] dark:hover:bg-[#313131]"
           title="Copy code"
         >
           {copied ? (
-            <Check className="h-4 w-4 text-emerald-500" />
+            <>
+              <Check className="size-4" />
+              COPIED
+            </>
           ) : (
-            <Copy className="h-4 w-4 text-white/50 group-hover:text-white" />
+            <>
+              <Copy className="size-4" />
+              COPY
+            </>
           )}
         </button>
       </div>
@@ -74,12 +79,6 @@ export function StyledCodeBlock({
         <pre className="overflow-x-auto p-6 font-mono text-sm leading-relaxed text-zinc-300 sm:text-base">
           <code>{code}</code>
         </pre>
-      )}
-
-      {filename && (
-        <div className="border-t border-white/10 bg-white/5 px-4 py-2 font-mono text-xs text-white/40">
-          {filename}
-        </div>
       )}
     </div>
   )

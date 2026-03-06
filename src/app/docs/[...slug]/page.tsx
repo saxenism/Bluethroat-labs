@@ -106,7 +106,7 @@ export default async function DocsPage({ params }: Props) {
       />
 
       <div className="container mx-auto w-full px-6 py-12 md:px-8">
-        <h1 className="mb-8 font-mono text-3xl font-bold tracking-tight sm:text-4xl">
+        <h1 className="mb-8 font-mono text-2xl font-bold tracking-tight sm:text-[32px]">
           {pageData.title}
         </h1>
 

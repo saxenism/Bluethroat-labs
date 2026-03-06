@@ -174,7 +174,7 @@ export function DocsLayoutShell({
       </div>
 
       {isContentsOpen && (
-        <aside className="sticky top-18 hidden h-[calc(100vh-72px)] min-w-75 overflow-y-auto px-6 py-4 lg:block">
+        <aside className="sticky top-18 hidden h-[calc(100vh-72px)] min-w-75 overflow-y-auto px-6 py-4 wrap-break-word lg:block">
           <div className="group mb-6 flex cursor-default items-center gap-2 text-[#8F8F8F]">
             <ContentsIcon />
             <h3 className="text-sm">CONTENTS</h3>

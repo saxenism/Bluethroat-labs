@@ -28,7 +28,7 @@ const docHeadingComponents: Partial<MDXComponents> = {
     <h1
       id={id}
       tabIndex={-1}
-      className="group text-foreground mt-4 mb-8 flex scroll-mt-32 items-baseline text-3xl leading-tight font-medium sm:text-4xl"
+      className="group text-foreground my-8 flex scroll-mt-32 items-baseline text-2xl leading-tight font-bold md:text-[32px]"
     >
       {children}
       <HeadingAnchor id={id} />
@@ -38,7 +38,7 @@ const docHeadingComponents: Partial<MDXComponents> = {
     <h2
       id={id}
       tabIndex={-1}
-      className="group text-foreground mt-12 mb-6 flex scroll-mt-32 items-baseline text-3xl font-bold tracking-tighter"
+      className="group text-foreground my-6 flex scroll-mt-32 items-baseline text-xl font-bold tracking-tighter md:text-2xl"
     >
       {children}
       <HeadingAnchor id={id} />
@@ -48,7 +48,7 @@ const docHeadingComponents: Partial<MDXComponents> = {
     <h3
       id={id}
       tabIndex={-1}
-      className="group text-foreground mt-10 mb-4 flex scroll-mt-32 items-baseline text-2xl font-bold tracking-tighter"
+      className="group text-foreground my-4 flex scroll-mt-32 items-baseline text-lg font-bold tracking-tighter md:text-xl"
     >
       {children}
       <HeadingAnchor id={id} />
@@ -58,7 +58,7 @@ const docHeadingComponents: Partial<MDXComponents> = {
     <h4
       id={id}
       tabIndex={-1}
-      className="group text-foreground mt-8 mb-3 flex scroll-mt-32 items-baseline text-xl font-bold tracking-tight"
+      className="group text-foreground my-3 flex scroll-mt-32 items-baseline text-base font-bold tracking-tight md:text-lg"
     >
       {children}
       <HeadingAnchor id={id} />
@@ -68,7 +68,7 @@ const docHeadingComponents: Partial<MDXComponents> = {
     <h5
       id={id}
       tabIndex={-1}
-      className="group text-foreground mt-6 mb-2 flex scroll-mt-32 items-baseline text-lg font-bold tracking-tight"
+      className="group text-foreground my-2 flex scroll-mt-32 items-baseline text-sm font-bold tracking-tight md:text-base"
     >
       {children}
       <HeadingAnchor id={id} />
@@ -78,7 +78,7 @@ const docHeadingComponents: Partial<MDXComponents> = {
     <h6
       id={id}
       tabIndex={-1}
-      className="group text-foreground mt-4 mb-2 flex scroll-mt-32 items-baseline text-base font-bold tracking-tight"
+      className="group text-foreground my-2 flex scroll-mt-32 items-baseline text-xs font-bold tracking-tight md:text-sm"
     >
       {children}
       <HeadingAnchor id={id} />
@@ -99,7 +99,11 @@ export function DocContentRenderer({
 
   return (
     <div className={`${className} my-8`}>
-      <MarkdownRenderer content={markdown} components={docComponents} withSlug />
+      <MarkdownRenderer
+        content={markdown}
+        components={docComponents}
+        withSlug
+      />
     </div>
   )
 }
