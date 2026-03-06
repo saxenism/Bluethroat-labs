@@ -1,3 +1,5 @@
+'use client'
+
 import { useState, useMemo } from 'react'
 import Link from 'next/link'
 import { useParams, usePathname } from 'next/navigation'
@@ -139,13 +141,26 @@ function SidebarItem({
   const [isOpen, setIsOpen] = useState(isActive || isChildActive || depth === 0)
   const hasItems = item.items && item.items.length > 0
 
+  const bgActive =
+    depth === 0
+      ? 'bg-[#E6E6E6] dark:bg-[#292929]'
+      : depth === 1
+        ? 'bg-[#EBEBEB] dark:bg-[#1F1F1F]'
+        : 'bg-[#F2F2F2] dark:bg-[#191919]'
+  const bgHover =
+    depth === 0
+      ? 'hover:bg-[#E6E6E6] dark:hover:bg-[#292929]'
+      : depth === 1
+        ? 'hover:bg-[#EBEBEB] dark:hover:bg-[#1F1F1F]'
+        : 'hover:bg-[#F2F2F2] dark:hover:bg-[#191919]'
+
   const content = (
     <div
       className={cn(
         'group flex cursor-pointer items-center justify-between border-y border-transparent py-5 pr-2',
         isActive
-          ? 'text-foreground border-border bg-[#E6E6E6] dark:bg-[#292929]'
-          : 'text-[#7D7D7D] hover:bg-[#E6E6E6] dark:hover:bg-[#292929]'
+          ? `text-foreground border-border ${bgActive}`
+          : `text-[#7D7D7D] ${bgHover}`
       )}
       style={{ paddingLeft: `${24 + depth * 16}px` }}
     >

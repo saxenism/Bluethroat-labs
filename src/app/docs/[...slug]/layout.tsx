@@ -50,7 +50,6 @@ export default async function DocsLayout({ children, params }: Props) {
       breadcrumbItems={breadcrumbItems}
       navigation={navData?.items ?? []}
       searchableDocs={searchableDocs ?? []}
-      version={navData?.version}
       prev={prev}
       next={next}
     >
