@@ -1,21 +1,25 @@
 'use client'
 
+import Link from 'next/link'
 import { ChevronLeft } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Fragment } from 'react/jsx-runtime'
+import type { BreadcrumbItem } from '@/lib/sanity/docs-nav'
 
 interface BreadcrumbProps {
-  paths: string[]
+  items: BreadcrumbItem[]
   isOpen: boolean
   isMobileMenuOpen: boolean
+  hasToc?: boolean
   onToggleContents?: () => void
   onToggleMobileMenu?: () => void
 }
 
 export function DocsBreadcrumb({
-  paths,
+  items,
   isOpen,
   isMobileMenuOpen,
+  hasToc = false,
   onToggleContents,
   onToggleMobileMenu,
 }: BreadcrumbProps) {
@@ -48,29 +52,49 @@ export function DocsBreadcrumb({
       </button>
 
       <div className="flex items-center gap-2 truncate text-sm font-semibold uppercase">
-        {paths.map((path, idx) => (
-          <Fragment key={idx}>
-            <span
-              className={cn(
-                'min-w-0 truncate',
-                idx === paths.length - 1
-                  ? 'text-[#454545] dark:text-[#A9A9A9]'
-                  : 'text-[#8F8F8F] dark:text-[#666666]'
+        {items.map((item, idx) => {
+          const isLast = idx === items.length - 1
+          const isClickable = !isLast && item.slug
+          const className = cn(
+            'min-w-0 truncate',
+            isLast
+              ? 'text-[#454545] dark:text-[#A9A9A9]'
+              : 'text-[#8F8F8F] dark:text-[#666666]',
+            isClickable && 'hover:text-foreground transition-colors'
+          )
+          return (
+            <Fragment key={idx}>
+              {isClickable ? (
+                <Link
+                  href={
+                    item.slug!.startsWith('/')
+                      ? item.slug!
+                      : `/docs/${item.slug}`
+                  }
+                  className={className}
+                >
+                  {item.title}
+                </Link>
+              ) : (
+                <span className={className}>{item.title}</span>
               )}
-            >
-              {path}
-            </span>
-            {idx < paths.length - 1 && (
-              <span className="text-[#8F8F8F] dark:text-[#666666]">{'>'}</span>
-            )}
-          </Fragment>
-        ))}
+              {!isLast && (
+                <span className="text-[#8F8F8F] dark:text-[#666666]">
+                  {'>'}
+                </span>
+              )}
+            </Fragment>
+          )
+        })}
       </div>
 
       {/* Toggle Button - Pushed to the far right */}
       <button
         onClick={onToggleContents}
-        className="bg-muted left-0 flex items-center justify-center p-1 max-lg:hidden"
+        className={cn(
+          'bg-muted left-0 flex items-center justify-center p-1 max-lg:hidden',
+          !hasToc && 'hidden'
+        )}
       >
         <ChevronLeft
           className={cn(

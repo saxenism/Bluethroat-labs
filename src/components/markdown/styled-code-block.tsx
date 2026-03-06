@@ -1,7 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Copy, Check } from 'lucide-react'
+import { codeToHtml } from 'shiki'
 
 export interface StyledCodeBlockProps {
   code: string
@@ -9,16 +10,27 @@ export interface StyledCodeBlockProps {
   filename?: string
 }
 
-/**
- * Styled code block with copy button and optional language/filename.
- * Shared by docs and blogs for markdown fenced code blocks.
- */
 export function StyledCodeBlock({
   code,
   language,
   filename,
 }: StyledCodeBlockProps) {
   const [copied, setCopied] = useState(false)
+  const [highlighted, setHighlighted] = useState<string | null>(null)
+
+  useEffect(() => {
+    let cancelled = false
+    codeToHtml(code, { lang: language ?? 'text', theme: 'github-dark-default' })
+      .then((html) => {
+        if (!cancelled) setHighlighted(html)
+      })
+      .catch(() => {
+        if (!cancelled) setHighlighted(null)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [code, language])
 
   const handleCopy = () => {
     navigator.clipboard.writeText(code || '')
@@ -27,7 +39,7 @@ export function StyledCodeBlock({
   }
 
   return (
-    <div className="border-border my-10 overflow-hidden rounded-sm border bg-[#1E1E1E]">
+    <div className="border-border my-10 overflow-hidden rounded-sm border bg-[#0d1117]">
       <div className="flex items-center justify-between border-b border-white/10 bg-white/5 px-4 py-2">
         <div className="flex items-center gap-2">
           <div className="flex gap-1.5">
@@ -52,9 +64,18 @@ export function StyledCodeBlock({
           )}
         </button>
       </div>
-      <pre className="overflow-x-auto p-6 font-mono text-sm leading-relaxed text-zinc-300 sm:text-base">
-        <code>{code}</code>
-      </pre>
+
+      {highlighted ? (
+        <div
+          className="overflow-x-auto [&>pre]:bg-transparent! [&>pre]:p-6 [&>pre]:font-mono [&>pre]:text-sm [&>pre]:leading-relaxed [&>pre]:sm:text-base"
+          dangerouslySetInnerHTML={{ __html: highlighted }}
+        />
+      ) : (
+        <pre className="overflow-x-auto p-6 font-mono text-sm leading-relaxed text-zinc-300 sm:text-base">
+          <code>{code}</code>
+        </pre>
+      )}
+
       {filename && (
         <div className="border-t border-white/10 bg-white/5 px-4 py-2 font-mono text-xs text-white/40">
           {filename}

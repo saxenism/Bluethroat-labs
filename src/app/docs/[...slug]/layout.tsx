@@ -5,6 +5,8 @@ import {
   buildDocsNavQuery,
   DOCS_SEARCH_LIST_QUERY,
   getAdjacentNavItems,
+  getNavBreadcrumb,
+  type BreadcrumbItem,
   type DocsNavData,
   type SearchableDoc,
 } from '@/lib/sanity/docs-nav'
@@ -32,17 +34,20 @@ export default async function DocsLayout({ children, params }: Props) {
   const content = typeof data?.content === 'string' ? data.content : ''
   const subSections = parseMarkdownHeadings(content)
 
-  const breadcrumbPaths = [
-    'HOME',
-    ...slugArray.map((s) => s.replace(/-/g, ' ').toUpperCase()),
-  ]
+  const navBreadcrumb = getNavBreadcrumb(navData?.items ?? [], currentSlug)
+  const breadcrumbItems: BreadcrumbItem[] = navBreadcrumb
+    ? [{ title: 'Home' }, ...navBreadcrumb]
+    : [
+        { title: 'Home', slug: '/docs' },
+        ...slugArray.map((s) => ({ title: s.replace(/-/g, ' ') })),
+      ]
 
   const { prev, next } = getAdjacentNavItems(navData?.items ?? [], currentSlug)
 
   return (
     <DocsLayoutShell
       subSections={subSections}
-      breadcrumbPaths={breadcrumbPaths}
+      breadcrumbItems={breadcrumbItems}
       navigation={navData?.items ?? []}
       searchableDocs={searchableDocs ?? []}
       version={navData?.version}

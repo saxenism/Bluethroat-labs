@@ -8,14 +8,18 @@ import { DocsBreadcrumb } from '@/components/docs/docs-breadcrumb'
 import { DocsFooter } from '@/components/docs/docs-footer'
 import { DocsTocProvider } from '@/components/docs/docs-toc-context'
 import type { MarkdownHeading } from '@/lib/markdown-headings'
-import type { NavItem, SearchableDoc } from '@/lib/sanity/docs-nav'
+import type {
+  BreadcrumbItem,
+  NavItem,
+  SearchableDoc,
+} from '@/lib/sanity/docs-nav'
 import { cn } from '@/lib/utils'
 import { ArrowLeftIcon, ArrowRightIcon } from '@/assets/icons'
 
 interface DocsLayoutShellProps {
   children: ReactNode
   subSections: MarkdownHeading[]
-  breadcrumbPaths: string[]
+  breadcrumbItems: BreadcrumbItem[]
   navigation: NavItem[]
   searchableDocs: SearchableDoc[]
   version?: string
@@ -26,7 +30,7 @@ interface DocsLayoutShellProps {
 export function DocsLayoutShell({
   children,
   subSections,
-  breadcrumbPaths,
+  breadcrumbItems,
   navigation,
   searchableDocs,
   version,
@@ -104,9 +108,10 @@ export function DocsLayoutShell({
         >
           <div className="border-border bg-background sticky top-12 z-10 w-full border-b lg:top-18">
             <DocsBreadcrumb
-              paths={breadcrumbPaths}
+              items={breadcrumbItems}
               isOpen={isContentsOpen}
               isMobileMenuOpen={isMobileSidebarOpen}
+              hasToc={subSections.length > 0}
               onToggleContents={() => setIsContentsOpen((prev) => !prev)}
               onToggleMobileMenu={() => setIsMobileSidebarOpen((prev) => !prev)}
             />

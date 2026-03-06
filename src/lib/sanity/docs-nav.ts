@@ -37,6 +37,34 @@ export const DOCS_SEARCH_LIST_QUERY = `*[_type == "doc"] {
   "slug": slug.current
 }`
 
+export interface BreadcrumbItem {
+  title: string
+  slug?: string
+}
+
+/**
+ * Walk the nav tree and return the ancestor chain (title + slug) for a given slug.
+ * Returns null if the slug is not found.
+ */
+export function getNavBreadcrumb(
+  items: NavItem[],
+  targetSlug: string,
+  ancestors: BreadcrumbItem[] = []
+): BreadcrumbItem[] | null {
+  for (const item of items) {
+    const current: BreadcrumbItem[] = [
+      ...ancestors,
+      { title: item.title, slug: item.slug },
+    ]
+    if (item.slug === targetSlug) return current
+    if (item.items?.length) {
+      const found = getNavBreadcrumb(item.items, targetSlug, current)
+      if (found) return found
+    }
+  }
+  return null
+}
+
 /** Flatten a nav tree into ordered leaf nodes (items with a slug). */
 export function flattenNavItems(items: NavItem[]): NavItem[] {
   const result: NavItem[] = []

@@ -1,5 +1,6 @@
 'use client'
 
+import React from 'react'
 import type { Components } from 'react-markdown'
 import { StyledCodeBlock } from './styled-code-block'
 
@@ -44,47 +45,64 @@ export const markdownComponents: Components = {
     </p>
   ),
   blockquote: ({ children }) => (
-    <blockquote className="border-foreground/20 bg-muted/30 my-10 rounded-sm border-l-4 p-8">
-      <p className="text-foreground/70 font-mono text-lg leading-relaxed italic">
-        {children}
-      </p>
+    <blockquote className="border-foreground/30 [&>p]:text-foreground/70 my-10 border-l-4 py-1 pr-2 pl-6 [&>p]:mb-0 [&>p]:italic">
+      {children}
     </blockquote>
   ),
   ul: ({ children }) => (
-    <ul className="text-foreground/80 [&>li]:before:text-foreground/40 my-8 list-none space-y-4 font-mono text-lg leading-relaxed [&>li]:flex [&>li]:before:mr-4 [&>li]:before:content-['■']">
-      {children}
-    </ul>
+    <ul className="my-8 list-none space-y-2 pl-0 [&_li>p]:mb-0">{children}</ul>
   ),
   ol: ({ children }) => (
-    <ol className="text-foreground/80 my-8 list-outside list-decimal space-y-4 pl-6 font-mono text-lg leading-relaxed">
+    <ol className="marker:text-foreground/40 my-8 list-decimal space-y-2 pl-5 [&_li>p]:mb-0">
       {children}
     </ol>
   ),
-  li: ({ children }) => (
-    <li className="text-foreground/80 font-mono text-lg leading-relaxed">
-      {children}
-    </li>
-  ),
-  hr: () => <hr className="border-border my-10 border-t" aria-hidden />,
-  pre: ({ children }) => <>{children}</>,
-  code: ({ children, className }) => {
-    const isFencedBlock = className?.includes('language-')
-    const language = isFencedBlock
-      ? (className?.replace(/^language-/, '').split(/\s/)[0] ?? undefined)
-      : undefined
-    if (isFencedBlock) {
-      return (
-        <StyledCodeBlock code={String(children ?? '')} language={language} />
-      )
-    }
+  li: ({ children, ...props }) => {
+    const ordered = (props as { ordered?: boolean }).ordered
     return (
-      <code className="bg-muted text-foreground rounded px-1.5 py-0.5 text-sm">
+      <li className="text-foreground/80 flex gap-3 font-mono text-base leading-relaxed">
+        {!ordered && (
+          <span className="text-foreground/40 mt-[5px] shrink-0 text-xs select-none">
+            ■
+          </span>
+        )}
+        <span className="min-w-0">{children}</span>
+      </li>
+    )
+  },
+  hr: () => <hr className="border-border my-10 border-t" aria-hidden />,
+  pre: ({ children }) => {
+    // `pre` only wraps fenced code blocks, never inline code.
+    // Extract the code string and optional language from the child <code> element.
+    const child = children as React.ReactElement<{
+      className?: string
+      children?: string
+    }>
+    const className = child?.props?.className ?? ''
+    const language = className.includes('language-')
+      ? className.replace(/^language-/, '').split(/\s/)[0]
+      : undefined
+    const code = String(child?.props?.children ?? '').replace(/\n$/, '')
+    return <StyledCodeBlock code={code} language={language} />
+  },
+  code: ({ children, className }) => {
+    // Only inline code reaches here (fenced blocks are handled by `pre`).
+    if (className?.includes('language-')) return null
+    return (
+      <code className="bg-muted text-foreground rounded px-1.5 py-0.5 font-mono text-sm">
         {children}
       </code>
     )
   },
-  strong: ({ children }) => <strong>{children}</strong>,
-  em: ({ children }) => <em>{children}</em>,
+  strong: ({ children }) => (
+    <strong className="text-foreground font-bold">{children}</strong>
+  ),
+  em: ({ children }) => (
+    <em className="text-foreground/80 italic">{children}</em>
+  ),
+  del: ({ children }) => (
+    <del className="text-foreground/50 line-through">{children}</del>
+  ),
   a: ({ children, href }) => (
     <a
       href={href}
@@ -104,5 +122,25 @@ export const markdownComponents: Components = {
         className="border-border w-full max-w-full rounded-sm border object-contain"
       />
     </span>
+  ),
+  table: ({ children }) => (
+    <div className="my-10 overflow-x-auto">
+      <table className="border-border w-full border-collapse border font-mono text-sm">
+        {children}
+      </table>
+    </div>
+  ),
+  thead: ({ children }) => <thead className="bg-muted/50">{children}</thead>,
+  tbody: ({ children }) => <tbody>{children}</tbody>,
+  tr: ({ children }) => <tr className="border-border border-b">{children}</tr>,
+  th: ({ children }) => (
+    <th className="border-border text-foreground border px-4 py-2 text-left font-bold">
+      {children}
+    </th>
+  ),
+  td: ({ children }) => (
+    <td className="border-border text-foreground/80 border px-4 py-2">
+      {children}
+    </td>
   ),
 }

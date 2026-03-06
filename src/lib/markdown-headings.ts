@@ -1,5 +1,7 @@
 /**
- * Slugify a string for use as a heading id (lowercase, spaces to hyphens, strip non-alphanumeric).
+ * Slugify a string for use as a heading id.
+ * Matches github-slugger behavior (used by rehype-slug) exactly:
+ * lowercase, spaces to hyphens, strip non-alphanumeric/non-hyphen — no hyphen collapsing.
  */
 export function slugify(text: string): string {
   return (
@@ -7,9 +9,7 @@ export function slugify(text: string): string {
       .toLowerCase()
       .trim()
       .replace(/\s+/g, '-')
-      .replace(/[^\p{L}\p{N}-]/gu, '')
-      .replace(/-+/g, '-')
-      .replace(/^-|-$/g, '') || 'section'
+      .replace(/[^\p{L}\p{N}-]/gu, '') || 'section'
   )
 }
 
