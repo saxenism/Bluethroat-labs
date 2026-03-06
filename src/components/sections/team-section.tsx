@@ -143,6 +143,7 @@ const TEAM_MEMBERS = [
     exRole: 'Malware Analyst',
     image: '/team/abhimanyu.png',
     xUrl: 'https://x.com/hackerjedi666',
+    email: 'abhimanyu.gupta@rubberduckypro.com',
   },
   {
     name: 'Chloe',
