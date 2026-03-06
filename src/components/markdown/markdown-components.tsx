@@ -73,7 +73,7 @@ export const markdownComponents: MDXComponents = {
   ol: ({ children, start }) => (
     <ol
       start={start}
-      className="my-4 list-outside list-decimal space-y-2 pl-7 text-[#454545] dark:text-[#CACACA] [&_li>p]:mb-0"
+      className="my-4 list-outside list-decimal space-y-2 pl-10 text-[#454545] dark:text-[#CACACA] [&_li>p]:mb-0"
     >
       {children}
     </ol>
