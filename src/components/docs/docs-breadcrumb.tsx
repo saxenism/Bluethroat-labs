@@ -60,7 +60,7 @@ export function DocsBreadcrumb({
             isLast
               ? 'text-[#454545] dark:text-[#A9A9A9]'
               : 'text-[#8F8F8F] dark:text-[#666666]',
-            isClickable && 'hover:text-foreground transition-colors'
+            isClickable && 'hover:text-[#454545] dark:hover:text-[#A9A9A9]'
           )
           return (
             <Fragment key={idx}>

@@ -1,41 +1,39 @@
-'use client'
-
 import React from 'react'
-import type { Components } from 'react-markdown'
+import type { MDXComponents } from 'mdx/types'
 import { StyledCodeBlock } from './styled-code-block'
 
 /**
- * Shared markdown components for docs and blogs (headings, paragraphs, lists,
+ * Shared MDX components for docs and blogs (headings, paragraphs, lists,
  * blockquote, code blocks, hr, links, images). Uses StyledCodeBlock for fenced code.
  */
-export const markdownComponents: Components = {
-  h1: ({ children }) => (
-    <h1 className="text-foreground mt-4 mb-8 font-mono text-3xl leading-tight font-medium sm:text-4xl">
+export const markdownComponents: MDXComponents = {
+  h1: ({ children, id }) => (
+    <h1 id={id} className="text-foreground mt-4 mb-8 font-mono text-3xl leading-tight font-medium sm:text-4xl">
       {children}
     </h1>
   ),
-  h2: ({ children }) => (
-    <h2 className="text-foreground mt-12 mb-6 font-mono text-3xl font-bold tracking-tighter">
+  h2: ({ children, id }) => (
+    <h2 id={id} className="text-foreground mt-12 mb-6 font-mono text-3xl font-bold tracking-tighter">
       {children}
     </h2>
   ),
-  h3: ({ children }) => (
-    <h3 className="text-foreground mt-10 mb-4 font-mono text-2xl font-bold tracking-tighter">
+  h3: ({ children, id }) => (
+    <h3 id={id} className="text-foreground mt-10 mb-4 font-mono text-2xl font-bold tracking-tighter">
       {children}
     </h3>
   ),
-  h4: ({ children }) => (
-    <h4 className="text-foreground mt-8 mb-3 font-mono text-xl font-bold tracking-tight">
+  h4: ({ children, id }) => (
+    <h4 id={id} className="text-foreground mt-8 mb-3 font-mono text-xl font-bold tracking-tight">
       {children}
     </h4>
   ),
-  h5: ({ children }) => (
-    <h5 className="text-foreground mt-6 mb-2 font-mono text-lg font-bold tracking-tight">
+  h5: ({ children, id }) => (
+    <h5 id={id} className="text-foreground mt-6 mb-2 font-mono text-lg font-bold tracking-tight">
       {children}
     </h5>
   ),
-  h6: ({ children }) => (
-    <h6 className="text-foreground mt-4 mb-2 font-mono text-base font-bold tracking-tight">
+  h6: ({ children, id }) => (
+    <h6 id={id} className="text-foreground mt-4 mb-2 font-mono text-base font-bold tracking-tight">
       {children}
     </h6>
   ),
@@ -72,8 +70,7 @@ export const markdownComponents: Components = {
   },
   hr: () => <hr className="border-border my-10 border-t" aria-hidden />,
   pre: ({ children }) => {
-    // `pre` only wraps fenced code blocks, never inline code.
-    // Extract the code string and optional language from the child <code> element.
+    // Extract code string and language from the child <code> element.
     const child = children as React.ReactElement<{
       className?: string
       children?: string

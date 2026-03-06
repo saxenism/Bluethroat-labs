@@ -102,7 +102,7 @@ export function DocsLayoutShell({
 
         <div
           className={cn(
-            'border-border min-w-0 border-r',
+            'border-border w-full min-w-0 border-r',
             isContentsOpen ? '' : 'lg:mr-18'
           )}
         >

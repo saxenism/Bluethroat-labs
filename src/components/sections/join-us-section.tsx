@@ -1,5 +1,3 @@
-'use client'
-
 import { MailIcon } from '@/assets/icons'
 import Image from 'next/image'
 

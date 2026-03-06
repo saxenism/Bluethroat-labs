@@ -1,41 +1,46 @@
-'use client'
-
-import ReactMarkdown from 'react-markdown'
+import * as runtime from 'react/jsx-runtime'
+import { evaluate } from '@mdx-js/mdx'
 import remarkGfm from 'remark-gfm'
-import type { Components, Options } from 'react-markdown'
+import rehypeSlug from 'rehype-slug'
 import { markdownComponents } from './markdown-components'
 import { cn } from '@/lib/utils'
+import type { MDXComponents } from 'mdx/types'
 
 interface MarkdownRendererProps {
   content: string
   className?: string
-  /** Override default components (default: shared markdownComponents). */
-  components?: Components
-  /** Additional rehype plugins (e.g. rehype-slug). */
-  rehypePlugins?: Options['rehypePlugins']
+  /** Override or extend default components. */
+  components?: MDXComponents
+  /** Enable anchor slugs on headings (default: false). */
+  withSlug?: boolean
 }
 
 /**
- * Renders markdown (basic + GFM). Uses shared styled components by default.
- * Docs and blogs use this with the default components for consistent styling.
+ * Async RSC that evaluates MDX on the server — no client JS, no flash of empty content.
+ * Content from Sanity strings is compiled at request time.
  */
-export function MarkdownRenderer({
+export async function MarkdownRenderer({
   content,
   className = '',
-  components = markdownComponents,
-  rehypePlugins,
+  components,
+  withSlug = false,
 }: MarkdownRendererProps) {
   if (!content?.trim()) return null
 
+  const { default: MDXContent } = await evaluate(content, {
+    ...(runtime as Parameters<typeof evaluate>[1]),
+    remarkPlugins: [remarkGfm],
+    rehypePlugins: withSlug ? [rehypeSlug] : [],
+  })
+
+  const mergedComponents: MDXComponents = {
+    ...(markdownComponents as MDXComponents),
+    ...components,
+  }
+
   return (
     <div className={cn('wrap-break-word', className)}>
-      <ReactMarkdown
-        remarkPlugins={[remarkGfm]}
-        rehypePlugins={rehypePlugins}
-        components={components}
-      >
-        {content}
-      </ReactMarkdown>
+      <MDXContent components={mergedComponents} />
     </div>
   )
 }
