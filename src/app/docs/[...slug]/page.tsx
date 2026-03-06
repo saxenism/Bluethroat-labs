@@ -9,6 +9,12 @@ interface DocPageData {
   title: string
   heroImage?: { asset: { _ref: string; _type: string } }
   content?: string
+  seo?: {
+    title?: string
+    description?: string
+    keywords?: string[]
+    bannerImage?: { asset: { _ref: string; _type: string } }
+  }
 }
 
 type Props = { params: Promise<{ slug: string[] }> }
@@ -18,6 +24,12 @@ async function getDoc(slug: string): Promise<DocPageData | null> {
         title,
         heroImage,
         content,
+        seo {
+          title,
+          description,
+          keywords,
+          bannerImage
+        },
         relatedBlogs[]-> {
             title,
             "slug": slug.current,
@@ -38,11 +50,36 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const currentSlug = getCurrentSlug(slug ?? [])
   const doc = await getDoc(currentSlug)
 
-  if (!doc) {
-    return { title: 'Docs | Bluethroat Labs' }
-  }
+  if (!doc) return { title: 'Docs | Bluethroat Labs' }
 
-  return { title: `${doc.title} | Bluethroat Labs` }
+  const seoTitle = doc.seo?.title || doc.title
+  const seoDescription = doc.seo?.description
+  const seoKeywords = doc.seo?.keywords
+  const ogImage = doc.seo?.bannerImage
+    ? urlFor(doc.seo.bannerImage).url()
+    : '/og-image.png'
+
+  const canonicalUrl = `/docs/${currentSlug}`
+
+  return {
+    title: seoTitle,
+    ...(seoDescription && { description: seoDescription }),
+    ...(seoKeywords?.length && { keywords: seoKeywords }),
+    alternates: { canonical: canonicalUrl },
+    openGraph: {
+      type: 'article',
+      url: canonicalUrl,
+      title: seoTitle,
+      ...(seoDescription && { description: seoDescription }),
+      images: [{ url: ogImage, width: 1200, height: 630 }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: seoTitle,
+      ...(seoDescription && { description: seoDescription }),
+      images: [ogImage],
+    },
+  }
 }
 
 export default async function DocsPage({ params }: Props) {

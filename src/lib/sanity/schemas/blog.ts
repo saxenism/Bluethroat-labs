@@ -45,6 +45,44 @@ const blog = {
       components: { input: MarkdownEditorInput },
       validation: (Rule: StringRule) => Rule.required(),
     },
+    {
+      name: 'seo',
+      title: 'SEO',
+      type: 'object',
+      options: { collapsible: true, collapsed: true },
+      fields: [
+        {
+          name: 'title',
+          title: 'SEO Title',
+          type: 'string',
+          description:
+            'Overrides the post title in search results. Leave blank to use the post title.',
+        },
+        {
+          name: 'description',
+          title: 'SEO Description',
+          type: 'text',
+          rows: 3,
+          description:
+            'Short description shown in search results (150–160 chars recommended).',
+        },
+        {
+          name: 'keywords',
+          title: 'SEO Keywords',
+          type: 'array',
+          of: [{ type: 'string' }],
+          options: { layout: 'tags' },
+        },
+        {
+          name: 'bannerImage',
+          title: 'SEO Banner Image',
+          type: 'image',
+          options: { hotspot: true },
+          description:
+            'Used for Open Graph / social sharing. Defaults to the post banner image.',
+        },
+      ],
+    },
   ],
 }
 

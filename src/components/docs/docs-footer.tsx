@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { IconLogo } from '@/assets/logos'
 import { MailIcon, XIcon } from '@/assets/icons'
+import { CopyrightIcon } from 'lucide-react'
 
 export function DocsFooter() {
   return (
@@ -33,14 +34,14 @@ export function DocsFooter() {
         </div>
       </div>
 
-      {/* <div className="border-border text-foreground flex items-center justify-center border-t bg-[#f2f2f2] p-3 text-sm dark:bg-[#191919]">
+      <div className="border-border text-foreground flex items-center justify-center border-t bg-[#f2f2f2] p-3 text-sm dark:bg-[#191919]">
         <p className="flex items-center gap-2 whitespace-nowrap">
           <CopyrightIcon className="text-foreground/70 h-6 w-6" />
           <span className="text-foreground/70 text-base font-medium">
             {new Date().getFullYear()} Bluethroat Labs
           </span>
         </p>
-      </div> */}
+      </div>
     </footer>
   )
 }

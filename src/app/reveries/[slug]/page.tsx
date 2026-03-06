@@ -17,7 +17,13 @@ async function getPost(slug: string) {
         content,
         "category": category->title,
         publishedAt,
-        "author": author->name
+        "author": author->name,
+        seo {
+          title,
+          description,
+          keywords,
+          bannerImage
+        }
     }`
   return await client.fetch(query, { slug })
 }
@@ -25,7 +31,37 @@ async function getPost(slug: string) {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const post = await getPost(slug)
-  return { title: post ? `${post.title} | Bluethroat Labs` : 'Blog' }
+
+  if (!post) return { title: 'Blog | Bluethroat Labs' }
+
+  const seoTitle = post.seo?.title || post.title
+  const seoDescription = post.seo?.description
+  const seoKeywords = post.seo?.keywords
+  const ogImage = post.seo?.bannerImage
+    ? urlFor(post.seo.bannerImage).url()
+    : '/og-image.png'
+
+  const canonicalUrl = `/reveries/${slug}`
+
+  return {
+    title: seoTitle,
+    ...(seoDescription && { description: seoDescription }),
+    ...(seoKeywords?.length && { keywords: seoKeywords }),
+    alternates: { canonical: canonicalUrl },
+    openGraph: {
+      type: 'article',
+      url: canonicalUrl,
+      title: seoTitle,
+      ...(seoDescription && { description: seoDescription }),
+      images: [{ url: ogImage, width: 1200, height: 630 }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: seoTitle,
+      ...(seoDescription && { description: seoDescription }),
+      images: [ogImage],
+    },
+  }
 }
 
 export default async function BlogPostPage({ params }: Props) {
