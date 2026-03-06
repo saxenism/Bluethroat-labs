@@ -8,15 +8,19 @@ import type { NavItem, SearchableDoc } from '@/lib/sanity/docs-nav'
 interface DocsSidebarProps {
   navigation: NavItem[]
   searchableDocs: SearchableDoc[]
+  onNavigate?: () => void
 }
 
-export function DocsSidebar({ navigation, searchableDocs }: DocsSidebarProps) {
+export function DocsSidebar({
+  navigation,
+  searchableDocs,
+  onNavigate,
+}: DocsSidebarProps) {
   const [searchQuery, setSearchQuery] = useState('')
   const params = useParams()
   const pathname = usePathname()
   const currentSlug = (params.slug as string[])?.join('/') || ''
 
-  // Client-side search over pre-fetched doc list (statically generated)
   const searchResults = useMemo(() => {
     const q = searchQuery.trim().toLowerCase()
     if (!q) return null
@@ -27,7 +31,6 @@ export function DocsSidebar({ navigation, searchableDocs }: DocsSidebarProps) {
     )
   }, [searchQuery, searchableDocs])
 
-  // Filter nav tree by title when not showing search results
   const filteredNavigation = useMemo(() => {
     if (!searchQuery || searchResults !== null) return navigation
 
@@ -52,39 +55,41 @@ export function DocsSidebar({ navigation, searchableDocs }: DocsSidebarProps) {
   }, [searchQuery, navigation, searchResults])
 
   return (
-    <aside className="border-border bg-background sticky top-16 z-30 hidden h-[calc(100vh-64px)] w-[320px] shrink-0 overflow-y-auto border-r pt-12 md:block">
-      {/* Search Section */}
-      <div className="border-border bg-background sticky top-0 z-10 border-y">
+    <aside className="border-border bg-background sticky top-18 z-30 h-[calc(100vh-72px)] w-80 shrink-0 overflow-y-auto border-r pt-12 max-lg:h-auto max-lg:w-full max-lg:border-r-0 max-lg:pt-0">
+      <div className="border-border bg-background sticky -top-12.25 z-10 mb-4 border-y max-lg:hidden">
         <div className="group relative py-2">
-          <Search className="text-muted-foreground group-focus-within:text-foreground absolute top-1/2 left-3 h-5 w-5 -translate-y-1/2 transition-colors" />
+          <Search className="text-muted-foreground group-focus-within:text-foreground absolute top-1/2 left-3 size-6 -translate-y-1/2" />
           <input
             type="text"
-            placeholder="Search Docs..."
+            placeholder="Quick Search"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="text-md focus:border-foreground h-10 w-full pr-12 pl-12 font-mono transition-colors focus:outline-none"
+            className="focus:border-foreground h-18 w-full px-12 font-mono text-xl focus:outline-none"
           />
         </div>
       </div>
 
-      {/* Doc navigation tree */}
       <div>
         <nav>
           {searchResults ? (
             <div className="py-4">
-              <div className="text-muted-foreground mb-4 px-6 font-mono text-[10px] tracking-widest uppercase">
+              <div className="text-foreground mb-4 px-6 text-xs tracking-widest uppercase">
                 Search Results
               </div>
               {searchResults.length > 0 ? (
                 searchResults.map((result) => (
-                  <Link key={result.slug} href={`/docs/${result.slug}`}>
-                    <div className="hover:bg-muted border-border/50 border-b px-6 py-4 font-mono text-sm">
+                  <Link
+                    key={result.slug}
+                    href={`/docs/${result.slug}`}
+                    onClick={onNavigate}
+                  >
+                    <div className="px-6 py-4 font-semibold text-[#7D7D7D] hover:bg-[#E6E6E6] dark:hover:bg-[#292929]">
                       {result.title}
                     </div>
                   </Link>
                 ))
               ) : (
-                <div className="text-muted-foreground px-6 py-4 font-mono text-sm">
+                <div className="text-muted-foreground px-6 py-4 text-sm">
                   No matches found
                 </div>
               )}
@@ -97,6 +102,7 @@ export function DocsSidebar({ navigation, searchableDocs }: DocsSidebarProps) {
                 depth={0}
                 currentSlug={currentSlug}
                 pathname={pathname}
+                onNavigate={onNavigate}
               />
             ))
           )}
@@ -111,11 +117,13 @@ function SidebarItem({
   depth,
   currentSlug,
   pathname,
+  onNavigate,
 }: {
   item: NavItem
   depth: number
   currentSlug: string
   pathname: string
+  onNavigate?: () => void
 }) {
   const isActive = item.slug ? currentSlug === item.slug : false
   const isChildActive = useMemo(() => {
@@ -130,20 +138,18 @@ function SidebarItem({
 
   const [isOpen, setIsOpen] = useState(isActive || isChildActive || depth === 0)
   const hasItems = item.items && item.items.length > 0
-  const paddingLeft =
-    depth === 0 ? 'px-6' : depth === 1 ? 'pl-10 pr-6' : 'pl-14 pr-6'
 
   const content = (
     <div
       className={cn(
-        'group hover:bg-muted flex cursor-pointer items-center justify-between py-5 font-mono text-sm transition-colors',
-        paddingLeft,
+        'group flex cursor-pointer items-center justify-between border-y border-transparent py-5 pr-2',
         isActive
-          ? 'bg-muted text-foreground border-border border-y'
-          : 'text-muted-foreground hover:text-foreground'
+          ? 'text-foreground border-border bg-[#E6E6E6] dark:bg-[#292929]'
+          : 'text-[#7D7D7D] hover:bg-[#E6E6E6] dark:hover:bg-[#292929]'
       )}
+      style={{ paddingLeft: `${24 + depth * 16}px` }}
     >
-      <span className="flex-1 text-sm">{item.title}</span>
+      <span className="flex-1 text-base">{item.title}</span>
       {hasItems && (
         <button
           onClick={(e) => {
@@ -151,12 +157,12 @@ function SidebarItem({
             e.stopPropagation()
             setIsOpen(!isOpen)
           }}
-          className="hover:text-foreground p-1 transition-colors"
+          className="hover:bg-border hover:text-foreground"
         >
           {isOpen ? (
-            <ChevronDown className="h-6 w-6" />
+            <ChevronDown className="size-8" />
           ) : (
-            <ChevronRight className="h-6 w-6" />
+            <ChevronRight className="size-8" />
           )}
         </button>
       )}
@@ -166,13 +172,15 @@ function SidebarItem({
   return (
     <div>
       {item.slug ? (
-        <Link href={`/docs/${item.slug}`}>{content}</Link>
+        <Link href={`/docs/${item.slug}`} onClick={onNavigate}>
+          {content}
+        </Link>
       ) : (
         <div onClick={() => setIsOpen(!isOpen)}>{content}</div>
       )}
 
       {hasItems && isOpen && (
-        <div className="mt-0.5">
+        <div>
           {item.items?.map((subItem, idx: number) => (
             <SidebarItem
               key={idx}
@@ -180,6 +188,7 @@ function SidebarItem({
               depth={depth + 1}
               currentSlug={currentSlug}
               pathname={pathname}
+              onNavigate={onNavigate}
             />
           ))}
         </div>

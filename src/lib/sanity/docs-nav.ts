@@ -36,3 +36,25 @@ export const DOCS_SEARCH_LIST_QUERY = `*[_type == "doc"] {
   title,
   "slug": slug.current
 }`
+
+/** Flatten a nav tree into ordered leaf nodes (items with a slug). */
+export function flattenNavItems(items: NavItem[]): NavItem[] {
+  const result: NavItem[] = []
+  for (const item of items) {
+    if (item.slug) result.push(item)
+    if (item.items?.length) result.push(...flattenNavItems(item.items))
+  }
+  return result
+}
+
+export function getAdjacentNavItems(
+  items: NavItem[],
+  currentSlug: string
+): { prev: NavItem | null; next: NavItem | null } {
+  const flat = flattenNavItems(items)
+  const idx = flat.findIndex((i) => i.slug === currentSlug)
+  return {
+    prev: idx > 0 ? flat[idx - 1] : null,
+    next: idx < flat.length - 1 ? flat[idx + 1] : null,
+  }
+}

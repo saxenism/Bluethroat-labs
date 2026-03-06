@@ -13,16 +13,5 @@ export function urlFor(source: SanityImageSource | string) {
     return { url: () => source }
   }
 
-  // Handle our mock data "dummy-ref"
-  if (
-    typeof source === 'object' &&
-    source !== null &&
-    'asset' in source &&
-    typeof (source as { asset?: { _ref?: string } }).asset?._ref === 'string' &&
-    (source as { asset: { _ref: string } }).asset._ref === 'dummy-ref'
-  ) {
-    return { url: () => '/dark-mode/dark-footer.png' }
-  }
-
   return builder.image(source as SanityImageSource)
 }

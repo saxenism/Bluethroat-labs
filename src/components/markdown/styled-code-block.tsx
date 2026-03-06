@@ -42,7 +42,7 @@ export function StyledCodeBlock({
         <button
           onClick={handleCopy}
           type="button"
-          className="group rounded-md p-1.5 transition-colors hover:bg-white/10"
+          className="group rounded-md p-1.5 hover:bg-white/10"
           title="Copy code"
         >
           {copied ? (

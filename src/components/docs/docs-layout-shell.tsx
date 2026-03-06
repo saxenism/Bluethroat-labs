@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState, type ReactNode } from 'react'
+import Link from 'next/link'
 import { DocsNavbar } from '@/components/docs/docs-navbar'
 import { DocsSidebar } from '@/components/docs/docs-sidebar'
 import { DocsBreadcrumb } from '@/components/docs/docs-breadcrumb'
@@ -9,6 +10,7 @@ import { DocsTocProvider } from '@/components/docs/docs-toc-context'
 import type { MarkdownHeading } from '@/lib/markdown-headings'
 import type { NavItem, SearchableDoc } from '@/lib/sanity/docs-nav'
 import { cn } from '@/lib/utils'
+import { ArrowLeftIcon, ArrowRightIcon } from '@/assets/icons'
 
 interface DocsLayoutShellProps {
   children: ReactNode
@@ -17,6 +19,8 @@ interface DocsLayoutShellProps {
   navigation: NavItem[]
   searchableDocs: SearchableDoc[]
   version?: string
+  prev?: NavItem | null
+  next?: NavItem | null
 }
 
 export function DocsLayoutShell({
@@ -26,9 +30,35 @@ export function DocsLayoutShell({
   navigation,
   searchableDocs,
   version,
+  prev,
+  next,
 }: DocsLayoutShellProps) {
   const [isContentsOpen, setIsContentsOpen] = useState(false)
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false)
   const [activeSection, setActiveSection] = useState<string>('')
+
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 1024px)')
+
+    if (isMobileSidebarOpen && !mq.matches) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+
+    const handleResize = (e: MediaQueryListEvent) => {
+      if (e.matches) {
+        document.body.style.overflow = ''
+        setIsMobileSidebarOpen(false)
+      }
+    }
+
+    mq.addEventListener('change', handleResize)
+    return () => {
+      document.body.style.overflow = ''
+      mq.removeEventListener('change', handleResize)
+    }
+  }, [isMobileSidebarOpen])
 
   useEffect(() => {
     if (!subSections?.length) return
@@ -56,79 +86,126 @@ export function DocsLayoutShell({
 
   return (
     <DocsTocProvider subSections={subSections} activeSection={activeSection}>
-      <div className="bg-background text-foreground selection:bg-foreground selection:text-background flex h-screen flex-col overflow-hidden leading-relaxed">
-        {/* Navbar */}
-        <DocsNavbar version={version} />
+      <DocsNavbar version={version} />
 
-        <div className="flex flex-1 overflow-hidden pt-16">
-          {/* 1. Left Sidebar */}
+      <div className="flex flex-1">
+        <div className="max-lg:hidden">
           <DocsSidebar
             navigation={navigation}
             searchableDocs={searchableDocs}
           />
+        </div>
 
-          {/* 2. Middle Column */}
-          <div className="bg-background border-border mr-15 flex min-w-0 flex-1 flex-col border-r">
-            {/* FIXED BREADCRUMB SECTION */}
-            <div className="bg-background border-border w-full flex-none border-b">
-              <DocsBreadcrumb
-                paths={breadcrumbPaths}
-                isOpen={isContentsOpen}
-                onToggleContents={() => setIsContentsOpen(!isContentsOpen)}
+        <div
+          className={cn(
+            'border-border min-w-0 border-r',
+            isContentsOpen ? '' : 'lg:mr-18'
+          )}
+        >
+          <div className="border-border bg-background sticky top-12 z-10 w-full border-b lg:top-18">
+            <DocsBreadcrumb
+              paths={breadcrumbPaths}
+              isOpen={isContentsOpen}
+              isMobileMenuOpen={isMobileSidebarOpen}
+              onToggleContents={() => setIsContentsOpen((prev) => !prev)}
+              onToggleMobileMenu={() => setIsMobileSidebarOpen((prev) => !prev)}
+            />
+            <div
+              className={cn(
+                'bg-background border-border absolute top-full right-0 left-0 overflow-y-auto border-t border-b lg:hidden',
+                isMobileSidebarOpen ? 'max-h-[calc(100vh-144px)]' : 'max-h-0'
+              )}
+            >
+              <DocsSidebar
+                navigation={navigation}
+                searchableDocs={searchableDocs}
+                onNavigate={() => setIsMobileSidebarOpen(false)}
               />
             </div>
-
-            {/* SCROLLABLE BODY SECTION */}
-            <main className="flex-1 overflow-y-auto">
-              <div className="w-full">{children}</div>
-              <DocsFooter />
-            </main>
           </div>
 
-          {/* 3. Right Column - Contents Sidebar */}
-          {isContentsOpen && (
-            <aside className="bg-background hidden w-54 -translate-x-8 overflow-y-auto py-8 transition-all duration-300 lg:block">
-              <div className="group mb-8 flex cursor-default items-center gap-2">
-                <div className="bg-border group-hover:bg-foreground h-6 w-1.5 transition-colors" />
-                <h3 className="text-muted-foreground font-mono text-[11px] tracking-[0.2em] uppercase">
-                  Contents
-                </h3>
-              </div>
-              <nav className="space-y-4">
-                <ul className="border-border/50 relative ml-0.5 space-y-6 border-l pl-0">
-                  {subSections.map((section) => {
-                    const isActive = activeSection === section.id
-                    const isSubHeading = section.style === 'h3'
-                    return (
-                      <li
-                        key={section.id}
+          <main className="overflow-y-auto">
+            <div className="w-full">{children}</div>
+
+            {(prev || next) && (
+              <nav className="container mx-auto grid grid-cols-1 gap-3 px-4 md:grid-cols-2 md:px-8">
+                <div className="">
+                  {!!prev?.slug && (
+                    <Link
+                      href={`/docs/${prev.slug}`}
+                      className="border-border flex h-full flex-col gap-4 border p-6 hover:bg-[#E6E6E6] dark:hover:bg-[#292929]"
+                    >
+                      <span className="flex items-center gap-2 text-lg font-semibold text-[#292929] md:text-xl dark:text-[#A9A9A9]">
+                        <ArrowLeftIcon /> Previous
+                      </span>
+                      <p className="text-foreground text-lg font-semibold md:text-2xl">
+                        {prev.title}
+                      </p>
+                    </Link>
+                  )}
+                </div>
+
+                <div>
+                  {!!next?.slug && (
+                    <Link
+                      href={`/docs/${next.slug}`}
+                      className="border-border flex h-full flex-col items-end gap-4 border p-6 text-right hover:bg-[#E6E6E6] dark:hover:bg-[#292929]"
+                    >
+                      <span className="flex items-center gap-2 text-lg font-semibold text-[#292929] md:text-xl dark:text-[#A9A9A9]">
+                        Next <ArrowRightIcon />
+                      </span>
+                      <p className="text-foreground text-lg font-semibold md:text-2xl">
+                        {next.title}
+                      </p>
+                    </Link>
+                  )}
+                </div>
+              </nav>
+            )}
+
+            <DocsFooter />
+          </main>
+        </div>
+
+        {isContentsOpen && (
+          <aside className="sticky top-18 hidden h-[calc(100vh-72px)] min-w-75 overflow-y-auto px-6 py-4 lg:block">
+            <div className="group mb-8 flex cursor-default items-center gap-2">
+              <div className="bg-border group-hover:bg-foreground h-6 w-1.5" />
+              <h3 className="text-muted-foreground text-[11px] tracking-[0.2em] uppercase">
+                Contents
+              </h3>
+            </div>
+            <nav className="space-y-4">
+              <ul className="relative ml-0.5 space-y-6 pl-0">
+                {subSections.map((section) => {
+                  const isActive = activeSection === section.id
+                  const isSubHeading = section.style === 'h3'
+                  return (
+                    <li
+                      key={section.id}
+                      className={cn('relative', isSubHeading ? 'pl-8' : 'pl-5')}
+                    >
+                      {isActive && (
+                        <div className="bg-foreground absolute top-0 bottom-0 left-[-2px] w-[3px] rounded-full shadow-[0_0_8px_rgba(0,0,0,0.1)]" />
+                      )}
+                      <a
+                        href={`#${section.id}`}
                         className={cn(
-                          'relative',
-                          isSubHeading ? 'pl-8' : 'pl-5'
+                          'hover:text-foreground block text-[13px] leading-snug',
+                          isActive
+                            ? 'text-foreground translate-x-1 font-bold italic'
+                            : 'text-muted-foreground'
                         )}
                       >
-                        {isActive && (
-                          <div className="bg-foreground absolute top-0 bottom-0 left-[-2px] w-[3px] rounded-full shadow-[0_0_8px_rgba(0,0,0,0.1)]" />
-                        )}
-                        <a
-                          href={`#${section.id}`}
-                          className={cn(
-                            'hover:text-foreground block font-mono text-[13px] leading-snug transition-all duration-300',
-                            isActive
-                              ? 'text-foreground translate-x-1 font-bold italic'
-                              : 'text-muted-foreground'
-                          )}
-                        >
-                          {section.title}
-                        </a>
-                      </li>
-                    )
-                  })}
-                </ul>
-              </nav>
-            </aside>
-          )}
-        </div>
+                        {section.title}
+                      </a>
+                    </li>
+                  )
+                })}
+              </ul>
+            </nav>
+          </aside>
+        )}
       </div>
     </DocsTocProvider>
   )

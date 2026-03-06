@@ -4,6 +4,7 @@ import { client } from '@/lib/sanity/client'
 import {
   buildDocsNavQuery,
   DOCS_SEARCH_LIST_QUERY,
+  getAdjacentNavItems,
   type DocsNavData,
   type SearchableDoc,
 } from '@/lib/sanity/docs-nav'
@@ -36,6 +37,8 @@ export default async function DocsLayout({ children, params }: Props) {
     ...slugArray.map((s) => s.replace(/-/g, ' ').toUpperCase()),
   ]
 
+  const { prev, next } = getAdjacentNavItems(navData?.items ?? [], currentSlug)
+
   return (
     <DocsLayoutShell
       subSections={subSections}
@@ -43,6 +46,8 @@ export default async function DocsLayout({ children, params }: Props) {
       navigation={navData?.items ?? []}
       searchableDocs={searchableDocs ?? []}
       version={navData?.version}
+      prev={prev}
+      next={next}
     >
       {children}
     </DocsLayoutShell>
