@@ -65,8 +65,7 @@ const doc = {
           title: 'SEO Banner Image',
           type: 'image',
           options: { hotspot: true },
-          description:
-            'Used for Open Graph / social sharing. Defaults to the doc hero image.',
+          description: 'Used for Open Graph / social sharing.',
         },
       ],
     },

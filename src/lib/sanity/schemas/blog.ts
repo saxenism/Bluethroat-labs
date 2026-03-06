@@ -78,8 +78,7 @@ const blog = {
           title: 'SEO Banner Image',
           type: 'image',
           options: { hotspot: true },
-          description:
-            'Used for Open Graph / social sharing. Defaults to the post banner image.',
+          description: 'Used for Open Graph / social sharing.',
         },
       ],
     },
