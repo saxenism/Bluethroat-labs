@@ -18,16 +18,51 @@ function TooltipProvider({
   )
 }
 
+const TooltipContext = React.createContext<{
+  open: boolean
+  handleOpenChange: (value: boolean) => void
+} | null>(null)
+
 function Tooltip({
+  open: openProp,
+  onOpenChange,
   ...props
 }: React.ComponentProps<typeof TooltipPrimitive.Root>) {
-  return <TooltipPrimitive.Root data-slot="tooltip" {...props} />
+  const [open, setOpen] = React.useState(openProp ?? false)
+
+  const handleOpenChange = (value: boolean) => {
+    setOpen(value)
+    onOpenChange?.(value)
+  }
+
+  return (
+    <TooltipContext.Provider value={{ open, handleOpenChange }}>
+      <TooltipPrimitive.Root
+        data-slot="tooltip"
+        open={open}
+        onOpenChange={handleOpenChange}
+        {...props}
+      />
+    </TooltipContext.Provider>
+  )
 }
 
 function TooltipTrigger({
+  onClick,
   ...props
 }: React.ComponentProps<typeof TooltipPrimitive.Trigger>) {
-  return <TooltipPrimitive.Trigger data-slot="tooltip-trigger" {...props} />
+  const ctx = React.useContext(TooltipContext)
+  return (
+    <TooltipPrimitive.Trigger
+      data-slot="tooltip-trigger"
+      onClick={(e) => {
+        e.preventDefault()
+        ctx?.handleOpenChange(!ctx.open)
+        onClick?.(e)
+      }}
+      {...props}
+    />
+  )
 }
 
 function TooltipContent({
