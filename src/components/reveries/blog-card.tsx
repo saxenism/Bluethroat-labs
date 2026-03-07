@@ -1,5 +1,10 @@
 import { BlogItem } from '@/lib/sanity/reveries'
 import { cn } from '@/lib/utils'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
 import { ArrowUpRightIcon } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -8,6 +13,28 @@ interface BlogCardProps {
   blog: BlogItem
   variant?: 'list' | 'grid'
   className?: string
+}
+
+export const CategoryDisplay = ({ categories }: { categories: string[] }) => {
+  const first = categories[0] ?? 'General'
+  const extra = categories.slice(1)
+  return (
+    <span className="flex flex-wrap items-center gap-2">
+      <span>{first}</span>
+      {extra.length > 0 && (
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <span className="border-border bg-background text-muted-foreground cursor-default rounded-sm border px-1.5 py-0.5 text-xs leading-none font-medium">
+              +{extra.length}
+            </span>
+          </TooltipTrigger>
+          <TooltipContent hideArrow>
+            <p>{extra.join(', ')}</p>
+          </TooltipContent>
+        </Tooltip>
+      )}
+    </span>
+  )
 }
 
 export const BlogCard = ({
@@ -39,10 +66,14 @@ export const BlogCard = ({
           </div>
         </div>
 
-        <div className="mt-10 flex items-center gap-2 text-base font-medium text-[#777777] md:mt-12 dark:text-[#CACACA]">
-          <span>{blog.category}</span>
-          <span className="text-xl leading-none">•</span>
-          <span>{blog.date}</span>
+        <div className="mt-10 flex flex-wrap items-center gap-2 text-base font-medium text-[#777777] md:mt-12 dark:text-[#CACACA]">
+          <CategoryDisplay categories={blog.categories} />
+          {!!blog.date && (
+            <>
+              <span className="text-xl leading-none">•</span>
+              <span>{blog.date}</span>
+            </>
+          )}
         </div>
       </Link>
     )
@@ -70,10 +101,14 @@ export const BlogCard = ({
             {blog.title}
           </h3>
 
-          <div className="flex items-center gap-2 text-base font-medium text-[#777777] dark:text-[#CACACA]">
-            <span>{blog.category}</span>
-            <span className="text-xl leading-none">•</span>
-            <span>{blog.date}</span>
+          <div className="flex flex-wrap items-center gap-2 text-base font-medium text-[#777777] dark:text-[#CACACA]">
+            <CategoryDisplay categories={blog.categories} />
+            {!!blog.date && (
+              <>
+                <span className="text-xl leading-none">•</span>
+                <span>{blog.date}</span>
+              </>
+            )}
           </div>
         </div>
       </div>

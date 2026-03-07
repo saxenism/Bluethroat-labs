@@ -1,4 +1,4 @@
-import type { StringRule } from '@sanity/types'
+import type { ArrayRule, StringRule } from '@sanity/types'
 import { MarkdownEditorInput } from '@/lib/sanity/components/markdown-editor-input'
 
 const blog = {
@@ -26,10 +26,29 @@ const blog = {
       options: { hotspot: true },
     },
     {
-      name: 'category',
-      title: 'Category',
-      type: 'reference',
-      to: [{ type: 'blogCategory' }],
+      name: 'categories',
+      title: 'Categories',
+      type: 'array',
+      of: [
+        {
+          type: 'reference',
+          to: [{ type: 'blogCategory' }],
+          options: {
+            filter: ({
+              document,
+            }: {
+              document: { categories?: { _ref: string }[] }
+            }) => {
+              const selected = (document.categories ?? []).map((c) => c._ref)
+              return selected.length > 0
+                ? { filter: '!(_id in $selected)', params: { selected } }
+                : {}
+            },
+          },
+        },
+      ],
+      options: { sortable: true },
+      validation: (Rule: ArrayRule<unknown[]>) => Rule.unique(),
     },
     {
       name: 'author',
@@ -37,7 +56,13 @@ const blog = {
       type: 'reference',
       to: [{ type: 'blogAuthor' }],
     },
-    { name: 'publishedAt', title: 'Published at', type: 'datetime' },
+    {
+      name: 'publishedAt',
+      title: 'Published at',
+      type: 'datetime',
+      initialValue: () => new Date().toISOString(),
+      validation: (Rule: StringRule) => Rule.required(),
+    },
     {
       name: 'content',
       title: 'Content',

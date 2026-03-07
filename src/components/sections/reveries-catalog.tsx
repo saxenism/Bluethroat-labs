@@ -49,7 +49,9 @@ export function ReveriesCatalog({
       .includes(search.toLowerCase())
     const matchesCategory =
       selectedCats.length === 0 ||
-      selectedCats.some((c) => item.category.toLowerCase() === c.toLowerCase())
+      selectedCats.some((c) =>
+        item.categories.some((ic) => ic.toLowerCase() === c.toLowerCase())
+      )
     return matchesSearch && matchesCategory
   })
 

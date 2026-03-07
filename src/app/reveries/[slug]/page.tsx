@@ -15,7 +15,7 @@ async function getPost(slug: string) {
         title,
         bannerImage,
         content,
-        "category": category->title,
+        "categories": categories[]->title,
         publishedAt,
         "author": author->name,
         seo {
@@ -96,7 +96,7 @@ export default async function BlogPostPage({ params }: Props) {
             markdown={post.content}
             metadata={{
               title: post.title,
-              category: post.category,
+              categories: post.categories ?? [],
               date: post.publishedAt
                 ? new Date(post.publishedAt).toLocaleDateString('en-US', {
                     month: 'long',

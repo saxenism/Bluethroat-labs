@@ -11,7 +11,7 @@ export interface SanityBlogPost {
   title: string
   slug: string
   bannerImage?: { asset: { _ref: string; _type: string } }
-  category?: { title: string } | null
+  categories?: { title: string }[] | null
   publishedAt?: string
 }
 
@@ -25,7 +25,7 @@ export const REVERIES_PREVIEW_QUERY = `*[_type == "blog"] | order(publishedAt de
   title,
   "slug": slug.current,
   bannerImage,
-  "category": category->{ title },
+  "categories": categories[]->{ title },
   publishedAt
 }`
 
@@ -34,22 +34,22 @@ export const REVERIES_LIST_QUERY = `*[_type == "blog"] | order(publishedAt desc)
   title,
   "slug": slug.current,
   bannerImage,
-  "category": category->{ title },
+  "categories": categories[]->{ title },
   publishedAt
 }`
 
 export interface BlogItem {
   title: string
   date: string
-  category: string
+  categories: string[]
   href: string
   src: string | null
 }
 
-export function mapSanityPostToBlogItem(
+export const mapSanityPostToBlogItem = (
   post: SanityBlogPost,
   urlFor: (src: unknown) => { url: () => string }
-): BlogItem {
+): BlogItem => {
   return {
     title: post.title,
     date: post.publishedAt
@@ -58,8 +58,10 @@ export function mapSanityPostToBlogItem(
           day: '2-digit',
           year: 'numeric',
         })
-      : 'Coming soon',
-    category: post.category?.title || 'General',
+      : '',
+    categories: post.categories?.map((c) => c.title).filter(Boolean) ?? [
+      'General',
+    ],
     href: `/reveries/${post.slug}`,
     src: post.bannerImage ? urlFor(post.bannerImage).url() : null,
   }

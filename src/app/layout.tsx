@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Instrument_Serif, Geist_Mono, Bai_Jamjuree } from 'next/font/google'
 import './globals.css'
 import { ThemeProvider } from '@/components/providers/theme-provider'
+import { TooltipProvider } from '@/components/ui/tooltip'
 import { ReactNode } from 'react'
 import { BASE_URL } from '@/lib/constants'
 
@@ -68,7 +69,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <TooltipProvider>{children}</TooltipProvider>
         </ThemeProvider>
       </body>
     </html>

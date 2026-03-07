@@ -42,7 +42,9 @@ export default async function ReveriesPage() {
     mapSanityPostToBlogItem(post, (src) => urlFor(src as SanityImageSource))
   )
 
-  const categories = [...new Set(blogs.map((b) => b.category).filter(Boolean))]
+  const categories = [
+    ...new Set(blogs.flatMap((b) => b.categories).filter(Boolean)),
+  ]
 
   return (
     <Suspense>
