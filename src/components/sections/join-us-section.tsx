@@ -24,15 +24,19 @@ export function JoinUsSection() {
           </span>
 
           <h2 className="font-instrumental mb-4 text-[32px] leading-tight font-normal text-pretty md:mb-6 md:text-5xl">
-            We&apos;re always looking for people who take security seriously and
-            enjoy going deep.
+            In the age of AI, clear thinkers are king.
           </h2>
 
           <p className="leading-relaxed font-medium text-pretty text-[#666666] dark:text-[#8F8F8F]">
-            If you have real experience with TEEs, in Web3 or outside it, or
-            you&apos;re the kind of person who likes tinkering, breaking
-            systems, and learning new security paradigms, we&apos;d love to hear
-            from you.
+            If you fall into rabbit holes and don't stop until you understand how something breaks, Bluethroat is the right place for you. <br/><br/>
+          </p>
+
+          <p className="leading-relaxed font-medium text-pretty text-[#666666] dark:text-[#8F8F8F]">
+            We have confirmed findings in all top TEE protocols in Web3. We have active bug reports in production consensus codebases. <br/><br/>
+          </p>
+
+          <p className="leading-relaxed font-medium text-pretty text-[#666666] dark:text-[#8F8F8F]">
+            If that's you, send us a short intro. Tell us what you've gone deep on.
           </p>
         </div>
 
