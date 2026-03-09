@@ -1,6 +1,4 @@
-import { CornerUpRightIcon } from 'lucide-react'
 import Image from 'next/image'
-import Link from 'next/link'
 
 export function TeeSection() {
   return (
@@ -75,24 +73,19 @@ export function TeeSection() {
         </span>
 
         <div className="relative z-1 px-4 md:px-24">
-          <div className="flex max-w-[724px] flex-col gap-6">
-            <p className="font-instrumental text-2xl leading-relaxed text-[#191919] md:text-[32px] dark:text-[#EBEBEB]">
-              As TEEs move deeper into Web3, clarity becomes
-              critical.Assumptions about hardware trust do not survive
-              adversarial settings.
+          <div className="flex max-w-[874px] flex-col gap-6">
+            <p className="text-base leading-relaxed font-medium text-[#454545] md:text-2xl dark:text-[#CACACA]">
+              Complex protocols span many domains. Securing them requires more than a single agent or a single audit.
+            </p>
+
+            <p className="text-base leading-relaxed font-medium text-[#454545] md:text-2xl dark:text-[#CACACA]">
+              We build an ecosystem of domain-expert AI agents that reason together across subsystems. Each agent knows its domain. Together they know your protocol.
             </p>
 
             <p className="font-instrumental text-2xl leading-relaxed text-[#191919] md:text-[32px] dark:text-[#EBEBEB]">
-              The{' '}
-              <Link
-                href="/docs"
-                className="text-[#8F8F8F] italic hover:text-[#292929] dark:text-[#7D7D7D] dark:hover:border-[#E6E6E6] dark:hover:text-[#E6E6E6]"
-              >
-                TEE Security Handbook{' '}
-                <CornerUpRightIcon className="stroke-1.5 mr-1 ml-1 inline-block" />
-              </Link>{' '}
-              exists to document real guarantees, real failure modes, and
-              practical integration patterns.
+              Not a tool. Domain experts reasoning together across your protocol. <br />
+              Built for your codebase. With every run they learn it more deeply. <br />
+              Security that compounds with time.
             </p>
           </div>
         </div>
