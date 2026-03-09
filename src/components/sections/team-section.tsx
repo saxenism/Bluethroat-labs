@@ -41,9 +41,7 @@ export function TeamSection() {
 
       <div className="border-border border-b px-4 pt-6 pb-12 md:px-12">
         <p className="text-base font-medium text-[#454545] md:text-lg dark:text-[#A9A9A9]">
-          We are a small but dedicated team of researchers and builders, united
-          by a passion for security and a commitment to making TEE-backed
-          systems safer.
+          A small team of domain experts who love diving down rabbit holes. We are researchers and builders who believe domain-specific security is how Web3 wins — and we are here to prove it.
         </p>
       </div>
 
@@ -136,6 +134,7 @@ const TEAM_MEMBERS = [
     exRole: 'ex-NVIDIA',
     image: '/team/tanmay.png',
     xUrl: 'https://x.com/guyphy4',
+    email: '0xbitcrusader@gmail.com',
   },
   {
     name: 'Abhimanyu Gupta',
