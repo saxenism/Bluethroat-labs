@@ -35,7 +35,7 @@ export function TeeSection() {
 
             <p className="max-w-[874px] text-right text-base leading-relaxed font-medium text-[#454545] md:text-2xl dark:text-[#CACACA]">
               We then applied the same methodology to consensus protocols, a completely different domain with its own assumptions and failure modes.
-              The result was the same: novel vulnerabilities in live production systems were caught.
+              The result was the same: novel vulnerabilities caught in live production systems.
             </p>
 
             <p className="font-instrumental text-2xl leading-relaxed text-[#191919] md:text-[32px] dark:text-[#EBEBEB]">
