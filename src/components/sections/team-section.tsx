@@ -41,7 +41,7 @@ export function TeamSection() {
 
       <div className="border-border border-b px-4 pt-6 pb-12 md:px-12">
         <p className="text-base font-medium text-[#454545] md:text-lg dark:text-[#A9A9A9]">
-          A small team of domain experts who love diving down rabbit holes. We are researchers and builders who believe domain-specific security is how Web3 wins — and we are here to prove it.
+          A small team of domain experts obsessed with understanding how systems actually break. We are researchers and builders who believe domain-specific security is how Web3 wins — and we are here to prove it.
         </p>
       </div>
 
