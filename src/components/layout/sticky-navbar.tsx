@@ -159,14 +159,7 @@ export function StickyNavbar() {
               href={ZCAL_LINK}
               target="_blank"
               onClick={() => setIsMobileMenuOpen(false)}
-              className={cn(
-                'border-border flex flex-1 items-center justify-center border-r text-xl font-bold tracking-widest',
-                !mounted
-                  ? 'bg-muted text-muted-foreground'
-                  : resolvedTheme === 'dark'
-                    ? 'bg-white text-black hover:bg-zinc-200'
-                    : 'bg-black text-white hover:bg-zinc-800'
-              )}
+              className="text-background bg-foreground hover:bg-background hover:text-foreground border-border flex flex-1 items-center justify-center border-y border-r text-xl font-bold tracking-widest"
             >
               Talk to Us
             </Link>
