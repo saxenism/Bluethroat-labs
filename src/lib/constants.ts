@@ -1,4 +1,4 @@
-export const ZCAL_LINK = 'https://zcal.co/bluethroat-labs/30min'
+export const ZCAL_LINK = 'https://calendar.app.google/iLP5Cz6PxcPaao9Q8'
 
 export const DOC_NAV_MAX_DEPTH = 8
 

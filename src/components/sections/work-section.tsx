@@ -21,9 +21,7 @@ export function WorkSection() {
 
       <div className="px-4 pt-6 pb-12 md:px-12">
         <p className="text-base font-medium text-[#454545] md:text-lg dark:text-[#A9A9A9]">
-          We do three kinds of work. One is public, to raise the baseline for
-          the entire ecosystem. The others are private, where we help teams find
-          and fix real issues before attackers do.
+          We operate across three fronts. Research that compounds into public knowledge. Private vulnerability work that stays confidential. And bespoke security ecosystems built specifically for your protocol.
         </p>
       </div>
 
@@ -69,7 +67,7 @@ const WorkCard = ({
         <h3 className="mb-4 text-xl font-semibold text-[#292929] sm:text-2xl dark:text-[#E6E6E6]">
           {work.title}
         </h3>
-        <p className="text-[#666666] dark:text-[#8F8F8F]">{work.description}</p>
+        <p className="whitespace-pre-line text-[#666666] dark:text-[#8F8F8F]">{work.description}</p>
       </div>
 
       {work.link ? (
@@ -98,27 +96,27 @@ const WORKS = [
     icon: '/landing/work-icon-1.png',
     title: 'The TEE Security Handbook',
     description:
-      'Our open-source public good. A living handbook that documents TEE failure modes, vulnerable patterns, and practical guidance for safely designing and deploying TEE-heavy Web3 systems.',
+      'Every domain we study produces knowledge that shouldn\'t stay private. The TEE Security Handbook documents real failure modes, vulnerable patterns, and practical guidance for safely deploying TEE-heavy Web3 systems — built from confirmed findings across production codebases, not just theoretical analysis. More handbooks on the way.',
     link: '/docs',
     buttonText: 'Check out the Handbook',
     buttonTheme: 'inverse',
   },
   {
     icon: '/landing/work-icon-2.png',
-    title: 'Confidential Bug Bounty Work',
+    title: 'Vulnerability Research',
     description:
-      'We do ongoing, private vulnerability research across TEE-backed protocols. Details stay confidential by default, but the security lessons and patterns eventually flow back into the ecosystem through the Handbook.',
-    link: ZCAL_LINK,
-    buttonText: 'Talk to Us',
+      'Our research takes us deep into production codebases. When we find something real, we pursue it — across TEE protocols, consensus implementations, ZK systems, and beyond. We proactively reach out to concerned teams and responsibly disclose them. The patterns we uncover eventually flow back into our public research.',
+    link: undefined,
+    buttonText: 'View Writeups (Coming Soon...)',
     buttonTheme: 'primary',
   },
   {
     icon: '/landing/work-icon-3.png',
-    title: 'TEE Vulnerability Reasoning LLM',
+    title: 'Protocol Security Ecosystems',
     description:
-      'We are building a specialized LLM agent designed to reason about vulnerabilities in Web3 protocols that leverage TEEs in different roles and architectures. The goal is to accelerate threat modeling, surface risky assumptions early, and help teams converge on safer designs faster.',
-    link: undefined,
-    buttonText: 'Coming Soon...',
+      'Domain-specific AI agents, built for your codebase, reasoning together across subsystems. Each one learns your protocol more deeply with every run. \n Blind spots are unavoidable. That is why monitoring is treated as a first-class citizen of the security stack, not an afterthought.',
+    link: ZCAL_LINK,
+    buttonText: 'Talk to Us',
     buttonTheme: 'primary',
   },
 ]
