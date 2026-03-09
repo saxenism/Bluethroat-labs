@@ -28,20 +28,26 @@ export function TeeSection() {
 
         <div className="relative z-1 px-4 text-right md:px-24">
           <div className="flex flex-col items-end gap-6">
-            <p className="max-w-[812px] text-right text-base leading-relaxed font-medium text-[#454545] md:text-2xl dark:text-[#CACACA]">
-              We began with Trusted Execution Environments. In Web3, TEE security had few shared standards and no publicly accumulated knowledge.
-              Studying these systems from first principles led to confirmed findings across every major TEE-heavy protocol in Web3.
+            <p className="max-w-[970px] text-right text-base leading-relaxed font-medium text-[#454545] md:text-2xl dark:text-[#CACACA]">
+              We began with Trusted Execution Environments. In Web3, TEE
+              security had few shared standards and no publicly accumulated
+              knowledge. Studying these systems from first principles led to
+              confirmed findings across every major TEE-heavy protocol in Web3.
             </p>
 
-            <p className="max-w-[874px] text-right text-base leading-relaxed font-medium text-[#454545] md:text-2xl dark:text-[#CACACA]">
-              We then applied the same methodology to consensus protocols, a completely different domain with its own assumptions and failure modes.
-              The result was the same: novel vulnerabilities caught in live production systems.
+            <p className="max-w-[970px] text-right text-base leading-relaxed font-medium text-[#454545] md:text-2xl dark:text-[#CACACA]">
+              We then applied the same methodology to consensus protocols, a
+              completely different domain with its own assumptions and failure
+              modes. The result was the same: novel vulnerabilities caught in
+              live production systems.
             </p>
 
             <p className="font-instrumental text-2xl leading-relaxed text-[#191919] md:text-[32px] dark:text-[#EBEBEB]">
-              Most "AI" agents search for patterns from the past. <br />
-              Our agents reason about systems they have never seen before. <br />
-              Two domains tested. The methodology holds.    
+              Most &quot;AI&quot; agents search for patterns from the past.
+              <br />
+              Our agents reason about systems they have never seen before.
+              <br />
+              Two domains tested. The methodology holds.
             </p>
           </div>
         </div>
