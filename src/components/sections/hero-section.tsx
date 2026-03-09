@@ -15,7 +15,7 @@ export function HeroSection() {
         className="none -z-1 object-cover opacity-50"
       />
 
-      <div className="relative grid place-items-center px-2 pt-14 pb-72 md:pt-18 md:pb-74">
+      <div className="relative grid place-items-center px-2 pt-14 pb-66 md:pt-18 md:pb-74">
         <div className="font-instrumental w-full max-w-xs text-[60px] leading-tight text-[#F2F2F2] sm:max-w-md sm:text-[80px] lg:max-w-2xl lg:text-[120px]">
           <h1>Assumptions</h1>
           <h1 className="text-right">Kill Systems</h1>
