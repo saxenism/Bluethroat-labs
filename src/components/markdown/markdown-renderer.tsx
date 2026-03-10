@@ -32,6 +32,12 @@ export async function MarkdownRenderer({
     ...(runtime as Parameters<typeof evaluate>[1]),
     remarkPlugins: [remarkGfm],
     rehypePlugins: [...(withSlug ? [rehypeSlug] : []), rehypeSanitize],
+    remarkRehypeOptions: {
+      // No prefix here so only rehype-sanitize adds "user-content-" once to ids.
+      // Hash links stay as #fn-1; we scroll to user-content-fn-1 via client script
+      // (see rehype-sanitize readme: Example: headings (DOM clobbering)).
+      clobberPrefix: '',
+    },
   })
 
   const mergedComponents: MDXComponents = {

@@ -68,6 +68,7 @@ function MarkdownPreview({ content }: { content: string }) {
     evaluate(content, {
       ...(runtime as Parameters<typeof evaluate>[1]),
       remarkPlugins: [remarkGfm],
+      remarkRehypeOptions: { clobberPrefix: '' },
       rehypePlugins: [rehypeSanitize],
     })
       .then(({ default: Comp }) => {

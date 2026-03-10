@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Instrument_Serif, Geist_Mono, Bai_Jamjuree } from 'next/font/google'
 import './globals.css'
+import { HashLinkHandler } from '@/components/markdown/hash-link-handler'
 import { ThemeProvider } from '@/components/providers/theme-provider'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { ReactNode } from 'react'
@@ -69,7 +70,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <TooltipProvider>{children}</TooltipProvider>
+          <TooltipProvider>
+            <HashLinkHandler />
+            {children}
+          </TooltipProvider>
         </ThemeProvider>
       </body>
     </html>

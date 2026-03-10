@@ -1,6 +1,17 @@
 import React from 'react'
+import * as runtime from 'react/jsx-runtime'
+import { evaluateSync } from '@mdx-js/mdx'
+import remarkGfm from 'remark-gfm'
+import rehypeSanitize from 'rehype-sanitize'
 import type { MDXComponents } from 'mdx/types'
 import { StyledCodeBlock } from './styled-code-block'
+
+const captionEvalOptions = {
+  ...(runtime as Parameters<typeof evaluateSync>[1]),
+  format: 'md' as const,
+  remarkPlugins: [remarkGfm],
+  rehypePlugins: [rehypeSanitize],
+}
 
 /**
  * Shared MDX components for docs and blogs (headings, paragraphs, lists,
@@ -55,31 +66,44 @@ export const markdownComponents: MDXComponents = {
       {children}
     </h6>
   ),
-  p: ({ children }) => (
-    <p className="mb-4 text-base leading-relaxed whitespace-pre-wrap text-[#454545] dark:text-[#CACACA]">
+  p: ({ children, id }) => (
+    <p
+      id={id}
+      className="mb-4 text-base leading-relaxed whitespace-pre-wrap text-[#454545] dark:text-[#CACACA]"
+    >
       {children}
     </p>
   ),
-  blockquote: ({ children }) => (
-    <blockquote className="my-8 border-l-6 border-[#666666] py-1 pr-2 pl-4 text-[#454545] dark:border-[#A9A9A9] dark:text-[#CACACA] [&>p]:mb-0">
+  blockquote: ({ children, id }) => (
+    <blockquote
+      id={id}
+      className="my-8 border-l-6 border-[#666666] py-1 pr-2 pl-4 text-[#454545] dark:border-[#A9A9A9] dark:text-[#CACACA] [&>p]:mb-0"
+    >
       {children}
     </blockquote>
   ),
-  ul: ({ children }) => (
-    <ul className="my-4 list-none space-y-2 pl-4 [&_li>p]:mb-0 [&>li]:flex [&>li]:gap-3 [&>li]:before:mt-[5px] [&>li]:before:shrink-0 [&>li]:before:text-xs [&>li]:before:text-[#666666] [&>li]:before:content-['■'] [&>li]:before:select-none dark:[&>li]:before:text-[#A9A9A9]">
+  ul: ({ children, id }) => (
+    <ul
+      id={id}
+      className="my-4 list-none space-y-2 pl-4 [&_li>p]:mb-0 [&>li]:flex [&>li]:gap-3 [&>li]:before:mt-[5px] [&>li]:before:shrink-0 [&>li]:before:text-xs [&>li]:before:text-[#666666] [&>li]:before:content-['■'] [&>li]:before:select-none dark:[&>li]:before:text-[#A9A9A9]"
+    >
       {children}
     </ul>
   ),
-  ol: ({ children, start }) => (
+  ol: ({ children, start, id }) => (
     <ol
       start={start}
-      className="my-4 list-outside list-decimal space-y-2 pl-10 text-[#454545] dark:text-[#CACACA] [&_li>p]:mb-0"
+      id={id}
+      className="my-4 list-outside list-decimal space-y-2 pl-10 text-[#454545] dark:text-[#CACACA] [&_li>p]:mb-0 [&_ol]:list-[lower-alpha] [&_ol_ol]:list-[lower-roman]"
     >
       {children}
     </ol>
   ),
-  li: ({ children }) => (
-    <li className="text-base leading-relaxed text-[#454545] dark:text-[#CACACA]">
+  li: ({ children, id }) => (
+    <li
+      id={id}
+      className="text-base leading-relaxed text-[#454545] dark:text-[#CACACA]"
+    >
       <span className="min-w-0">{children}</span>
     </li>
   ),
@@ -106,40 +130,77 @@ export const markdownComponents: MDXComponents = {
       </code>
     )
   },
-  strong: ({ children }) => (
-    <strong className="text-foreground font-bold">{children}</strong>
+  strong: ({ children, id }) => (
+    <strong id={id} className="text-foreground font-bold">
+      {children}
+    </strong>
   ),
-  em: ({ children }) => (
-    <em className="text-[#454545] italic dark:text-[#CACACA]">{children}</em>
+  em: ({ children, id }) => (
+    <em id={id} className="text-[#454545] italic dark:text-[#CACACA]">
+      {children}
+    </em>
   ),
-  del: ({ children }) => (
-    <del className="text-[#454545] line-through dark:text-[#CACACA]">
+  del: ({ children, id }) => (
+    <del id={id} className="text-[#454545] line-through dark:text-[#CACACA]">
       {children}
     </del>
   ),
-  a: ({ children, href }) => (
+  a: ({ children, href, id }) => (
     <a
+      id={id}
       href={href}
-      target="_blank"
+      target={href?.startsWith('http') ? '_blank' : undefined}
       rel="noopener noreferrer"
       className="hover:text-foreground dark:hover:text-foreground text-[#454545] underline underline-offset-2 dark:text-[#CACACA]"
     >
       {children}
     </a>
   ),
-  img: ({ src, alt }) => (
-    <span className="my-8 block">
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={src ?? ''}
-        alt={alt ?? ''}
-        className="w-full max-w-full object-contain"
-      />
-    </span>
-  ),
-  table: ({ children }) => (
+  img: ({ src, alt, title, id }) => {
+    const image = (
+      <span className="block">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          id={id}
+          src={src ?? ''}
+          alt={alt ?? ''}
+          className="w-full max-w-full object-contain"
+        />
+      </span>
+    )
+    if (!title?.trim()) {
+      return <figure className="my-8">{image}</figure>
+    }
+    try {
+      const { default: CaptionContent } = evaluateSync(
+        title,
+        captionEvalOptions
+      )
+      return (
+        <figure id={id} className="my-8">
+          {image}
+          <figcaption className="mt-2 text-center text-[#454545] **:text-sm dark:text-[#CACACA] [&_p]:my-0 [&_p]:inline">
+            <CaptionContent components={markdownComponents} />
+          </figcaption>
+        </figure>
+      )
+    } catch {
+      return (
+        <figure id={id} className="my-8">
+          {image}
+          <figcaption className="mt-2 text-center text-[#454545] **:text-sm dark:text-[#CACACA]">
+            {title}
+          </figcaption>
+        </figure>
+      )
+    }
+  },
+  table: ({ children, id }) => (
     <div className="my-8 overflow-x-auto">
-      <table className="border-border w-full border-collapse border text-sm">
+      <table
+        id={id}
+        className="border-border w-full border-collapse border text-sm"
+      >
         {children}
       </table>
     </div>
