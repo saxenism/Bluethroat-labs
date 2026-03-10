@@ -41,7 +41,10 @@ export function TeamSection() {
 
       <div className="border-border border-b px-4 pt-6 pb-12 md:px-12">
         <p className="text-base font-medium text-[#454545] md:text-lg dark:text-[#A9A9A9]">
-          A small team of domain experts obsessed with understanding how systems actually break. We are researchers and builders who believe domain-specific security is how Web3 wins — and we are here to prove it.
+          A small team of domain experts obsessed with understanding how systems
+          actually break. We are researchers and builders who believe
+          domain-specific security is how Web3 wins — and we are here to prove
+          it.
         </p>
       </div>
 
@@ -92,14 +95,16 @@ const TeamCard = ({ member }: { member: (typeof TEAM_MEMBERS)[number] }) => {
               <MailIcon className="text-[#292929] max-md:size-5.5 dark:text-[#A9A9A9]" />
             </a>
           )}
-          <a
-            href={member.xUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-background grid size-14 place-items-center hover:bg-[#E6E6E6] md:size-18 dark:hover:bg-[#292929]"
-          >
-            <XIcon className="text-[#292929] max-md:size-4.5 dark:text-[#A9A9A9]" />
-          </a>
+          {member.xUrl && (
+            <a
+              href={member.xUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-background grid size-14 place-items-center hover:bg-[#E6E6E6] md:size-18 dark:hover:bg-[#292929]"
+            >
+              <XIcon className="text-[#292929] max-md:size-4.5 dark:text-[#A9A9A9]" />
+            </a>
+          )}
         </div>
       </div>
 
@@ -149,12 +154,12 @@ const TEAM_MEMBERS = [
     role: 'Research',
     exRole: 'ex-Binance Research',
     image: '/team/chloe.png',
-    xUrl: 'https://x.com/chloe_eth',
+    xUrl: 'https://x.com/thryec',
   },
   {
     name: 'Utkarsh Verma',
     role: 'Our Rockstar Intern',
     image: '/team/utkarsh.png',
-    xUrl: 'https://x.com/verma_utkarsh',
+    xUrl: 'https://x.com/doormamu901',
   },
 ]

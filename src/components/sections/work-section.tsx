@@ -21,7 +21,9 @@ export function WorkSection() {
 
       <div className="px-4 pt-6 pb-12 md:px-12">
         <p className="text-base font-medium text-[#454545] md:text-lg dark:text-[#A9A9A9]">
-          We operate across three fronts. Research that compounds into public knowledge. Private vulnerability work that stays confidential. And bespoke security ecosystems built specifically for your protocol.
+          We operate across three fronts. Research that compounds into public
+          knowledge. Private vulnerability work that stays confidential. And
+          bespoke security ecosystems built specifically for your protocol.
         </p>
       </div>
 
@@ -67,7 +69,9 @@ const WorkCard = ({
         <h3 className="mb-4 text-xl font-semibold text-[#292929] sm:text-2xl dark:text-[#E6E6E6]">
           {work.title}
         </h3>
-        <p className="whitespace-pre-line text-[#666666] dark:text-[#8F8F8F]">{work.description}</p>
+        <p className="whitespace-pre-line text-[#666666] dark:text-[#8F8F8F]">
+          {work.description}
+        </p>
       </div>
 
       {work.link ? (
@@ -75,7 +79,7 @@ const WorkCard = ({
           href={work.link}
           target={work.link?.startsWith('http') ? '_blank' : undefined}
           className={cn(
-            'hover:bg-foreground border-border flex h-18 items-center justify-center border-t text-xl font-semibold text-[#1F1F1F] hover:text-[#EBEBEB] dark:text-[#EBEBEB] dark:hover:text-[#292929]',
+            'hover:bg-foreground border-border flex h-18 items-center justify-center border-t px-2 text-center text-xl font-semibold text-[#1F1F1F] hover:text-[#EBEBEB] dark:text-[#EBEBEB] dark:hover:text-[#292929]',
             work.buttonTheme === 'inverse' &&
               'hover:bg-foreground hover:dark:bg-foreground bg-[#292929] text-[#E6E6E6] hover:text-[#E6E6E6] dark:bg-[#E6E6E6] dark:text-[#292929] hover:dark:text-[#292929]'
           )}
@@ -83,7 +87,7 @@ const WorkCard = ({
           {work.buttonText}
         </Link>
       ) : (
-        <div className="border-border flex h-18 items-center justify-center border-t text-xl font-semibold text-[#1F1F1F] dark:text-[#EBEBEB]">
+        <div className="border-border flex h-18 items-center justify-center border-t px-2 text-center text-xl font-semibold text-[#1F1F1F] dark:text-[#EBEBEB]">
           {work.buttonText}
         </div>
       )}
@@ -96,7 +100,7 @@ const WORKS = [
     icon: '/landing/work-icon-1.png',
     title: 'The TEE Security Handbook',
     description:
-      'Every domain we study produces knowledge that shouldn\'t stay private. The TEE Security Handbook documents real failure modes, vulnerable patterns, and practical guidance for safely deploying TEE-heavy Web3 systems — built from confirmed findings across production codebases, not just theoretical analysis. More handbooks on the way.',
+      "Every domain we study produces knowledge that shouldn't stay private. The TEE Security Handbook documents real failure modes, vulnerable patterns, and practical guidance for safely deploying TEE-heavy Web3 systems — built from confirmed findings across production codebases, not just theoretical analysis. More handbooks on the way.",
     link: '/docs',
     buttonText: 'Check out the Handbook',
     buttonTheme: 'inverse',
