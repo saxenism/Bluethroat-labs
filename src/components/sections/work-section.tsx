@@ -64,7 +64,10 @@ const WorkCard = ({
           alt={work.title}
           height={96}
           width={96}
-          className="none mb-8 h-24 w-auto object-contain dark:opacity-50"
+          className={cn(
+            'none mb-8 h-24 w-auto object-contain',
+            work.iconClassName
+          )}
         />
         <h3 className="mb-4 text-xl font-semibold text-[#292929] sm:text-2xl dark:text-[#E6E6E6]">
           {work.title}
@@ -98,6 +101,7 @@ const WorkCard = ({
 const WORKS = [
   {
     icon: '/landing/work-icon-1.png',
+    iconClassName: 'dark:opacity-50',
     title: 'The TEE Security Handbook',
     description:
       "Every domain we study produces knowledge that shouldn't stay private. The TEE Security Handbook documents real failure modes, vulnerable patterns, and practical guidance for safely deploying TEE-heavy Web3 systems — built from confirmed findings across production codebases, not just theoretical analysis. More handbooks on the way.",
@@ -107,6 +111,7 @@ const WORKS = [
   },
   {
     icon: '/landing/work-icon-2.png',
+    iconClassName: 'dark:opacity-50',
     title: 'Vulnerability Research',
     description:
       'Our research takes us deep into production codebases. When we find something real, we pursue it — across TEE protocols, consensus implementations, ZK systems, and beyond. We proactively reach out to concerned teams and responsibly disclose vulnerabilities. The patterns we uncover eventually flow back into our public research.',
@@ -116,6 +121,7 @@ const WORKS = [
   },
   {
     icon: '/landing/work-icon-3.png',
+    iconClassName: 'dark:invert ',
     title: 'Protocol Security Ecosystems',
     description:
       'Domain-specific AI agents, built for your codebase, reasoning together across subsystems. Each one learns your protocol more deeply with every run. \n Blind spots are unavoidable. That is why monitoring is treated as a first-class citizen of the security stack, not an afterthought.',
