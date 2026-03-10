@@ -121,7 +121,7 @@ const WORKS = [
   },
   {
     icon: '/landing/work-icon-3.png',
-    iconClassName: 'dark:invert ',
+    iconClassName: 'dark:invert',
     title: 'Protocol Security Ecosystems',
     description:
       'Domain-specific AI agents, built for your codebase, reasoning together across subsystems. Each one learns your protocol more deeply with every run. \n Blind spots are unavoidable. That is why monitoring is treated as a first-class citizen of the security stack, not an afterthought.',
