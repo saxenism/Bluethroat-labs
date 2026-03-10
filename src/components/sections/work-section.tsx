@@ -111,7 +111,7 @@ const WORKS = [
     description:
       'Our research takes us deep into production codebases. When we find something real, we pursue it — across TEE protocols, consensus implementations, ZK systems, and beyond. We proactively reach out to concerned teams and responsibly disclose vulnerabilities. The patterns we uncover eventually flow back into our public research.',
     link: undefined,
-    buttonText: 'View Writeups (Coming Soon...)',
+    buttonText: 'Writeups (Coming Soon...)',
     buttonTheme: 'primary',
   },
   {
