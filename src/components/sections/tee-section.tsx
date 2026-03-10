@@ -26,16 +26,19 @@ export function TeeSection() {
 
         <div className="relative z-1 px-4 text-right md:px-24">
           <div className="flex flex-col items-end gap-6">
-            <p className="max-w-[970px] text-right text-base leading-relaxed font-medium text-[#454545] md:text-2xl dark:text-[#CACACA]">
-              We began with Trusted Execution Environments. Studying these systems from first principles led to
-              confirmed findings across every major TEE-heavy protocol in Web3.
+            <p className="max-w-[812px] text-right text-base leading-relaxed font-medium text-[#454545] md:text-xl dark:text-[#CACACA]">
+              We began with Trusted Execution Environments. Studying these
+              systems from first principles led to confirmed findings across
+              every major TEE-heavy protocol in Web3.
             </p>
 
-            <p className="max-w-[970px] text-right text-base leading-relaxed font-medium text-[#454545] md:text-2xl dark:text-[#CACACA]">
-              The same methodology was then applied to consensus engines, a fundamentally different domain, and the same result followed: Novel vulnerabilities in live production systems.
+            <p className="max-w-[874px] text-right text-base leading-relaxed font-medium text-[#454545] md:text-xl dark:text-[#CACACA]">
+              The same methodology was then applied to consensus engines, a
+              fundamentally different domain, and the same result followed:
+              Novel vulnerabilities in live production systems.
             </p>
 
-            <p className="font-instrumental text-2xl leading-relaxed text-[#191919] md:text-[32px] dark:text-[#EBEBEB]">
+            <p className="font-instrumental text-2xl leading-relaxed text-[#191919] md:text-[28px] dark:text-[#EBEBEB]">
               Our agents reason about systems they have never seen before.
               <br />
               Two domains tested. The methodology holds.
@@ -67,19 +70,20 @@ export function TeeSection() {
 
         <div className="relative z-1 px-4 md:px-24">
           <div className="flex max-w-[874px] flex-col gap-6">
-            <p className="text-base leading-relaxed font-medium text-[#454545] md:text-2xl dark:text-[#CACACA]">
-              Complex protocols span multiple domains. Securing them requires more
-              than a single agent or a single audit.
+            <p className="text-base leading-relaxed font-medium text-[#454545] md:text-xl dark:text-[#CACACA]">
+              Complex protocols span multiple domains. Securing them requires
+              more than a single agent or a single audit.
             </p>
 
-            <p className="text-base leading-relaxed font-medium text-[#454545] md:text-2xl dark:text-[#CACACA]">
+            <p className="text-base leading-relaxed font-medium text-[#454545] md:text-xl dark:text-[#CACACA]">
               We build an ecosystem of domain-expert AI agents that reason
               together across subsystems. Each agent understands its domain.
-Together they understand your protocol.
+              Together they understand your protocol.
             </p>
 
-            <p className="font-instrumental text-2xl leading-relaxed text-[#191919] md:text-[32px] dark:text-[#EBEBEB]">
-              Not a tool. An ecosystem of domain experts custom-built for your protocol.
+            <p className="font-instrumental text-2xl leading-relaxed text-[#191919] md:text-[28px] dark:text-[#EBEBEB]">
+              Not a tool. An ecosystem of domain experts custom-built for your
+              protocol.
               <br />
               Security that compounds with time.
             </p>
