@@ -67,21 +67,19 @@ export function TeeSection() {
 
         <div className="relative z-1 px-4 md:px-24">
           <div className="flex max-w-[874px] flex-col gap-6">
-            <p className="text-base leading-relaxed font-medium text-[#454545] md:text-xl dark:text-[#CACACA]">
-              Complex protocols span many domains. Securing them requires more
+            <p className="text-base leading-relaxed font-medium text-[#454545] md:text-2xl dark:text-[#CACACA]">
+              Complex protocols span multiple domains. Securing them requires more
               than a single agent or a single audit.
             </p>
 
-            <p className="text-base leading-relaxed font-medium text-[#454545] md:text-xl dark:text-[#CACACA]">
+            <p className="text-base leading-relaxed font-medium text-[#454545] md:text-2xl dark:text-[#CACACA]">
               We build an ecosystem of domain-expert AI agents that reason
-              together across subsystems. Each agent knows its domain. Together
-              they know your protocol.
+              together across subsystems. Each agent understands its domain.
+Together they understand your protocol.
             </p>
 
-            <p className="font-instrumental text-2xl leading-relaxed text-[#191919] md:text-[28px] dark:text-[#EBEBEB]">
-              Not a tool. Domain experts reasoning together across your
-              protocol. <br />
-              Built for your codebase. With every run they learn it more deeply.{' '}
+            <p className="font-instrumental text-2xl leading-relaxed text-[#191919] md:text-[32px] dark:text-[#EBEBEB]">
+              Not a tool. An ecosystem of domain experts custom-built for your protocol.
               <br />
               Security that compounds with time.
             </p>
