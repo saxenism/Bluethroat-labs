@@ -24,7 +24,7 @@ export function JoinUsSection() {
           </span>
 
           <h2 className="font-instrumental mb-4 text-[32px] leading-tight font-normal text-pretty md:mb-6 md:text-5xl">
-            In the age of AI, clear thinkers are king.
+            In the age of AI, clear thinkers prevail.
           </h2>
 
           <p className="leading-relaxed font-medium text-pretty text-[#666666] dark:text-[#8F8F8F]">
