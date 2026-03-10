@@ -32,11 +32,11 @@ export function JoinUsSection() {
           </p>
 
           <p className="leading-relaxed font-medium text-pretty text-[#666666] dark:text-[#8F8F8F]">
-            We have confirmed findings in all top TEE protocols in Web3. We have active bug reports in production consensus codebases. <br/><br/>
+            We have uncovered multiple novel vulnerabilities in live production systems across domains with our rigour and methods. <br/><br/>
           </p>
 
           <p className="leading-relaxed font-medium text-pretty text-[#666666] dark:text-[#8F8F8F]">
-            If that's you, send us a short intro. Tell us what you've gone deep on.
+            Send us a short intro if that sounds like your kind of fun. We are hiring across all domains and levels of experience.
           </p>
         </div>
 
