@@ -18,6 +18,7 @@ import MDEditor, {
 } from '@uiw/react-md-editor'
 import { evaluate } from '@mdx-js/mdx'
 import remarkGfm from 'remark-gfm'
+import rehypeSanitize from 'rehype-sanitize'
 import { markdownComponents } from '@/components/markdown/markdown-components'
 import type { MDXComponents } from 'mdx/types'
 
@@ -67,6 +68,7 @@ function MarkdownPreview({ content }: { content: string }) {
     evaluate(content, {
       ...(runtime as Parameters<typeof evaluate>[1]),
       remarkPlugins: [remarkGfm],
+      rehypePlugins: [rehypeSanitize],
     })
       .then(({ default: Comp }) => {
         if (!cancelled) {
