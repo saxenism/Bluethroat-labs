@@ -1,7 +1,8 @@
 'use client'
 
-import { useEffect, useState, type ReactNode } from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { DocsSidebar } from '@/components/docs/docs-sidebar'
 import { DocsBreadcrumb } from '@/components/docs/docs-breadcrumb'
 import { DocsFooter } from '@/components/docs/docs-footer'
@@ -38,6 +39,13 @@ export function DocsLayoutShell({
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false)
   const [activeSection, setActiveSection] = useState<string>('')
   const [scrollY, setScrollY] = useState(0)
+  const mainRef = useRef<HTMLElement>(null)
+  const pathname = usePathname()
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
+    mainRef.current?.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
+  }, [pathname])
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY)
@@ -130,7 +138,7 @@ export function DocsLayoutShell({
           </div>
         </div>
 
-        <main className="overflow-y-auto">
+        <main ref={mainRef} className="overflow-y-auto">
           <div className="w-full">{children}</div>
 
           {(prev || next) && (
