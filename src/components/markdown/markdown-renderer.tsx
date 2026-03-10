@@ -1,6 +1,7 @@
 import * as runtime from 'react/jsx-runtime'
 import { evaluate } from '@mdx-js/mdx'
 import remarkGfm from 'remark-gfm'
+import rehypeSanitize from 'rehype-sanitize'
 import rehypeSlug from 'rehype-slug'
 import { markdownComponents } from './markdown-components'
 import { cn } from '@/lib/utils'
@@ -30,7 +31,7 @@ export async function MarkdownRenderer({
   const { default: MDXContent } = await evaluate(content, {
     ...(runtime as Parameters<typeof evaluate>[1]),
     remarkPlugins: [remarkGfm],
-    rehypePlugins: withSlug ? [rehypeSlug] : [],
+    rehypePlugins: [...(withSlug ? [rehypeSlug] : []), rehypeSanitize],
   })
 
   const mergedComponents: MDXComponents = {
