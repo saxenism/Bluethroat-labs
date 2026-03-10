@@ -28,15 +28,21 @@ export function JoinUsSection() {
           </h2>
 
           <p className="leading-relaxed font-medium text-pretty text-[#666666] dark:text-[#8F8F8F]">
-            If you fall into rabbit holes and don't stop until you understand how something breaks, Bluethroat Labs is the right place for you. <br/><br/>
+            If you fall into rabbit holes and don&apos;t stop until you
+            understand how something breaks, Bluethroat Labs is the right place
+            for you. <br />
+            <br />
           </p>
 
           <p className="leading-relaxed font-medium text-pretty text-[#666666] dark:text-[#8F8F8F]">
-            We have uncovered multiple novel vulnerabilities in live production systems across domains with our rigour and methods. <br/><br/>
+            We have uncovered multiple novel vulnerabilities in live production
+            systems across domains with our rigour and methods. <br />
+            <br />
           </p>
 
           <p className="leading-relaxed font-medium text-pretty text-[#666666] dark:text-[#8F8F8F]">
-            Send us a short intro if that sounds like your kind of fun. We are hiring across all domains and levels of experience.
+            Send us a short intro if that sounds like your kind of fun. We are
+            hiring across all domains and levels of experience.
           </p>
         </div>
 

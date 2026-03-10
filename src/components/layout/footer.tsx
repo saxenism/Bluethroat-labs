@@ -54,7 +54,7 @@ export function Footer() {
 
           <div className="flex h-12 items-center justify-center md:h-17">
             <a
-              href="mailto:hello@bluethroat.ai"
+              href="mailto:saxenism@bluethroatlabs.com"
               className="grid aspect-square h-full place-items-center border-l hover:bg-[#E6E6E6] dark:hover:bg-[#292929]"
             >
               <MailIcon className="text-[#292929] max-md:size-5.5 dark:text-[#A9A9A9]" />

@@ -17,7 +17,7 @@ export function DocsFooter() {
 
           <div className="flex h-12 items-center justify-center lg:h-17">
             <a
-              href="mailto:hello@bluethroat.ai"
+              href="mailto:saxenism@bluethroatlabs.com"
               className="grid aspect-square h-full place-items-center hover:bg-[#E6E6E6] dark:hover:bg-[#292929]"
             >
               <MailIcon className="text-[#292929] max-lg:size-5.5 dark:text-[#E6E6E6]" />
