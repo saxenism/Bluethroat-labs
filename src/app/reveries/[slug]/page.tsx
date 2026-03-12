@@ -17,7 +17,11 @@ async function getPost(slug: string) {
         content,
         "categories": categories[]->title,
         publishedAt,
-        "author": author->name,
+        "author": author->{
+          name,
+          socialHandle,
+          socialLink
+        },
         seo {
           title,
           description,

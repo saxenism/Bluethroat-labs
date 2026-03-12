@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
   title: { default: 'Bluethroat Labs', template: '%s | Bluethroat Labs' },
   description:
-    'Security research collective focused on making TEE-heavy Web3 protocols secure, robust, and reliable.',
+    'We build domain-specific AI security agents for complex protocol architectures. One agent per domain. All of them sharing intelligence to stop cascading failures.',
   alternates: { canonical: '/' },
   icons: { icon: '/favicon.svg', apple: '/apple-touch-icon.png' },
   manifest: '/site.webmanifest',
@@ -41,14 +41,14 @@ export const metadata: Metadata = {
     siteName: 'Bluethroat Labs',
     title: 'Bluethroat Labs',
     description:
-      'Security research collective focused on making TEE-heavy Web3 protocols secure, robust, and reliable.',
+      'We build domain-specific AI security agents for complex protocol architectures. One agent per domain. All of them sharing intelligence to stop cascading failures.',
     images: [{ url: '/og-image.png', width: 1200, height: 630 }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Bluethroat Labs',
     description:
-      'Security research collective focused on making TEE-heavy Web3 protocols secure, robust, and reliable.',
+      'We build domain-specific AI security agents for complex protocol architectures. One agent per domain. All of them sharing intelligence to stop cascading failures.',
     images: ['/og-image.png'],
   },
   robots: { index: true, follow: true },

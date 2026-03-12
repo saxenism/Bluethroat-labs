@@ -1,5 +1,6 @@
 import { MarkdownRenderer } from '@/components/markdown'
 import { CategoryDisplay } from './blog-card'
+import { AuthorByline } from './author-byline'
 
 interface BlogRendererProps {
   markdown?: string | null
@@ -7,7 +8,7 @@ interface BlogRendererProps {
     title: string
     categories: string[]
     date?: string
-    author?: string
+    author?: { name?: string; socialHandle?: string; socialLink?: string }
   }
 }
 
@@ -29,11 +30,7 @@ export function BlogRenderer({ markdown, metadata }: BlogRendererProps) {
           {metadata?.title}
         </h1>
 
-        {!!metadata.author && (
-          <div className="flex gap-2 text-xs font-medium text-[#7D7D7D] md:text-base dark:text-[#A9A9A9]">
-            By {metadata.author}
-          </div>
-        )}
+        <AuthorByline author={metadata.author} />
       </div>
 
       {markdown?.trim() ? <MarkdownRenderer content={markdown} /> : null}
