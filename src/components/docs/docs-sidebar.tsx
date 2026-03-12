@@ -187,7 +187,13 @@ function SidebarItem({
   return (
     <div>
       {item.slug ? (
-        <Link href={`/docs/${item.slug}`} onClick={onNavigate}>
+        <Link
+          href={`/docs/${item.slug}`}
+          onClick={() => {
+            setIsOpen(true)
+            onNavigate?.()
+          }}
+        >
           {content}
         </Link>
       ) : (
