@@ -1,22 +1,22 @@
 import { MailIcon } from '@/assets/icons'
-import Image from 'next/image'
+import { ImageWithBlur } from '../ui/image-with-blur'
 
 export function JoinUsSection() {
   return (
     <section className="border-border relative isolate grid place-items-center border-b px-4 py-18 md:py-36">
-      <Image
+      <ImageWithBlur
         src="/join-us/bg-dark.png"
         alt="Background"
         fill
         className="none -z-1 hidden object-cover dark:block"
-        priority
+        preload
       />
-      <Image
+      <ImageWithBlur
         src="/join-us/bg-light.png"
         alt="Background"
         fill
         className="none -z-1 object-cover dark:hidden"
-        priority
+        preload
       />
 
       <div className="border-border relative w-full max-w-4xl border bg-[#F2F2F2] dark:bg-[#191919]">

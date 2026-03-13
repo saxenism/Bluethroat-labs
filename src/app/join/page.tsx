@@ -1,5 +1,6 @@
 import { StickyNavbar } from '@/components/layout/sticky-navbar'
 import { Footer } from '@/components/layout/footer'
+import { LandingStripImage } from '@/components/ui/landing-strip-image'
 import { JoinUsSection } from '@/components/sections/join-us-section'
 import type { Metadata } from 'next'
 
@@ -31,7 +32,7 @@ export default function JoinUsPage() {
       <StickyNavbar />
       <main>
         <JoinUsSection />
-        <Footer />
+        <Footer stripImage={<LandingStripImage />} />
       </main>
     </div>
   )

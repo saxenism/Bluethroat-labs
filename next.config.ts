@@ -1,5 +1,6 @@
 import type { NextConfig } from 'next'
 import createMDX from '@next/mdx'
+import withPlaiceholder from '@plaiceholder/next'
 
 const withMDX = createMDX({})
 
@@ -13,4 +14,4 @@ const nextConfig: NextConfig = {
   },
 }
 
-export default withMDX(nextConfig)
+export default withPlaiceholder(withMDX(nextConfig))

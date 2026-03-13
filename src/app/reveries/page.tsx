@@ -1,5 +1,6 @@
 import { StickyNavbar } from '@/components/layout/sticky-navbar'
 import { Footer } from '@/components/layout/footer'
+import { LandingStripImage } from '@/components/ui/landing-strip-image'
 import { ReveriesCatalog } from '@/components/sections/reveries-catalog'
 import { client } from '@/lib/sanity/client'
 import { urlFor } from '@/lib/sanity/image'
@@ -9,9 +10,11 @@ import {
   type SanityBlogPost,
 } from '@/lib/sanity/reveries'
 import type { SanityImageSource } from '@sanity/image-url'
+import { getBlurDataURL } from '@/lib/plaiceholder'
 import { NuqsAdapter } from 'nuqs/adapters/next/app'
 import { Suspense } from 'react'
 import type { Metadata } from 'next'
+import { ImageWithBlur } from '@/components/ui/image-with-blur'
 
 export const metadata: Metadata = {
   title: 'Reveries',
@@ -37,9 +40,16 @@ export const metadata: Metadata = {
 
 export default async function ReveriesPage() {
   const posts = await client.fetch<SanityBlogPost[]>(REVERIES_LIST_QUERY)
-
-  const blogs = (posts ?? []).map((post) =>
+  const items = (posts ?? []).map((post) =>
     mapSanityPostToBlogItem(post, (src) => urlFor(src as SanityImageSource))
+  )
+  const blogs = await Promise.all(
+    items.map(async (blog) => ({
+      ...blog,
+      blurDataURL: blog.src
+        ? await getBlurDataURL(blog.src, { size: 50 })
+        : undefined,
+    }))
   )
 
   const categories = [
@@ -52,8 +62,20 @@ export default async function ReveriesPage() {
         <div className="bg-background border-border relative container mx-auto min-h-screen border-x pt-12">
           <StickyNavbar />
           <main>
-            <ReveriesCatalog initialItems={blogs} categories={categories} />
-            <Footer />
+            <ReveriesCatalog
+              initialItems={blogs}
+              categories={categories}
+              bannerImage={
+                <ImageWithBlur
+                  src="/reveries/bg.png"
+                  alt="Reveries Background"
+                  fill
+                  className="none -z-1 object-cover max-lg:object-[75%]"
+                  preload
+                />
+              }
+            />
+            <Footer stripImage={<LandingStripImage />} />
           </main>
         </div>
       </NuqsAdapter>

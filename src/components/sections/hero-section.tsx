@@ -1,19 +1,19 @@
 import { ZCAL_LINK } from '@/lib/constants'
 import Link from 'next/link'
-import Image from 'next/image'
+import { ImageWithBlur } from '@/components/ui/image-with-blur'
 
-export function HeroSection() {
+export async function HeroSection() {
   return (
     <section
       id="hero"
       className="relative isolate container mx-auto flex h-fit flex-col bg-[#191919]"
     >
-      <Image
+      <ImageWithBlur
         src="/landing/hero-bg.png"
         alt="Background"
         fill
         className="none -z-1 object-cover opacity-50"
-        priority
+        preload
       />
 
       <div className="relative grid place-items-center px-2 pt-14 pb-66 md:pt-18 md:pb-74">
