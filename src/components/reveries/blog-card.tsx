@@ -57,6 +57,10 @@ export const BlogCard = ({
           width={600}
           height={337}
           className="mb-6 h-49.5 w-full object-cover md:mb-8 md:aspect-video md:h-auto"
+          {...(blog.blurDataURL && {
+            placeholder: 'blur' as const,
+            blurDataURL: blog.blurDataURL,
+          })}
         />
 
         <div className="mb-auto flex items-start justify-between gap-4">
@@ -94,6 +98,10 @@ export const BlogCard = ({
           width={212}
           height={120}
           className="h-49.5 w-full object-cover md:h-30 md:w-53"
+          {...(blog.blurDataURL && {
+            placeholder: 'blur' as const,
+            blurDataURL: blog.blurDataURL,
+          })}
         />
 
         <div className="flex-1 align-text-top">
