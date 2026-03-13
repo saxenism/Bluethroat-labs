@@ -103,6 +103,7 @@ export default async function DocsPage({ params }: Props) {
         width={1048}
         height={304}
         className="none h-[226px] w-full object-cover md:h-[304px]"
+        priority
       />
 
       <div className="container mx-auto w-full px-6 py-12 md:px-8">

@@ -96,6 +96,7 @@ export function ReveriesCatalog({
           alt="Reveries Background"
           fill
           className="none -z-1 object-cover max-lg:object-[75%]"
+          priority
         />
 
         <div className="flex h-full items-end px-4 py-2 md:px-8">

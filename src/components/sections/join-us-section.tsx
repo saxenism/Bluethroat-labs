@@ -9,12 +9,14 @@ export function JoinUsSection() {
         alt="Background"
         fill
         className="none -z-1 hidden object-cover dark:block"
+        priority
       />
       <Image
         src="/join-us/bg-light.png"
         alt="Background"
         fill
         className="none -z-1 object-cover dark:hidden"
+        priority
       />
 
       <div className="border-border relative w-full max-w-4xl border bg-[#F2F2F2] dark:bg-[#191919]">

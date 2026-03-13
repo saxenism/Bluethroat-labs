@@ -13,6 +13,7 @@ export function HeroSection() {
         alt="Background"
         fill
         className="none -z-1 object-cover opacity-50"
+        priority
       />
 
       <div className="relative grid place-items-center px-2 pt-14 pb-66 md:pt-18 md:pb-74">
