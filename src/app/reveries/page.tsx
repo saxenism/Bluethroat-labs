@@ -14,6 +14,7 @@ import { getBlurDataURL } from '@/lib/plaiceholder'
 import { NuqsAdapter } from 'nuqs/adapters/next/app'
 import { Suspense } from 'react'
 import type { Metadata } from 'next'
+import { ImageWithBlur } from '@/components/ui/image-with-blur'
 
 export const metadata: Metadata = {
   title: 'Reveries',
@@ -61,7 +62,19 @@ export default async function ReveriesPage() {
         <div className="bg-background border-border relative container mx-auto min-h-screen border-x pt-12">
           <StickyNavbar />
           <main>
-            <ReveriesCatalog initialItems={blogs} categories={categories} />
+            <ReveriesCatalog
+              initialItems={blogs}
+              categories={categories}
+              bannerImage={
+                <ImageWithBlur
+                  src="/reveries/bg.png"
+                  alt="Reveries Background"
+                  fill
+                  className="none -z-1 object-cover max-lg:object-[75%]"
+                  preload
+                />
+              }
+            />
             <Footer stripImage={<LandingStripImage />} />
           </main>
         </div>
