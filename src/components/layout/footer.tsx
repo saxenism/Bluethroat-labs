@@ -3,11 +3,10 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Copyright } from 'lucide-react'
-import { MouseEvent } from 'react'
+import { MouseEvent, type ReactNode } from 'react'
 import { SanskritHoverText } from '@/components/ui/sanskrit-hover-text'
 import { FullLogo, IconLogo } from '@/assets/logos'
 import { MailIcon, XIcon } from '@/assets/icons'
-import { LandingStripImage } from '../ui/landing-strip-image'
 
 const navLinks = [
   { href: '/docs', label: 'Docs' },
@@ -15,7 +14,9 @@ const navLinks = [
   { href: '/join', label: 'Join Us' },
 ]
 
-export function Footer() {
+type FooterProps = { stripImage?: ReactNode }
+
+export function Footer({ stripImage }: FooterProps) {
   const pathname = usePathname()
 
   const handleLogoClick = (e: MouseEvent<HTMLAnchorElement>) => {
@@ -72,7 +73,7 @@ export function Footer() {
       </div>
 
       <div className="none relative mt-12 h-64 w-full overflow-hidden bg-[#f2f2f2] sm:h-80 md:h-[400px] dark:bg-[#191919]">
-        <LandingStripImage />
+        {stripImage}
       </div>
 
       <div className="border-border text-foreground flex items-center justify-center border-t bg-[#f2f2f2] p-3 text-sm dark:bg-[#191919]">

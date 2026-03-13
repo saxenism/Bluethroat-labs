@@ -3,11 +3,11 @@ import type { Metadata } from 'next'
 import { client } from '@/lib/sanity/client'
 import { urlFor } from '@/lib/sanity/image'
 import { DocContentRenderer } from '@/components/docs/content-renderer'
-import Image from 'next/image'
+import { ImageWithBlur } from '@/components/ui/image-with-blur'
 
 interface DocPageData {
   title: string
-  heroImage?: { asset: { _ref: string; _type: string } }
+  heroImage: { asset: { _ref: string; _type: string } }
   content?: string
   seo?: {
     title?: string
@@ -91,19 +91,17 @@ export default async function DocsPage({ params }: Props) {
     notFound()
   }
 
+  const src = urlFor(pageData.heroImage).url()
+
   return (
     <article>
-      <Image
-        src={
-          pageData.heroImage
-            ? urlFor(pageData.heroImage).url()
-            : '/landing/hero-bg.png'
-        }
+      <ImageWithBlur
+        src={src}
         alt={pageData.title}
         width={1048}
         height={304}
         className="none h-[226px] w-full object-cover md:h-[304px]"
-        priority
+        preload
       />
 
       <div className="container mx-auto w-full px-6 py-12 md:px-8">

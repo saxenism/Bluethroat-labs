@@ -1,21 +1,21 @@
-import Image from 'next/image'
+import { ImageWithBlur } from '@/components/ui/image-with-blur'
 
-export const LandingStripImage = () => {
+export async function LandingStripImage() {
   return (
     <>
-      <Image
+      <ImageWithBlur
         src="/landing/footer-bg-light.png"
         alt="Footer"
         fill
         className="object-cover md:object-[100%_40%] dark:hidden"
-        priority
+        preload
       />
-      <Image
+      <ImageWithBlur
         src="/landing/footer-bg-dark.png"
         alt="Footer"
         fill
         className="hidden object-cover md:object-[100%_40%] dark:block"
-        priority
+        preload
       />
     </>
   )
