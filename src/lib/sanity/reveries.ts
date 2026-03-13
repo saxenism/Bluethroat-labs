@@ -10,6 +10,7 @@ export interface SanityCategory {
 export interface SanityBlogPost {
   title: string
   slug: string
+  coverImage?: { asset: { _ref: string; _type: string } }
   bannerImage?: { asset: { _ref: string; _type: string } }
   categories?: { title: string }[] | null
   publishedAt?: string
@@ -24,6 +25,7 @@ export const CATEGORIES_QUERY = `*[_type == "blogCategory"] | order(title asc) {
 export const REVERIES_PREVIEW_QUERY = `*[_type == "blog"] | order(publishedAt desc) [0..2] {
   title,
   "slug": slug.current,
+  coverImage,
   bannerImage,
   "categories": categories[]->{ title },
   publishedAt
@@ -33,6 +35,7 @@ export const REVERIES_PREVIEW_QUERY = `*[_type == "blog"] | order(publishedAt de
 export const REVERIES_LIST_QUERY = `*[_type == "blog"] | order(publishedAt desc) {
   title,
   "slug": slug.current,
+  coverImage,
   bannerImage,
   "categories": categories[]->{ title },
   publishedAt
@@ -63,6 +66,10 @@ export const mapSanityPostToBlogItem = (
       'General',
     ],
     href: `/reveries/${post.slug}`,
-    src: post.bannerImage ? urlFor(post.bannerImage).url() : null,
+    src: post.coverImage
+      ? urlFor(post.coverImage).url()
+      : post.bannerImage
+        ? urlFor(post.bannerImage).url()
+        : null,
   }
 }

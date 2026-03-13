@@ -24,6 +24,16 @@ const blog = {
       title: 'Banner Image',
       type: 'image',
       options: { hotspot: true },
+      description:
+        'Large image displayed at the top of the blog post page. Also used in catalogues when cover image is not set.',
+    },
+    {
+      name: 'coverImage',
+      title: 'Cover Image',
+      type: 'image',
+      options: { hotspot: true },
+      description:
+        'Optional. Shown in blog catalogues and list views. If omitted, the banner image is used there.',
     },
     {
       name: 'categories',
