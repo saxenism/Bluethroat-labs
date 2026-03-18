@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { IconLogo } from '@/assets/logos'
-import { MailIcon, XIcon } from '@/assets/icons'
+import { LinkedinIcon, MailIcon, XIcon } from '@/assets/icons'
 import { CopyrightIcon } from 'lucide-react'
 
 export function DocsFooter() {
@@ -29,6 +29,14 @@ export function DocsFooter() {
               className="grid aspect-square h-full place-items-center hover:bg-[#E6E6E6] dark:hover:bg-[#292929]"
             >
               <XIcon className="text-[#292929] max-lg:size-4.5 dark:text-[#E6E6E6]" />
+            </a>
+            <a
+              href="https://www.linkedin.com/company/bluethroat-labs"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="grid aspect-square h-full place-items-center hover:bg-[#E6E6E6] dark:hover:bg-[#292929]"
+            >
+              <LinkedinIcon className="text-[#292929] max-lg:size-4.5 dark:text-[#E6E6E6]" />
             </a>
           </div>
         </div>

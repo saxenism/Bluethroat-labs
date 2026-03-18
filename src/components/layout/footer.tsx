@@ -6,7 +6,7 @@ import { Copyright } from 'lucide-react'
 import { MouseEvent } from 'react'
 import { SanskritHoverText } from '@/components/ui/sanskrit-hover-text'
 import { FullLogo, IconLogo } from '@/assets/logos'
-import { MailIcon, XIcon } from '@/assets/icons'
+import { LinkedinIcon, MailIcon, XIcon } from '@/assets/icons'
 import { LandingStripImage } from '../ui/landing-strip-image'
 
 const navLinks = [
@@ -66,6 +66,14 @@ export function Footer() {
               className="grid aspect-square h-full place-items-center border-l hover:bg-[#E6E6E6] max-md:border-r dark:hover:bg-[#292929]"
             >
               <XIcon className="text-[#292929] max-md:size-4.5 dark:text-[#A9A9A9]" />
+            </a>
+            <a
+              href="https://www.linkedin.com/company/bluethroat-labs"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="grid aspect-square h-full place-items-center border-l hover:bg-[#E6E6E6] max-md:border-r dark:hover:bg-[#292929]"
+            >
+              <LinkedinIcon className="text-[#292929] max-md:size-4.5 dark:text-[#A9A9A9]" />
             </a>
           </div>
         </div>
