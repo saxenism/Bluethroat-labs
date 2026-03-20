@@ -78,22 +78,22 @@ export default async function ReveriesPage() {
   }
 
   return (
-    <Suspense>
-      <NuqsAdapter>
-        <div className="bg-background border-border relative container mx-auto min-h-screen border-x pt-12">
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{
-              __html: JSON.stringify(collectionJsonLd),
-            }}
-          />
-          <StickyNavbar />
-          <main>
-            <ReveriesCatalog initialItems={blogs} categories={categories} />
-            <Footer />
-          </main>
-        </div>
-      </NuqsAdapter>
-    </Suspense>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionJsonLd) }}
+      />
+      <Suspense>
+        <NuqsAdapter>
+          <div className="bg-background border-border relative container mx-auto min-h-screen border-x pt-12">
+            <StickyNavbar />
+            <main>
+              <ReveriesCatalog initialItems={blogs} categories={categories} />
+              <Footer />
+            </main>
+          </div>
+        </NuqsAdapter>
+      </Suspense>
+    </>
   )
 }
