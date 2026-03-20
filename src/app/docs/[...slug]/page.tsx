@@ -102,7 +102,7 @@ export default async function DocsPage({ params }: Props) {
     description: pageData.seo?.description || undefined,
     publisher: {
       '@type': 'Organization',
-      '@id': `${BASE_URL}`,
+      '@id': `${BASE_URL}/#organization`,
       name: 'Bluethroat Labs',
     },
     isPartOf: {

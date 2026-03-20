@@ -36,7 +36,7 @@ const webPageJsonLd = {
     'Work with Bluethroat Labs — join our security research collective focused on TEE-heavy Web3 protocols.',
   publisher: {
     '@type': 'Organization',
-    '@id': `${BASE_URL}`,
+    '@id': `${BASE_URL}/#organization`,
     name: 'Bluethroat Labs',
   },
   isPartOf: {

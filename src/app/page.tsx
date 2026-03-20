@@ -19,7 +19,7 @@ import { BASE_URL } from '@/lib/constants'
 const organizationJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
-  '@id': `${BASE_URL}`,
+  '@id': `${BASE_URL}/#organization`,
   name: 'Bluethroat Labs',
   url: BASE_URL,
   logo: `${BASE_URL}/favicon.svg`,

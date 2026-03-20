@@ -57,7 +57,7 @@ export default async function ReveriesPage() {
       'Research writings, security analyses, and technical deep-dives from the Bluethroat Labs team.',
     publisher: {
       '@type': 'Organization',
-      '@id': `${BASE_URL}`,
+      '@id': `${BASE_URL}/#organization`,
       name: 'Bluethroat Labs',
     },
     isPartOf: {

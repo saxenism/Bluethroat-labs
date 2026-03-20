@@ -102,7 +102,7 @@ function buildArticleJsonLd(post: Record<string, unknown>, slug: string) {
       : undefined,
     publisher: {
       '@type': 'Organization',
-      '@id': `${BASE_URL}`,
+      '@id': `${BASE_URL}/#organization`,
       name: 'Bluethroat Labs',
       logo: `${BASE_URL}/favicon.svg`,
     },
