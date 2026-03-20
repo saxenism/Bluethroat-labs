@@ -21,9 +21,9 @@ export function JoinUsSection() {
 
       <div className="border-border relative w-full max-w-4xl border bg-[#F2F2F2] dark:bg-[#191919]">
         <div className="px-4 pt-12 pb-18 text-center md:p-12">
-          <span className="text-foreground mb-6 block text-base font-semibold uppercase md:mb-8 md:text-2xl">
+          <h1 className="text-foreground mb-6 block text-base font-semibold uppercase md:mb-8 md:text-2xl">
             JOIN US
-          </span>
+          </h1>
 
           <h2 className="font-instrumental mb-4 text-[32px] leading-tight font-normal text-pretty md:mb-6 md:text-5xl">
             In the age of AI, clear thinkers prevail.

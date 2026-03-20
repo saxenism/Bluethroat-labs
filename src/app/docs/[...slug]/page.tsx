@@ -4,6 +4,7 @@ import { client } from '@/lib/sanity/client'
 import { urlFor } from '@/lib/sanity/image'
 import { DocContentRenderer } from '@/components/docs/content-renderer'
 import Image from 'next/image'
+import { BASE_URL } from '@/lib/constants'
 
 interface DocPageData {
   title: string
@@ -91,8 +92,33 @@ export default async function DocsPage({ params }: Props) {
     notFound()
   }
 
+  const canonicalUrl = `${BASE_URL}/docs/${currentSlug}`
+  const webPageJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    '@id': canonicalUrl,
+    name: pageData.seo?.title || pageData.title,
+    url: canonicalUrl,
+    description: pageData.seo?.description || undefined,
+    publisher: {
+      '@type': 'Organization',
+      '@id': `${BASE_URL}`,
+      name: 'Bluethroat Labs',
+    },
+    isPartOf: {
+      '@type': 'WebSite',
+      '@id': `${BASE_URL}/#website`,
+      name: 'Bluethroat Labs',
+      url: BASE_URL,
+    },
+  }
+
   return (
     <article>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageJsonLd) }}
+      />
       <Image
         src={
           pageData.heroImage

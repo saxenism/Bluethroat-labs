@@ -11,6 +11,7 @@ import {
   type SearchableDoc,
 } from '@/lib/sanity/docs-nav'
 import { parseMarkdownHeadings } from '@/lib/markdown-headings'
+import { BASE_URL } from '@/lib/constants'
 
 type Props = { children: ReactNode; params: Promise<{ slug: string[] }> }
 
@@ -44,16 +45,34 @@ export default async function DocsLayout({ children, params }: Props) {
 
   const { prev, next } = getAdjacentNavItems(navData?.items ?? [], currentSlug)
 
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    '@id': `${BASE_URL}/docs/${currentSlug}#breadcrumb`,
+    itemListElement: breadcrumbItems.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.title,
+      item: `${BASE_URL}/docs/${item.slug ?? ''}`,
+    })),
+  }
+
   return (
-    <DocsLayoutShell
-      subSections={subSections}
-      breadcrumbItems={breadcrumbItems}
-      navigation={navData?.items ?? []}
-      searchableDocs={searchableDocs ?? []}
-      prev={prev}
-      next={next}
-    >
-      {children}
-    </DocsLayoutShell>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+      <DocsLayoutShell
+        subSections={subSections}
+        breadcrumbItems={breadcrumbItems}
+        navigation={navData?.items ?? []}
+        searchableDocs={searchableDocs ?? []}
+        prev={prev}
+        next={next}
+      >
+        {children}
+      </DocsLayoutShell>
+    </>
   )
 }

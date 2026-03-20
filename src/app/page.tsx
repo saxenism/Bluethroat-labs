@@ -14,6 +14,27 @@ import {
   type SanityBlogPost,
 } from '@/lib/sanity/reveries'
 import type { SanityImageSource } from '@sanity/image-url'
+import { BASE_URL } from '@/lib/constants'
+
+const organizationJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  '@id': `${BASE_URL}`,
+  name: 'Bluethroat Labs',
+  url: BASE_URL,
+  logo: `${BASE_URL}/favicon.svg`,
+  description:
+    'We build domain-specific AI security agents for complex protocol architectures. One agent per domain. All of them sharing intelligence to stop cascading failures.',
+  sameAs: [
+    'https://x.com/bluethroat_labs',
+    'https://www.linkedin.com/company/bluethroat-labs',
+  ],
+  contactPoint: {
+    '@type': 'ContactPoint',
+    email: 'saxenism@bluethroatlabs.com',
+    contactType: 'general',
+  },
+}
 
 export default async function Home() {
   const posts = await client.fetch<SanityBlogPost[]>(REVERIES_PREVIEW_QUERY)
@@ -23,6 +44,10 @@ export default async function Home() {
 
   return (
     <div className="bg-background border-border relative container mx-auto min-h-screen border-x pt-12">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+      />
       <StickyNavbar />
       <main>
         <HeroSection />

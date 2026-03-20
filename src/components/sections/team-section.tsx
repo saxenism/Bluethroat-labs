@@ -29,9 +29,9 @@ export function TeamSection() {
     >
       <div className="border-border flex h-16 border-y bg-[#F2F2F2] px-0 dark:bg-[#191919]">
         <div className="border-border flex h-full items-center border-r px-4 md:px-12">
-          <span className="text-xl font-semibold whitespace-nowrap uppercase md:text-2xl">
+          <h2 className="text-xl font-semibold whitespace-nowrap uppercase md:text-2xl">
             Our Team
-          </span>
+          </h2>
         </div>
 
         <div className="none relative h-full flex-1 overflow-hidden">
