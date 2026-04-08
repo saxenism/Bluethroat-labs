@@ -8,13 +8,15 @@ import { ZCAL_LINK } from '@/lib/constants'
 import { cn } from '@/lib/utils'
 import { LandingStripImage } from '../ui/landing-strip-image'
 import { ChevronLeft, ChevronRight, CornerUpRightIcon } from 'lucide-react'
+import { WriteupItem } from '@/lib/sanity/writeups'
 
-export function WorkSection() {
+export function WorkSection({ writeups }: { writeups: WriteupItem[] }) {
   const [isWriteupDialogOpen, setIsWriteupDialogOpen] = useState(false)
 
   const handleClick = (clickHandler?: string) => {
     if (clickHandler === 'writeup-modal') {
       setIsWriteupDialogOpen(true)
+      console.log(writeups)
     }
   }
 
