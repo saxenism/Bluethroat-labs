@@ -1,10 +1,23 @@
+'use client'
+
+import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog'
 import { ZCAL_LINK } from '@/lib/constants'
 import { cn } from '@/lib/utils'
 import { LandingStripImage } from '../ui/landing-strip-image'
+import { ChevronLeft, ChevronRight, CornerUpRightIcon } from 'lucide-react'
 
 export function WorkSection() {
+  const [isWriteupDialogOpen, setIsWriteupDialogOpen] = useState(false)
+
+  const handleClick = (clickHandler?: string) => {
+    if (clickHandler === 'writeup-modal') {
+      setIsWriteupDialogOpen(true)
+    }
+  }
+
   return (
     <section className="border-border relative isolate z-2 container mx-auto mt-18 border-b">
       <div className="border-border flex h-16 border-y bg-[#F2F2F2] px-0 dark:bg-[#191919]">
@@ -35,9 +48,40 @@ export function WorkSection() {
             className={
               index === WORKS.length - 1 ? 'lg:border-r-0' : 'max-lg:mb-12'
             }
+            handleClick={handleClick}
           />
         ))}
       </div>
+
+      <Dialog open={isWriteupDialogOpen} onOpenChange={setIsWriteupDialogOpen}>
+        <DialogContent className="sm:max-w-6xl sm:p-12">
+          <DialogTitle className="sr-only">
+            Vulnerability research writeups
+          </DialogTitle>
+
+          <div className="w-full">
+            <div>bookself here</div>
+
+            <div className="mt-12 flex w-full items-center justify-between gap-4">
+              <button className="border-border border p-2 text-[#A9A9A9] hover:bg-[#E6E6E6] dark:hover:bg-[#292929]">
+                <ChevronLeft className="size-7" />
+              </button>
+
+              <Link
+                href="/docs"
+                className="font-instrumental text-[32px] text-[#8F8F8F] italic hover:text-[#292929] dark:text-[#7D7D7D] hover:dark:text-[#E6E6E6]"
+              >
+                Read the full Writeup{' '}
+                <CornerUpRightIcon className="mr-1 ml-1 inline-block size-6 stroke-1" />
+              </Link>
+
+              <button className="border-border border p-2 text-[#A9A9A9] hover:bg-[#E6E6E6] dark:hover:bg-[#292929]">
+                <ChevronRight className="size-7" />
+              </button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
 
       <div className="h-16" />
     </section>
@@ -47,9 +91,11 @@ export function WorkSection() {
 const WorkCard = ({
   work,
   className,
+  handleClick,
 }: {
   work: (typeof WORKS)[number]
   className?: string
+  handleClick: (clickHandler?: string) => void
 }) => {
   return (
     <div
@@ -89,6 +135,17 @@ const WorkCard = ({
         >
           {work.buttonText}
         </Link>
+      ) : work.clickHandler ? (
+        <button
+          onClick={() => handleClick(work.clickHandler)}
+          className={cn(
+            'hover:bg-foreground border-border flex h-18 items-center justify-center border-t px-2 text-center text-xl font-semibold text-[#1F1F1F] hover:text-[#EBEBEB] dark:text-[#EBEBEB] dark:hover:text-[#292929]',
+            work.buttonTheme === 'inverse' &&
+              'hover:bg-foreground hover:dark:bg-foreground bg-[#292929] text-[#E6E6E6] hover:text-[#E6E6E6] dark:bg-[#E6E6E6] dark:text-[#292929] hover:dark:text-[#292929]'
+          )}
+        >
+          {work.buttonText}
+        </button>
       ) : (
         <div className="border-border flex h-18 items-center justify-center border-t px-2 text-center text-xl font-semibold text-[#1F1F1F] dark:text-[#EBEBEB]">
           {work.buttonText}
@@ -116,7 +173,8 @@ const WORKS = [
     description:
       'Our research takes us deep into production codebases. When we find something real, we pursue it — across TEE protocols, consensus implementations, ZK systems, and beyond. We proactively reach out to concerned teams and responsibly disclose vulnerabilities. The patterns we uncover eventually flow back into our public research.',
     link: undefined,
-    buttonText: 'Writeups (Coming Soon...)',
+    clickHandler: 'writeup-modal',
+    buttonText: 'Writeups',
     buttonTheme: 'primary',
   },
   {
