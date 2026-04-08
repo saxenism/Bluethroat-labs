@@ -1,3 +1,6 @@
+import { MarkdownRenderer } from '@/components/markdown'
+import { ReactNode } from 'react'
+
 export interface SanityWriteup {
   title: string
   writeupUrl: string
@@ -8,7 +11,7 @@ export interface SanityWriteup {
 
 export interface WriteupItem {
   title: string
-  description: string
+  description: ReactNode
   href: string
   logoSrc: string | null
   coverSrc: string | null
@@ -29,7 +32,11 @@ export const mapSanityWriteupToItem = (
   return {
     title: writeup.title,
     href: writeup.writeupUrl,
-    description: writeup.description ?? '',
+    description: writeup.description ? (
+      <MarkdownRenderer content={writeup.description} />
+    ) : (
+      ''
+    ),
     logoSrc: writeup.logo ? urlFor(writeup.logo).url() : null,
     coverSrc: writeup.coverImage ? urlFor(writeup.coverImage).url() : null,
   }

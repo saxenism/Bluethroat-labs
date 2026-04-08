@@ -7,8 +7,8 @@ import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog'
 import { ZCAL_LINK } from '@/lib/constants'
 import { cn } from '@/lib/utils'
 import { LandingStripImage } from '../ui/landing-strip-image'
-import { ChevronLeft, ChevronRight, CornerUpRightIcon } from 'lucide-react'
 import { WriteupItem } from '@/lib/sanity/writeups'
+import { BookShelf } from '../ui/bookshelf'
 
 export function WorkSection({ writeups }: { writeups: WriteupItem[] }) {
   const [isWriteupDialogOpen, setIsWriteupDialogOpen] = useState(false)
@@ -16,7 +16,6 @@ export function WorkSection({ writeups }: { writeups: WriteupItem[] }) {
   const handleClick = (clickHandler?: string) => {
     if (clickHandler === 'writeup-modal') {
       setIsWriteupDialogOpen(true)
-      console.log(writeups)
     }
   }
 
@@ -56,32 +55,12 @@ export function WorkSection({ writeups }: { writeups: WriteupItem[] }) {
       </div>
 
       <Dialog open={isWriteupDialogOpen} onOpenChange={setIsWriteupDialogOpen}>
-        <DialogContent className="sm:max-w-6xl sm:p-12">
+        <DialogContent className="pt-12 sm:max-w-6xl sm:p-12">
           <DialogTitle className="sr-only">
             Vulnerability research writeups
           </DialogTitle>
 
-          <div className="w-full">
-            <div>bookself here</div>
-
-            <div className="mt-12 flex w-full items-center justify-between gap-4">
-              <button className="border-border border p-2 text-[#A9A9A9] hover:bg-[#E6E6E6] dark:hover:bg-[#292929]">
-                <ChevronLeft className="size-7" />
-              </button>
-
-              <Link
-                href="/docs"
-                className="font-instrumental text-[32px] text-[#8F8F8F] italic hover:text-[#292929] dark:text-[#7D7D7D] hover:dark:text-[#E6E6E6]"
-              >
-                Read the full Writeup{' '}
-                <CornerUpRightIcon className="mr-1 ml-1 inline-block size-6 stroke-1" />
-              </Link>
-
-              <button className="border-border border p-2 text-[#A9A9A9] hover:bg-[#E6E6E6] dark:hover:bg-[#292929]">
-                <ChevronRight className="size-7" />
-              </button>
-            </div>
-          </div>
+          <BookShelf writeups={writeups} />
         </DialogContent>
       </Dialog>
 
