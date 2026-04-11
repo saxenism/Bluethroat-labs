@@ -25,7 +25,7 @@ const blog = {
       type: 'image',
       options: { hotspot: true },
       description:
-        'Large image displayed at the top of the blog post page. Also used in catalogues when cover image is not set.',
+        'Large image displayed at the top of the blog post page. Also used in catalogues when cover image is not set. (There is no recommended aspect ratio, as this will be flexible based on the device screen size)',
     },
     {
       name: 'coverImage',
@@ -33,7 +33,7 @@ const blog = {
       type: 'image',
       options: { hotspot: true },
       description:
-        'Optional. Shown in blog catalogues and list views. If omitted, the banner image is used there.',
+        'Optional. Shown in blog catalogues and list views. If omitted, the banner image is used there. (Recommended aspect ratio: 16:9 or 1200x720)',
     },
     {
       name: 'categories',

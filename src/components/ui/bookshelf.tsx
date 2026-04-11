@@ -33,28 +33,46 @@ const findNextIndex = (
   return -1
 }
 
+/* ── Mobile book scale (change this one number to resize) ── */
+const MOBILE_SCALE = 0.7 // 1.0 = same as desktop (440×60 spine, 444×368 cover)
+const mb = {
+  h: Math.round(440 * MOBILE_SCALE),
+  sw: Math.round(60 * MOBILE_SCALE),
+  cw: Math.round(368 * MOBILE_SCALE),
+  maxText: Math.round(360 * MOBILE_SCALE),
+  logo: Math.round(44 * MOBILE_SCALE),
+}
+
 /* ── Shared book spine + cover markup ── */
 const BookVisual = ({ book, mobile }: { book: BookItem; mobile?: boolean }) => (
   <>
     <div
       className={cn(
         'relative flex flex-col items-center justify-between overflow-hidden rounded-l-[3px] px-0 pt-4 pb-2',
-        mobile ? 'h-87.5 w-6.5' : 'h-110 w-15',
+        !mobile && 'h-110 w-15',
         book.comingSoon && 'justify-center'
       )}
+      style={mobile ? { height: mb.h, width: mb.sw } : undefined}
     >
       <div className="absolute inset-0 bg-[#292929]" />
       <div
         className={cn(
           'font-instrumental relative z-10 truncate whitespace-nowrap text-[#F2F2F2]',
-          mobile ? 'max-h-70 text-xs' : 'max-h-90 text-base'
+          mobile ? 'text-xs' : 'max-h-90 text-base'
         )}
-        style={{ writingMode: 'vertical-rl', textOrientation: 'mixed' }}
+        style={{
+          writingMode: 'vertical-rl',
+          textOrientation: 'mixed',
+          ...(mobile ? { maxHeight: mb.maxText } : {}),
+        }}
       >
         {book.title}
       </div>
       {!!book.logoSrc && (
-        <div className={cn('relative z-10', mobile ? 'h-7 w-7' : 'h-11 w-11')}>
+        <div
+          className={cn('relative z-10', !mobile && 'h-11 w-11')}
+          style={mobile ? { height: mb.logo, width: mb.logo } : undefined}
+        >
           <Image
             src={book.logoSrc}
             alt={`${book.title} logo`}
@@ -75,8 +93,9 @@ const BookVisual = ({ book, mobile }: { book: BookItem; mobile?: boolean }) => (
         href={book.href}
         className={cn(
           'absolute top-0 block origin-left rotate-y-90 overflow-hidden rounded-r-lg backface-hidden',
-          mobile ? 'left-6.5 h-87.5 w-72.5' : 'left-14 h-111 w-92'
+          !mobile && 'left-14 h-111 w-92'
         )}
+        style={mobile ? { left: mb.sw, height: mb.h, width: mb.cw } : undefined}
       >
         <Image
           src={book.coverSrc}
@@ -215,7 +234,7 @@ export const BookShelf = ({ writeups }: { writeups: WriteupItem[] }) => {
   const mobileBook = books[mobileDisplayIndex]
 
   return (
-    <div className="w-full max-lg:py-6">
+    <div className="w-full max-lg:flex max-lg:flex-col max-lg:items-center max-lg:justify-center">
       {/* ── Desktop ── */}
       <div className="relative hidden lg:block">
         <div className="relative flex min-h-125 items-end justify-center gap-10 overflow-x-auto px-2 pb-8">
@@ -260,16 +279,17 @@ export const BookShelf = ({ writeups }: { writeups: WriteupItem[] }) => {
       </div>
 
       {/* ── Mobile Carousel ── */}
-      <div className="relative block lg:hidden">
+      <div className="relative block w-full lg:hidden">
         <div className="relative flex min-h-95 items-end justify-center overflow-hidden px-4 pt-4 pb-8">
           <div
             className={cn(
-              '-ml-65 perspective-distant',
+              'perspective-distant',
               mobileAnim === 'exit-left' && 'animate-book-exit-left',
               mobileAnim === 'exit-right' && 'animate-book-exit-right',
               mobileAnim === 'enter-left' && 'animate-book-enter-left',
               mobileAnim === 'enter-right' && 'animate-book-enter-right'
             )}
+            style={{ marginLeft: -(mb.cw - mb.sw) }}
             onAnimationEnd={onMobileAnimEnd}
           >
             <div
