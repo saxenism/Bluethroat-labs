@@ -161,9 +161,9 @@ const WORKS = [
   {
     icon: '/landing/work-icon-3.png',
     iconClassName: 'dark:invert',
-    title: 'Protocol Security Ecosystems',
+    title: 'Internal AI Security Systems',
     description:
-      'Domain-specific AI agents, built for your codebase, reasoning together across subsystems. Each one learns your protocol more deeply with every run. \n Blind spots are unavoidable. That is why monitoring is treated as a first-class citizen of the security stack, not an afterthought.',
+      'We design and build internal AI-driven security tooling and workflows tailored to your protocol. Shaped around your codebase, threat model, and engineering reality, these systems evolve with the protocol as it grows. We can hand over the full stack to your team or remain involved on a light retainer.',
     link: ZCAL_LINK,
     buttonText: 'Talk to Us',
     buttonTheme: 'primary',
