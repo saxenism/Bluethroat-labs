@@ -35,9 +35,7 @@ export function WorkSection({ writeups }: { writeups: WriteupItem[] }) {
 
       <div className="px-4 pt-6 pb-12 md:px-12">
         <p className="text-base font-medium text-[#454545] md:text-lg dark:text-[#A9A9A9]">
-          We operate across three fronts. Research that compounds into public
-          knowledge. Private vulnerability work that stays confidential. And 
-          bespoke internal AI security infrastructure built specifically for your protocol.
+          We operate across three fronts. We find real vulnerabilities in production systems. We build internal AI security systems tailored to your protocol. And we turn what we learn into public knowledge that raises the bar for the industry.
         </p>
       </div>
 
@@ -138,16 +136,6 @@ const WorkCard = ({
 
 const WORKS = [
   {
-    icon: '/landing/work-icon-1.png',
-    iconClassName: 'dark:opacity-50',
-    title: 'The TEE Security Handbook',
-    description:
-      "Every domain we study produces knowledge that shouldn't stay private. The TEE Security Handbook documents real failure modes, vulnerable patterns, and practical guidance for safely deploying TEE-heavy Web3 systems — built from confirmed findings across production codebases, not just theoretical analysis. More handbooks on the way.",
-    link: '/docs',
-    buttonText: 'Check out the Handbook',
-    buttonTheme: 'inverse',
-  },
-  {
     icon: '/landing/work-icon-2.png',
     iconClassName: 'dark:opacity-50',
     title: 'Vulnerability Research',
@@ -156,7 +144,7 @@ const WORKS = [
     link: undefined,
     clickHandler: 'writeup-modal',
     buttonText: 'Writeups',
-    buttonTheme: 'primary',
+    buttonTheme: 'inverse',
   },
   {
     icon: '/landing/work-icon-3.png',
@@ -166,6 +154,16 @@ const WORKS = [
       'We design and build internal AI-driven security tooling and workflows tailored to your protocol. Shaped around your codebase, threat model, and engineering reality, these systems evolve with the protocol. We can hand over the full stack to your team or remain involved on a light retainer.',
     link: ZCAL_LINK,
     buttonText: 'Talk to Us',
+    buttonTheme: 'primary',
+  },
+  {
+    icon: '/landing/work-icon-1.png',
+    iconClassName: 'dark:opacity-50',
+    title: 'The TEE Security Handbook',
+    description:
+      "Every domain we study produces knowledge that shouldn't stay private. The TEE Security Handbook documents real failure modes, vulnerable patterns, and practical guidance for safely deploying TEE-heavy Web3 systems — built from confirmed findings across production codebases, not just theoretical analysis. More handbooks on the way.",
+    link: '/docs',
+    buttonText: 'Check out the Handbook',
     buttonTheme: 'primary',
   },
 ]
