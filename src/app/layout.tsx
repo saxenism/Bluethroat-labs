@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Instrument_Serif, Geist_Mono, Bai_Jamjuree } from 'next/font/google'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import './globals.css'
 import { HashLinkHandler } from '@/components/markdown/hash-link-handler'
 import { ThemeProvider } from '@/components/providers/theme-provider'
@@ -75,6 +76,7 @@ export default function RootLayout({
             {children}
           </TooltipProvider>
         </ThemeProvider>
+        <SpeedInsights />
       </body>
     </html>
   )

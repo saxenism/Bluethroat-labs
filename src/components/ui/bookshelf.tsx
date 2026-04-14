@@ -1,8 +1,10 @@
 'use client'
 
+import type { KeyboardEvent as ReactKeyboardEvent, MouseEvent } from 'react'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { ChevronLeft, ChevronRight, CornerUpRightIcon } from 'lucide-react'
 import type { WriteupItem } from '@/lib/sanity/writeups'
 import { cn } from '@/lib/utils'
@@ -43,96 +45,134 @@ const mb = {
   logo: Math.round(44 * MOBILE_SCALE),
 }
 
+const isInternalHref = (href: string) => href.startsWith('/') || href.startsWith('#')
+
+const isNestedInteractiveTarget = (target: EventTarget | null) =>
+  target instanceof HTMLElement &&
+  !!target.closest('a, button, input, select, textarea, summary')
+
+const BookSpine = ({ book, mobile }: { book: BookItem; mobile?: boolean }) => (
+  <div
+    className={cn(
+      'relative flex flex-col items-center justify-between overflow-hidden rounded-l-[3px] px-0 pt-4 pb-2',
+      !mobile && 'h-110 w-15',
+      book.comingSoon && 'justify-center'
+    )}
+    style={mobile ? { height: mb.h, width: mb.sw } : undefined}
+  >
+    <div className="absolute inset-0 bg-[#292929]" />
+    <div
+      className={cn(
+        'font-instrumental relative z-10 truncate whitespace-nowrap text-[#F2F2F2]',
+        mobile ? 'text-xs' : 'max-h-90 text-base'
+      )}
+      style={{
+        writingMode: 'vertical-rl',
+        textOrientation: 'mixed',
+        ...(mobile ? { maxHeight: mb.maxText } : {}),
+      }}
+    >
+      {book.title}
+    </div>
+    {!!book.logoSrc && (
+      <div
+        className={cn('relative z-10', !mobile && 'h-11 w-11')}
+        style={mobile ? { height: mb.logo, width: mb.logo } : undefined}
+      >
+        <Image
+          src={book.logoSrc}
+          alt={`${book.title} logo`}
+          width={44}
+          height={44}
+          className="h-full w-full rounded-lg object-contain"
+        />
+      </div>
+    )}
+    <div
+      className="pointer-events-none absolute inset-0 z-20 opacity-40"
+      style={textureStyle}
+    />
+  </div>
+)
+
+const BookCover = ({ book, mobile }: { book: BookItem; mobile?: boolean }) => {
+  const router = useRouter()
+
+  if (book.comingSoon || !book.coverSrc) return null
+
+  const navigateToBook = () => {
+    if (isInternalHref(book.href)) {
+      router.push(book.href)
+      return
+    }
+
+    window.location.assign(book.href)
+  }
+
+  const handleClick = (event: MouseEvent<HTMLDivElement>) => {
+    if (isNestedInteractiveTarget(event.target)) return
+    navigateToBook()
+  }
+
+  const handleKeyDown = (event: ReactKeyboardEvent<HTMLDivElement>) => {
+    if (event.target !== event.currentTarget) return
+    if (event.key !== 'Enter' && event.key !== ' ') return
+
+    event.preventDefault()
+    navigateToBook()
+  }
+
+  return (
+    <div
+      role="link"
+      tabIndex={0}
+      aria-label={`Read the full writeup for ${book.title}`}
+      onClick={handleClick}
+      onKeyDown={handleKeyDown}
+      className={cn(
+        'absolute top-0 origin-left rotate-y-90 overflow-hidden rounded-r-lg backface-hidden focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#7D7D7D]',
+        !mobile && 'left-14 h-111 w-92'
+      )}
+      style={mobile ? { left: mb.sw, height: mb.h, width: mb.cw } : undefined}
+    >
+      <Image
+        src={book.coverSrc}
+        alt={book.title}
+        width={367}
+        height={444}
+        className="h-full w-full object-cover select-none"
+      />
+      <div className="absolute inset-x-0 bottom-0 z-20 w-full">
+        <div className={cn(mobile ? 'p-4 pb-5' : 'p-6 pb-8')}>
+          <p
+            className={cn(
+              'font-instrumental mb-4 text-[#F2F2F2]',
+              mobile ? 'text-lg' : 'text-2xl'
+            )}
+          >
+            {book.title}
+          </p>
+          {!!book.description && (
+            <div
+              className={cn(
+                '**:mb-0 **:font-mono **:font-semibold **:text-[#E6E6E6] hover:**:text-[#E6E6E6] [&_a]:relative [&_a]:z-10',
+                mobile ? '**:text-[10px]' : '**:text-xs'
+              )}
+            >
+              {book.description}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
+
 /* ── Shared book spine + cover markup ── */
 const BookVisual = ({ book, mobile }: { book: BookItem; mobile?: boolean }) => (
   <>
-    <div
-      className={cn(
-        'relative flex flex-col items-center justify-between overflow-hidden rounded-l-[3px] px-0 pt-4 pb-2',
-        !mobile && 'h-110 w-15',
-        book.comingSoon && 'justify-center'
-      )}
-      style={mobile ? { height: mb.h, width: mb.sw } : undefined}
-    >
-      <div className="absolute inset-0 bg-[#292929]" />
-      <div
-        className={cn(
-          'font-instrumental relative z-10 truncate whitespace-nowrap text-[#F2F2F2]',
-          mobile ? 'text-xs' : 'max-h-90 text-base'
-        )}
-        style={{
-          writingMode: 'vertical-rl',
-          textOrientation: 'mixed',
-          ...(mobile ? { maxHeight: mb.maxText } : {}),
-        }}
-      >
-        {book.title}
-      </div>
-      {!!book.logoSrc && (
-        <div
-          className={cn('relative z-10', !mobile && 'h-11 w-11')}
-          style={mobile ? { height: mb.logo, width: mb.logo } : undefined}
-        >
-          <Image
-            src={book.logoSrc}
-            alt={`${book.title} logo`}
-            width={44}
-            height={44}
-            className="h-full w-full rounded-lg object-contain"
-          />
-        </div>
-      )}
-      <div
-        className="pointer-events-none absolute inset-0 z-20 opacity-40"
-        style={textureStyle}
-      />
-    </div>
-
-    {!book.comingSoon && book.coverSrc && (
-      <Link
-        href={book.href}
-        className={cn(
-          'absolute top-0 block origin-left rotate-y-90 overflow-hidden rounded-r-lg backface-hidden',
-          !mobile && 'left-14 h-111 w-92'
-        )}
-        style={mobile ? { left: mb.sw, height: mb.h, width: mb.cw } : undefined}
-      >
-        <Image
-          src={book.coverSrc}
-          alt={book.title}
-          width={367}
-          height={444}
-          className="h-full w-full object-cover select-none"
-        />
-        <div className="relative">
-          <div
-            className={cn(
-              'absolute right-0 bottom-0 left-0 w-full',
-              mobile ? 'p-4 pb-5' : 'p-6 pb-8'
-            )}
-          >
-            <p
-              className={cn(
-                'font-instrumental mb-4 text-[#F2F2F2]',
-                mobile ? 'text-lg' : 'text-2xl'
-              )}
-            >
-              {book.title}
-            </p>
-            {!!book.description && (
-              <div
-                className={cn(
-                  '**:mb-0 **:font-mono **:font-semibold **:text-[#E6E6E6] hover:**:text-[#E6E6E6]',
-                  mobile ? '**:text-[10px]' : '**:text-xs'
-                )}
-              >
-                {book.description}
-              </div>
-            )}
-          </div>
-        </div>
-      </Link>
-    )}
+    <BookSpine book={book} mobile={mobile} />
+    <BookCover book={book} mobile={mobile} />
   </>
 )
 
@@ -241,18 +281,12 @@ export const BookShelf = ({ writeups }: { writeups: WriteupItem[] }) => {
           {books.map((book, index) => {
             const isActive = index === activeBookIndex
             return (
-              <button
+              <div
                 key={`desk-${index}`}
-                type="button"
-                onClick={() =>
-                  !book.comingSoon &&
-                  navigate(index > activeBookIndex ? 'next' : 'prev', index)
-                }
-                disabled={book.comingSoon}
                 className={cn(
-                  'relative z-0 mb-3 shrink-0 text-left transition-[margin] duration-700 ease-[cubic-bezier(0.22,0.61,0.36,1)] select-none perspective-distant',
+                  'relative z-0 mb-3 shrink-0 transition-[margin] duration-700 ease-[cubic-bezier(0.22,0.61,0.36,1)] select-none perspective-distant',
                   isActive && 'z-10 mr-73',
-                  book.comingSoon && 'cursor-default!'
+                  book.comingSoon && 'cursor-default'
                 )}
               >
                 <div
@@ -263,9 +297,31 @@ export const BookShelf = ({ writeups }: { writeups: WriteupItem[] }) => {
                       : 'rotate-y-0'
                   )}
                 >
-                  <BookVisual book={book} />
+                  <button
+                    type="button"
+                    onClick={() =>
+                      !book.comingSoon &&
+                      navigate(
+                        index > activeBookIndex ? 'next' : 'prev',
+                        index
+                      )
+                    }
+                    disabled={book.comingSoon}
+                    aria-label={
+                      isActive
+                        ? `${book.title} is selected`
+                        : `Select ${book.title}`
+                    }
+                    className={cn(
+                      'relative block shrink-0 text-left focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#7D7D7D]',
+                      book.comingSoon && 'cursor-default'
+                    )}
+                  >
+                    <BookSpine book={book} />
+                  </button>
+                  <BookCover book={book} />
                 </div>
-              </button>
+              </div>
             )
           })}
 
