@@ -13,6 +13,11 @@ import {
   mapSanityPostToBlogItem,
   type SanityBlogPost,
 } from '@/lib/sanity/reveries'
+import {
+  WRITEUPS_QUERY,
+  mapSanityWriteupToItem,
+  type SanityWriteup,
+} from '@/lib/sanity/writeups'
 import type { SanityImageSource } from '@sanity/image-url'
 import { BASE_URL } from '@/lib/constants'
 
@@ -38,8 +43,13 @@ const organizationJsonLd = {
 
 export default async function Home() {
   const posts = await client.fetch<SanityBlogPost[]>(REVERIES_PREVIEW_QUERY)
+  const writeups = await client.fetch<SanityWriteup[]>(WRITEUPS_QUERY)
+
   const blogs = (posts ?? []).map((post) =>
     mapSanityPostToBlogItem(post, (src) => urlFor(src as SanityImageSource))
+  )
+  const writeupItems = (writeups ?? []).map((writeup) =>
+    mapSanityWriteupToItem(writeup, (src) => urlFor(src as SanityImageSource))
   )
 
   return (
@@ -53,7 +63,7 @@ export default async function Home() {
         <HeroSection />
         <MissionSection />
         <TeeSection />
-        <WorkSection />
+        <WorkSection writeups={writeupItems} />
         <ReveriesSection blogs={blogs} />
         <TeamSection />
         <Footer />
