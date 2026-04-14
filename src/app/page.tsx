@@ -77,7 +77,10 @@ export default async function Home() {
         <HeroSection />
         <MissionSection />
         <TeeSection />
-        <WorkSection writeups={writeupItems} />
+        <WorkSection
+          writeups={writeupItems}
+          stripImage={<LandingStripImage />}
+        />
         <ReveriesSection blogs={blogs} />
         <TestimonialSection testimonials={testimonialItems} />
         <TeamSection stripImage={<LandingStripImage />} />

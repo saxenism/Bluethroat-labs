@@ -6,11 +6,16 @@ import Link from 'next/link'
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog'
 import { ZCAL_LINK } from '@/lib/constants'
 import { cn } from '@/lib/utils'
-import { LandingStripImage } from '../ui/landing-strip-image'
 import { WriteupItem } from '@/lib/sanity/writeups'
 import { BookShelf } from '../ui/bookshelf'
 
-export function WorkSection({ writeups }: { writeups: WriteupItem[] }) {
+export function WorkSection({
+  writeups,
+  stripImage,
+}: {
+  writeups: WriteupItem[]
+  stripImage?: React.ReactNode
+}) {
   const [isWriteupDialogOpen, setIsWriteupDialogOpen] = useState(false)
 
   const handleClick = (clickHandler?: string) => {
@@ -29,7 +34,7 @@ export function WorkSection({ writeups }: { writeups: WriteupItem[] }) {
         </div>
 
         <div className="none relative h-full flex-1 overflow-hidden">
-          <LandingStripImage />
+          {stripImage}
         </div>
       </div>
 
