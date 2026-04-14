@@ -36,8 +36,8 @@ export function WorkSection({ writeups }: { writeups: WriteupItem[] }) {
       <div className="px-4 pt-6 pb-12 md:px-12">
         <p className="text-base font-medium text-[#454545] md:text-lg dark:text-[#A9A9A9]">
           We operate across three fronts. Research that compounds into public
-          knowledge. Private vulnerability work that stays confidential. And
-          bespoke security ecosystems built specifically for your protocol.
+          knowledge. Private vulnerability work that stays confidential. And 
+          bespoke internal AI security infrastructure built specifically for your protocol.
         </p>
       </div>
 
@@ -163,7 +163,7 @@ const WORKS = [
     iconClassName: 'dark:invert',
     title: 'Internal AI Security Systems',
     description:
-      'We design and build internal AI-driven security tooling and workflows tailored to your protocol. Shaped around your codebase, threat model, and engineering reality, these systems evolve with the protocol as it grows. We can hand over the full stack to your team or remain involved on a light retainer.',
+      'We design and build internal AI-driven security tooling and workflows tailored to your protocol. Shaped around your codebase, threat model, and engineering reality, these systems evolve with the protocol. We can hand over the full stack to your team or remain involved on a light retainer.',
     link: ZCAL_LINK,
     buttonText: 'Talk to Us',
     buttonTheme: 'primary',
