@@ -85,7 +85,7 @@ export const markdownComponents: MDXComponents = {
   ul: ({ children, id }) => (
     <ul
       id={id}
-      className="my-4 list-none space-y-2 pl-4 [&_li>p]:mb-0 [&>li]:flex [&>li]:gap-3 [&>li]:before:mt-[5px] [&>li]:before:shrink-0 [&>li]:before:text-xs [&>li]:before:text-[#666666] [&>li]:before:content-['■'] [&>li]:before:select-none dark:[&>li]:before:text-[#A9A9A9]"
+      className="my-4 list-none space-y-2 pl-4 [&_li>p]:mb-0 [&>li]:flex [&>li]:gap-3 [&>li]:before:mt-1.25 [&>li]:before:shrink-0 [&>li]:before:text-xs [&>li]:before:text-[#666666] [&>li]:before:content-['■'] [&>li]:before:select-none dark:[&>li]:before:text-[#A9A9A9]"
     >
       {children}
     </ul>
@@ -125,7 +125,7 @@ export const markdownComponents: MDXComponents = {
     // Only inline code reaches here (fenced blocks are handled by `pre`).
     if (className?.includes('language-')) return null
     return (
-      <code className="bg-[#E6E6E6] px-2 py-1 text-base text-[#7D7D7D] dark:bg-[#292929]">
+      <code className="bg-[#E6E6E6] px-2 py-1 text-base dark:bg-[#292929]">
         {children}
       </code>
     )

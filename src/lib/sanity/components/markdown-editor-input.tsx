@@ -45,7 +45,7 @@ const studioComponents: MDXComponents = {
   code: ({ children, className }) => {
     if (className?.includes('language-')) return <code>{children}</code>
     return (
-      <code className="bg-[#E6E6E6] px-2 py-1 text-base text-[#7D7D7D] dark:bg-[#292929]">
+      <code className="bg-[#E6E6E6] px-2 py-1 text-base dark:bg-[#292929]">
         {children}
       </code>
     )
