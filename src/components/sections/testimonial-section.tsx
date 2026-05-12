@@ -35,7 +35,7 @@ export function TestimonialSection({ testimonials }: TestimonialSectionProps) {
       <div className="border-border flex h-16 border-y bg-[#F2F2F2] px-0 dark:bg-[#191919]">
         <div className="border-border flex h-full items-center border-r px-4 md:px-12">
           <h2 className="text-xl font-semibold whitespace-nowrap uppercase md:text-2xl">
-            TRUSTED BY TRAILBLAZERS
+            ATTESTATIONS
           </h2>
         </div>
 
