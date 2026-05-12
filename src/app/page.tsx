@@ -6,7 +6,6 @@ import { ReveriesSection } from '@/components/sections/reveries-section'
 import { TeamSection } from '@/components/sections/team-section'
 import { TestimonialSection } from '@/components/sections/testimonial-section'
 import { Footer } from '@/components/layout/footer'
-import { LandingStripImage } from '@/components/ui/landing-strip-image'
 import { TeeSection } from '@/components/sections/tee-section'
 import { client } from '@/lib/sanity/client'
 import { urlFor } from '@/lib/sanity/image'
@@ -77,14 +76,11 @@ export default async function Home() {
         <HeroSection />
         <MissionSection />
         <TeeSection />
-        <WorkSection
-          writeups={writeupItems}
-          stripImage={<LandingStripImage />}
-        />
+        <WorkSection writeups={writeupItems} />
         <ReveriesSection blogs={blogs} />
         <TestimonialSection testimonials={testimonialItems} />
-        <TeamSection stripImage={<LandingStripImage />} />
-        <Footer stripImage={<LandingStripImage />} />
+        <TeamSection />
+        <Footer />
       </main>
     </div>
   )

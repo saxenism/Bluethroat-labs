@@ -1,14 +1,13 @@
 'use client'
 
-import { useCallback, type ReactNode } from 'react'
+import { useCallback } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import Image from 'next/image'
 import useEmblaCarousel from 'embla-carousel-react'
 import { MailIcon, XIcon } from '@/assets/icons'
+import { LandingStripImage } from '../ui/landing-strip-image'
 
-type TeamSectionProps = { stripImage?: ReactNode }
-
-export function TeamSection({ stripImage }: TeamSectionProps) {
+export function TeamSection() {
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: 'start',
     loop: true,
@@ -36,7 +35,7 @@ export function TeamSection({ stripImage }: TeamSectionProps) {
         </div>
 
         <div className="none relative h-full flex-1 overflow-hidden">
-          {stripImage}
+          <LandingStripImage />
         </div>
       </div>
 

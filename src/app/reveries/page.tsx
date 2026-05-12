@@ -1,6 +1,5 @@
 import { StickyNavbar } from '@/components/layout/sticky-navbar'
 import { Footer } from '@/components/layout/footer'
-import { LandingStripImage } from '@/components/ui/landing-strip-image'
 import { ReveriesCatalog } from '@/components/sections/reveries-catalog'
 import { client } from '@/lib/sanity/client'
 import { urlFor } from '@/lib/sanity/image'
@@ -111,7 +110,7 @@ export default async function ReveriesPage() {
                   />
                 }
               />
-              <Footer stripImage={<LandingStripImage />} />
+              <Footer />
             </main>
           </div>
         </NuqsAdapter>

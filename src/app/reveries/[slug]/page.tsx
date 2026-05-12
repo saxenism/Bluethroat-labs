@@ -6,7 +6,7 @@ import { Metadata } from 'next'
 import { StickyNavbar } from '@/components/layout/sticky-navbar'
 import { Footer } from '@/components/layout/footer'
 import { ImageWithBlur } from '@/components/ui/image-with-blur'
-import { LandingStripImage } from '@/components/ui/landing-strip-image'
+import { LandingStripImageWithBlur } from '@/components/ui/landing-strip-image-with-blur'
 import { BASE_URL } from '@/lib/constants'
 
 type Props = { params: Promise<{ slug: string }> }
@@ -128,7 +128,7 @@ export default async function BlogPostPage({ params }: Props) {
       <StickyNavbar />
       <main>
         <div className="w-full pt-12 pb-8 md:py-12">
-          <div className="none relative h-[226px] w-full overflow-hidden md:h-[400px]">
+          <div className="none relative h-56.5 w-full overflow-hidden md:h-100">
             {post.bannerImage ? (
               <ImageWithBlur
                 src={urlFor(post.bannerImage).url()}
@@ -138,7 +138,7 @@ export default async function BlogPostPage({ params }: Props) {
                 preload
               />
             ) : (
-              <LandingStripImage />
+              <LandingStripImageWithBlur />
             )}
           </div>
         </div>
@@ -161,7 +161,7 @@ export default async function BlogPostPage({ params }: Props) {
           />
         </article>
 
-        <Footer stripImage={<LandingStripImage />} />
+        <Footer />
       </main>
     </div>
   )

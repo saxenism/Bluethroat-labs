@@ -1,4 +1,4 @@
-import { LandingStripImage } from '../ui/landing-strip-image'
+import { LandingStripImageWithBlur } from '../ui/landing-strip-image-with-blur'
 
 export function MissionSection() {
   return (
@@ -14,7 +14,7 @@ export function MissionSection() {
         </div>
 
         <div className="none relative h-full flex-1 overflow-hidden">
-          <LandingStripImage />
+          <LandingStripImageWithBlur />
         </div>
       </div>
 
