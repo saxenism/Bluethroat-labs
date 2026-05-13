@@ -93,7 +93,7 @@ export function ReveriesCatalog({
       <div className="border-border relative isolate h-48 w-full border-b sm:h-52">
         <Image
           src="/reveries/bg.png"
-          alt="Reveries Background"
+          alt=""
           fill
           className="none -z-1 object-cover max-lg:object-[75%]"
           priority

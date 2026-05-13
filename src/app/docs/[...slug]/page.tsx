@@ -51,7 +51,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const currentSlug = getCurrentSlug(slug ?? [])
   const doc = await getDoc(currentSlug)
 
-  if (!doc) return { title: 'Docs | Bluethroat Labs' }
+  if (!doc) return { title: 'Docs' }
 
   const seoTitle = doc.seo?.title || doc.title
   const seoDescription = doc.seo?.description

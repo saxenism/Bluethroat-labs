@@ -10,7 +10,7 @@ export function HeroSection() {
     >
       <Image
         src="/landing/hero-bg.png"
-        alt="Background"
+        alt=""
         fill
         className="none -z-1 object-cover opacity-50"
         priority

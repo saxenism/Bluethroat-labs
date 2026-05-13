@@ -7,7 +7,7 @@ export function JoinUsSection() {
       <div className="relative isolate h-48 w-full sm:h-52">
         <Image
           src="/reveries/bg.png"
-          alt="Reveries Background"
+          alt=""
           fill
           className="none -z-1 object-cover max-lg:object-[75%] dark:opacity-40"
           priority
@@ -29,14 +29,14 @@ export function JoinUsSection() {
         <div className="border-border flex flex-col border-y md:border-r">
           <Image
             src="/join-us/team-light.png"
-            alt="Bluethroat Team"
+            alt=""
             width={600}
             height={600}
             className="mx-auto h-auto w-full max-w-150 object-contain dark:hidden"
           />
           <Image
             src="/join-us/team-dark.png"
-            alt="Bluethroat Team"
+            alt=""
             width={600}
             height={600}
             className="mx-auto hidden h-auto w-full max-w-150 object-contain dark:block"
@@ -62,14 +62,14 @@ export function JoinUsSection() {
         <div className="border-border flex flex-col border-y">
           <Image
             src="/join-us/basecamp-light.png"
-            alt="Bluethroat basecamp"
+            alt=""
             width={600}
             height={600}
             className="mx-auto h-auto w-full max-w-150 object-contain dark:hidden"
           />
           <Image
             src="/join-us/basecamp-dark.png"
-            alt="Bluethroat basecamp"
+            alt=""
             width={600}
             height={600}
             className="mx-auto hidden h-auto w-full max-w-150 object-contain dark:block"
