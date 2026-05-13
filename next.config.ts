@@ -14,7 +14,7 @@ const contentSecurityPolicy = [
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob: https://cdn.sanity.io https://lh3.googleusercontent.com",
   "font-src 'self' data: https://fonts.gstatic.com",
-  "connect-src 'self' https://*.api.sanity.io https://*.apicdn.sanity.io https://sanity-cdn.com https://vitals.vercel-insights.com wss://*.api.sanity.io",
+  "connect-src 'self' https://*.api.sanity.io https://*.apicdn.sanity.io https://cdn.sanity.io https://sanity-cdn.com https://vitals.vercel-insights.com wss://*.api.sanity.io",
   "frame-src 'self' https://calendar.app.google https://vercel.live",
   "manifest-src 'self'",
   "worker-src 'self' blob:",
