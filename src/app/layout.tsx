@@ -63,6 +63,7 @@ export default function RootLayout({
       lang="en"
       className={`${instrumentSerif.variable} ${geistMono.variable} ${baiJamjuree.variable}`}
       suppressHydrationWarning
+      data-scroll-behavior="smooth"
     >
       <body className="selection:bg-foreground selection:text-background font-mono antialiased">
         <ThemeProvider

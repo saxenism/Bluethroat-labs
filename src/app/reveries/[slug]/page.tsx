@@ -38,7 +38,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const post = await getPost(slug)
 
-  if (!post) return { title: 'Blog | Bluethroat Labs' }
+  if (!post) return { title: 'Blog' }
 
   const seoTitle = post.seo?.title || post.title
   const seoDescription = post.seo?.description

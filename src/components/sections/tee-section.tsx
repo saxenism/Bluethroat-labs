@@ -11,7 +11,7 @@ export function TeeSection() {
         <div className="absolute top-0 right-0 bottom-0 left-0 -z-1 h-full w-full lg:right-1/2 lg:w-1/2">
           <Image
             src="/landing/tee-1.png"
-            alt="Background"
+            alt=""
             fill
             className="none -z-1 object-cover"
           />
@@ -55,7 +55,7 @@ export function TeeSection() {
         <div className="absolute top-0 right-0 bottom-0 left-0 -z-1 h-full w-full lg:left-1/2 lg:w-1/2">
           <Image
             src="/landing/tee-2.png"
-            alt="Background"
+            alt=""
             fill
             className="none -z-1 object-cover"
           />
