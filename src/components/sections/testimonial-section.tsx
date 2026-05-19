@@ -5,8 +5,8 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 import Image from 'next/image'
 import useEmblaCarousel from 'embla-carousel-react'
 import type { TestimonialItem } from '@/lib/sanity/testimonials'
-import { LandingStripImage } from '../ui/landing-strip-image'
 import Link from 'next/link'
+import { LandingStripImage } from '../ui/landing-strip-image'
 
 interface TestimonialSectionProps {
   testimonials: TestimonialItem[]

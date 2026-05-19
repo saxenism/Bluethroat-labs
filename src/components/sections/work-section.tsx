@@ -6,9 +6,9 @@ import Link from 'next/link'
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog'
 import { ZCAL_LINK } from '@/lib/constants'
 import { cn } from '@/lib/utils'
-import { LandingStripImage } from '../ui/landing-strip-image'
 import { WriteupItem } from '@/lib/sanity/writeups'
 import { BookShelf } from '../ui/bookshelf'
+import { LandingStripImage } from '../ui/landing-strip-image'
 
 export function WorkSection({ writeups }: { writeups: WriteupItem[] }) {
   const [isWriteupDialogOpen, setIsWriteupDialogOpen] = useState(false)
@@ -35,7 +35,10 @@ export function WorkSection({ writeups }: { writeups: WriteupItem[] }) {
 
       <div className="px-4 pt-6 pb-12 md:px-12">
         <p className="text-base font-medium text-[#454545] md:text-lg dark:text-[#A9A9A9]">
-          We operate across three fronts. We find real vulnerabilities in production systems. We build internal AI security systems tailored to your protocol. And we turn what we learn into public knowledge that raises the bar for the industry.
+          We operate across three fronts. We find real vulnerabilities in
+          production systems. We build internal AI security systems tailored to
+          your protocol. And we turn what we learn into public knowledge that
+          raises the bar for the industry.
         </p>
       </div>
 

@@ -1,16 +1,17 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import { ImageWithBlur } from '../ui/image-with-blur'
 
 export function JoinUsSection() {
   return (
     <section id="reveries" className="w-full">
       <div className="relative isolate h-48 w-full sm:h-52">
-        <Image
+        <ImageWithBlur
           src="/reveries/bg.png"
           alt=""
           fill
           className="none -z-1 object-cover max-lg:object-[75%] dark:opacity-40"
-          priority
+          preload
         />
 
         <div className="flex h-full items-end p-4 md:px-8">

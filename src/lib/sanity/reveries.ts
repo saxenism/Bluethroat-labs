@@ -47,6 +47,8 @@ export interface BlogItem {
   categories: string[]
   href: string
   src: string | null
+  /** Optional LQIP blur data URL; set by server when using plaiceholder. */
+  blurDataURL?: string
 }
 
 export const mapSanityPostToBlogItem = (
