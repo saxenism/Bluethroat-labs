@@ -75,6 +75,21 @@ const testimonial = {
           options: { hotspot: true },
           validation: (Rule: StringRule) => Rule.required(),
         },
+        {
+          name: 'height',
+          title: 'Logo Height (px)',
+          type: 'number',
+          description:
+            'Set a custom height for the logo in pixels. This helps maintain visual consistency across testimonials with logos of varying dimensions. (default: 50px)',
+          defaultValue: 50,
+          min: 40,
+          max: 100,
+          validation: (Rule: StringRule) =>
+            Rule.required()
+              .min(40)
+              .max(100)
+              .error('Logo height must be between 40 and 100 pixels.'),
+        },
       ],
       validation: (Rule: StringRule) => Rule.required(),
     },

@@ -132,8 +132,8 @@ const TestimonialCard = ({ item }: { item: TestimonialItem }) => {
                 src={item.logo?.light}
                 alt={`${item.name} Logo Light`}
                 width={100}
-                height={50}
-                className="h-full max-h-12.5 w-auto object-contain max-md:max-h-8 dark:hidden"
+                height={item.logo.height}
+                className="h-full w-auto object-contain max-md:origin-left max-md:scale-70 dark:hidden"
               />
             )}
             {!!item.logo?.dark && (
@@ -141,8 +141,8 @@ const TestimonialCard = ({ item }: { item: TestimonialItem }) => {
                 src={item.logo?.dark}
                 alt={`${item.name} Logo Dark`}
                 width={100}
-                height={50}
-                className="hidden h-full max-h-12.5 w-auto object-contain max-md:max-h-8 dark:block"
+                height={item.logo.height}
+                className="hidden h-full w-auto object-contain max-md:origin-left max-md:scale-70 dark:block"
               />
             )}
           </div>

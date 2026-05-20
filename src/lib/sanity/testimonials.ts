@@ -15,6 +15,7 @@ export interface SanityTestimonial {
   logo?: {
     light?: { asset: { _ref: string; _type: string } }
     dark?: { asset: { _ref: string; _type: string } }
+    height?: number
   }
 }
 
@@ -26,7 +27,7 @@ export interface TestimonialItem {
   image: string | null
   email?: string
   xUrl?: string
-  logo: { light: string | null; dark: string | null }
+  logo: { light: string | null; dark: string | null; height: number }
 }
 
 export const TESTIMONIALS_QUERY = `*[_type == "testimonial"] | order(orderRank asc) {
@@ -40,7 +41,8 @@ export const TESTIMONIALS_QUERY = `*[_type == "testimonial"] | order(orderRank a
   },
   logo {
     light,
-    dark
+    dark,
+    height
   }
 }`
 
@@ -64,6 +66,7 @@ export const mapSanityTestimonialToItem = (
         ? urlFor(testimonial.logo.light).url()
         : null,
       dark: testimonial.logo?.dark ? urlFor(testimonial.logo.dark).url() : null,
+      height: testimonial.logo?.height ?? 50,
     },
   }
 }
