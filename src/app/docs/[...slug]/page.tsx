@@ -51,7 +51,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const currentSlug = getCurrentSlug(slug ?? [])
   const doc = await getDoc(currentSlug)
 
-  if (!doc) return { title: 'Docs' }
+  if (!doc) return { title: 'TEE Handbook' }
 
   const seoTitle = doc.seo?.title || doc.title
   const seoDescription = doc.seo?.description
@@ -126,7 +126,7 @@ export default async function DocsPage({ params }: Props) {
         alt={pageData.title}
         width={1048}
         height={304}
-        className="none h-[226px] w-full object-cover md:h-[304px]"
+        className="none h-56.5 w-full object-cover md:h-76"
         preload
       />
 

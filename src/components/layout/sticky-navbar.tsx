@@ -25,7 +25,7 @@ export function StickyNavbar() {
   }
 
   const navLinks = [
-    { href: '/docs', label: 'Docs' },
+    { href: '/docs', label: 'TEE Handbook' },
     { href: '/reveries', label: 'Reveries' },
     { href: '/join', label: 'Join Us' },
   ]
@@ -137,7 +137,7 @@ export function StickyNavbar() {
       <div
         className={cn(
           'bg-background border-border absolute top-full right-0 left-0 overflow-hidden border-t border-b lg:hidden',
-          isMobileMenuOpen ? 'max-h-[400px] opacity-100' : 'max-h-0 opacity-0'
+          isMobileMenuOpen ? 'max-h-100 opacity-100' : 'max-h-0 opacity-0'
         )}
       >
         {/* Navigation Links */}

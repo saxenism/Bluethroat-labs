@@ -10,7 +10,7 @@ import { LinkedinIcon, MailIcon, XIcon } from '@/assets/icons'
 import { LandingStripImage } from '../ui/landing-strip-image'
 
 const navLinks = [
-  { href: '/docs', label: 'Docs' },
+  { href: '/docs', label: 'TEE Handbook' },
   { href: '/reveries', label: 'Reveries' },
   { href: '/join', label: 'Join Us' },
 ]
