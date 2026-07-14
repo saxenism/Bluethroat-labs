@@ -11,10 +11,10 @@
     "format": "prettier --write ."
   },
   "dependencies": {
-    "@plaiceholder/next": "3.0.0",
     "@mdx-js/mdx": "3.1.1",
     "@mdx-js/react": "3.1.1",
     "@next/mdx": "16.1.6",
+    "@plaiceholder/next": "3.0.0",
     "@portabletext/react": "6.0.2",
     "@sanity/code-input": "7.0.8",
     "@sanity/orderable-document-list": "1.5.1",
@@ -26,11 +26,11 @@
     "embla-carousel-react": "8.6.0",
     "lucide-react": "0.575.0",
     "next": "16.1.6",
-    "plaiceholder": "3.0.0",
     "next-sanity": "12.1.0",
     "next-sitemap": "4.2.3",
     "next-themes": "0.4.6",
     "nuqs": "2.8.9",
+    "plaiceholder": "3.0.0",
     "radix-ui": "1.4.3",
     "react": "19.2.4",
     "react-dom": "19.2.4",
@@ -39,6 +39,7 @@
     "remark-gfm": "4.0.1",
     "sanity": "5.12.0",
     "sanity-plugin-media": "4.1.1",
+    "server-only": "0.0.1",
     "shiki": "4.0.1",
     "styled-components": "6.3.11",
     "tailwind-merge": "3.5.0"

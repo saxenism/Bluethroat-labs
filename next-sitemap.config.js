@@ -7,7 +7,7 @@ const config = {
   //     { userAgent: '*', allow: '/', disallow: ['/studio', '/studio/'] },
   //   ],
   // },
-  exclude: ['/studio', '/studio/*'],
+  exclude: ['/studio', '/studio/*', '/reveries/draft/*'],
   generateIndexSitemap: false,
   priority: 1,
 }
