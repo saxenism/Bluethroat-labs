@@ -2,5 +2,7 @@ User-agent: *
 Allow: /
 Disallow: /studio
 Disallow: /studio/
+Disallow: /reveries/draft
+Disallow: /reveries/draft/
 
 Sitemap: https://bluethroatlabs.com/sitemap.xml
