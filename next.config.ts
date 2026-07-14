@@ -22,6 +22,11 @@ const contentSecurityPolicy = [
   'upgrade-insecure-requests',
 ].join('; ')
 
+const studioCsp = contentSecurityPolicy.replace(
+  "script-src 'self' 'unsafe-inline'",
+  "script-src 'self' 'unsafe-inline' 'unsafe-eval'"
+)
+
 const nextConfig: NextConfig = {
   pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
   devIndicators: false,
@@ -46,11 +51,28 @@ const nextConfig: NextConfig = {
             key: 'Permissions-Policy',
             value: 'camera=(), microphone=(), geolocation=()',
           },
-          ...(isProduction
-            ? [{ key: 'Content-Security-Policy', value: contentSecurityPolicy }]
-            : []),
+          // ...(isProduction
+          //   ? [{ key: 'Content-Security-Policy', value: contentSecurityPolicy }]
+          //   : []),
         ],
       },
+      ...(isProduction
+        ? [
+            {
+              source: '/studio/:path*', // for the Sanity Studio
+              headers: [{ key: 'Content-Security-Policy', value: studioCsp }],
+            },
+            {
+              source: '/((?!studio).*)', // everything except /studio
+              headers: [
+                {
+                  key: 'Content-Security-Policy',
+                  value: contentSecurityPolicy,
+                },
+              ],
+            },
+          ]
+        : []),
     ]
   },
 }
