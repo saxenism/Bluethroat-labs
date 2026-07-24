@@ -1,28 +1,17 @@
 'use client'
 
-import { useState, useEffect, MouseEvent } from 'react'
+import { useState, MouseEvent } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Moon, Sun } from 'lucide-react'
-import { useTheme } from 'next-themes'
 import { cn } from '@/lib/utils'
 import { SanskritHoverText } from '@/components/ui/sanskrit-hover-text'
 import { FullLogo, IconLogo } from '@/assets/logos'
-import { ZCAL_LINK } from '@/lib/constants'
+import { CALENDAR_LINK, TELEGRAM_LINK } from '@/lib/constants'
+import { TelegramIcon } from '@/assets/icons'
 
 export function StickyNavbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const { setTheme, resolvedTheme } = useTheme()
-  const [mounted, setMounted] = useState(false)
   const pathname = usePathname()
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  const toggleTheme = () => {
-    setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')
-  }
 
   const navLinks = [
     { href: '/docs', label: 'TEE Handbook' },
@@ -78,7 +67,7 @@ export function StickyNavbar() {
         {/* Talk to Us Section - Hidden on Mobile */}
         <div className="border-border hidden h-full border-r lg:flex">
           <Link
-            href={ZCAL_LINK}
+            href={CALENDAR_LINK}
             target="_blank"
             className="hover:bg-foreground hover:text-background flex h-full items-center justify-center px-8 text-xl font-semibold"
           >
@@ -89,20 +78,13 @@ export function StickyNavbar() {
         {/* Right Side Section: Theme Toggle & Hamburger */}
         <div className="ml-auto flex h-full items-center overflow-hidden lg:ml-0">
           <div className="hidden h-full items-center lg:flex">
-            <button
-              onClick={toggleTheme}
+            <Link
+              href={TELEGRAM_LINK}
+              target="_blank"
               className="hover:bg-muted p-5.5"
-              aria-label="Toggle theme"
             >
-              {/* Only render the icon if mounted to prevent hydration mismatch */}
-              {!mounted ? (
-                <div className="h-7 w-7" /> // Placeholder with same dimensions
-              ) : resolvedTheme === 'dark' ? (
-                <Sun className="h-7 w-7" />
-              ) : (
-                <Moon className="h-7 w-7" />
-              )}
-            </button>
+              <TelegramIcon className="text-foreground h-7 w-7" />
+            </Link>
           </div>
 
           {/* Mobile Menu Button - Segmented */}
@@ -156,26 +138,20 @@ export function StickyNavbar() {
           {/* Bottom Action Bar for Mobile */}
           <div className="flex h-12">
             <Link
-              href={ZCAL_LINK}
+              href={CALENDAR_LINK}
               target="_blank"
               onClick={() => setIsMobileMenuOpen(false)}
               className="text-background bg-foreground hover:bg-background hover:text-foreground border-border flex flex-1 items-center justify-center border-y border-r text-xl font-bold tracking-widest"
             >
               Talk to Us
             </Link>
-            <button
-              onClick={toggleTheme}
+            <Link
+              href={TELEGRAM_LINK}
+              target="_blank"
               className="border-border hover:bg-muted flex w-12 items-center justify-center border-y"
-              aria-label="Toggle theme"
             >
-              {!mounted ? (
-                <div className="h-6 w-6" />
-              ) : resolvedTheme === 'dark' ? (
-                <Sun className="h-6 w-6" />
-              ) : (
-                <Moon className="h-6 w-6" />
-              )}
-            </button>
+              <TelegramIcon className="text-foreground h-7 w-7" />
+            </Link>
           </div>
         </div>
       </div>

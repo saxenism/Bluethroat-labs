@@ -1,4 +1,4 @@
-import { ZCAL_LINK } from '@/lib/constants'
+import { CALENDAR_LINK } from '@/lib/constants'
 import Link from 'next/link'
 import { ImageWithBlur } from '@/components/ui/image-with-blur'
 
@@ -39,7 +39,7 @@ export async function HeroSection() {
       </div>
 
       <Link
-        href={ZCAL_LINK}
+        href={CALENDAR_LINK}
         target="_blank"
         className="text-background bg-foreground border-border hover:bg-background hover:text-foreground flex h-18 items-center justify-center border-t border-b text-xl font-semibold lg:hidden"
       >
