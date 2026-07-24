@@ -33,6 +33,7 @@ import {
 } from '@/lib/sanity/proof-of-work'
 import type { SanityImageSource } from '@sanity/image-url'
 import { BASE_URL } from '@/lib/constants'
+import { CTASection } from '@/components/sections/CTASection'
 import { ProofOfWorkSection } from '@/components/sections/proof-of-work-section'
 
 const organizationJsonLd = {
@@ -101,6 +102,7 @@ export default async function Home() {
         <ReveriesSection blogs={blogs} />
         <TestimonialSection testimonials={testimonialItems} />
         <TeamSection />
+        <CTASection />
         <Footer />
       </main>
     </div>
