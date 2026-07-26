@@ -14,6 +14,7 @@ type Props = { params: Promise<{ slug: string }> }
 async function getPost(slug: string) {
   const query = `*[_type == "blog" && slug.current == $slug][0] {
         title,
+        seriesLabel,
         bannerImage,
         content,
         "categories": categories[]->title,
@@ -148,6 +149,7 @@ export default async function BlogPostPage({ params }: Props) {
             markdown={post.content}
             metadata={{
               title: post.title,
+              seriesLabel: post.seriesLabel ?? undefined,
               categories: post.categories ?? [],
               date: post.publishedAt
                 ? new Date(post.publishedAt).toLocaleDateString('en-US', {

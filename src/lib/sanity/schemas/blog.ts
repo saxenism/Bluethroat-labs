@@ -13,6 +13,13 @@ const blog = {
       validation: (Rule: StringRule) => Rule.required(),
     },
     {
+      name: 'seriesLabel',
+      title: 'Series Label',
+      type: 'string',
+      description:
+        'Optional. Small line shown above the post title, e.g. "Part 2 of the dstack series".',
+    },
+    {
       name: 'slug',
       title: 'Slug',
       type: 'slug',

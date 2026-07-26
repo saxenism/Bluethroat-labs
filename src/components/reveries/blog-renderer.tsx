@@ -6,6 +6,7 @@ interface BlogRendererProps {
   markdown?: string | null
   metadata: {
     title: string
+    seriesLabel?: string
     categories: string[]
     date?: string
     author?: { name?: string; socialHandle?: string; socialLink?: string }
@@ -26,9 +27,17 @@ export function BlogRenderer({ markdown, metadata }: BlogRendererProps) {
           )}
         </div>
 
-        <h1 className="text-foreground text-xl font-semibold md:text-[32px]">
-          {metadata?.title}
-        </h1>
+        <div className="space-y-2">
+          {metadata.seriesLabel && (
+            <p className="text-sm font-medium tracking-wide text-[#7D7D7D] dark:text-[#A9A9A9]">
+              {metadata.seriesLabel}
+            </p>
+          )}
+
+          <h1 className="text-foreground text-xl font-semibold md:text-[32px]">
+            {metadata.title}
+          </h1>
+        </div>
 
         <AuthorByline author={metadata.author} />
       </div>

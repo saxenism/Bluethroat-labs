@@ -53,6 +53,7 @@ export default async function BlogPostPage({ params, searchParams }: Props) {
             markdown={post.content}
             metadata={{
               title: post.title,
+              seriesLabel: post.seriesLabel ?? undefined,
               categories: post.categories ?? [],
               date: post.publishedAt
                 ? new Date(post.publishedAt).toLocaleDateString('en-US', {

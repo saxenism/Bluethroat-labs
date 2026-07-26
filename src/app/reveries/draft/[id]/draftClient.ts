@@ -19,6 +19,7 @@ const draftClient = createClient({
 
 const REVERIES_DRAFT_QUERY = `*[_type == "blog" && _originalId in path("drafts.**") && _originalId == $id][0] {
   title,
+  seriesLabel,
   bannerImage,
   content,
   "categories": categories[]->title,
