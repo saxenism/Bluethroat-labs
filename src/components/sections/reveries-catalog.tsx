@@ -27,6 +27,8 @@ interface ReveriesCatalogProps {
 const ITEMS_PER_PAGE = 10
 const DEFAULT_CATEGORIES_VISIBLE = 5
 
+const getCatalogTitle = (blog: BlogItem) => blog.catalogTitle || blog.title
+
 export function ReveriesCatalog({
   initialItems,
   categories,
@@ -45,7 +47,7 @@ export function ReveriesCatalog({
   const [showAll, setShowAll] = useState(false)
 
   const filtered = initialItems.filter((item) => {
-    const matchesSearch = item.title
+    const matchesSearch = getCatalogTitle(item)
       .toLowerCase()
       .includes(search.toLowerCase())
     const matchesCategory =
@@ -192,7 +194,7 @@ export function ReveriesCatalog({
             {paginated.map((blog, index) => (
               <BlogCard
                 key={index}
-                blog={blog}
+                blog={{ ...blog, title: getCatalogTitle(blog) }}
                 variant="grid"
                 className={cn(
                   'max-md:border-r-0',
@@ -204,7 +206,10 @@ export function ReveriesCatalog({
         ) : (
           <div className="border-border flex flex-col border-t">
             {paginated.map((blog, index) => (
-              <BlogCard key={index} blog={blog} />
+              <BlogCard
+                key={index}
+                blog={{ ...blog, title: getCatalogTitle(blog) }}
+              />
             ))}
           </div>
         )}

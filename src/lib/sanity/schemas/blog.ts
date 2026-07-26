@@ -13,6 +13,13 @@ const blog = {
       validation: (Rule: StringRule) => Rule.required(),
     },
     {
+      name: 'catalogTitle',
+      title: 'Catalog Title',
+      type: 'string',
+      description:
+        'Optional. Replaces the post title in the Reveries catalog. The original title is used everywhere else.',
+    },
+    {
       name: 'seriesLabel',
       title: 'Series Label',
       type: 'string',

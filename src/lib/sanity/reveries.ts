@@ -9,6 +9,7 @@ export interface SanityCategory {
 
 export interface SanityBlogPost {
   title: string
+  catalogTitle?: string
   slug: string
   coverImage?: { asset: { _ref: string; _type: string } }
   bannerImage?: { asset: { _ref: string; _type: string } }
@@ -34,6 +35,7 @@ export const REVERIES_PREVIEW_QUERY = `*[_type == "blog"] | order(publishedAt de
 /** All posts for catalog page. */
 export const REVERIES_LIST_QUERY = `*[_type == "blog"] | order(publishedAt desc) {
   title,
+  catalogTitle,
   "slug": slug.current,
   coverImage,
   bannerImage,
@@ -43,6 +45,7 @@ export const REVERIES_LIST_QUERY = `*[_type == "blog"] | order(publishedAt desc)
 
 export interface BlogItem {
   title: string
+  catalogTitle?: string
   date: string
   categories: string[]
   href: string
@@ -57,6 +60,7 @@ export const mapSanityPostToBlogItem = (
 ): BlogItem => {
   return {
     title: post.title,
+    catalogTitle: post.catalogTitle,
     date: post.publishedAt
       ? new Date(post.publishedAt).toLocaleDateString('en-US', {
           month: 'long',
