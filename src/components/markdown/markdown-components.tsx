@@ -1,10 +1,8 @@
-import React from 'react'
 import * as runtime from 'react/jsx-runtime'
 import { evaluateSync } from '@mdx-js/mdx'
 import remarkGfm from 'remark-gfm'
 import rehypeSanitize from 'rehype-sanitize'
 import type { MDXComponents } from 'mdx/types'
-import { StyledCodeBlock } from './styled-code-block'
 
 const captionEvalOptions = {
   ...(runtime as Parameters<typeof evaluateSync>[1]),
@@ -15,7 +13,7 @@ const captionEvalOptions = {
 
 /**
  * Shared MDX components for docs and blogs (headings, paragraphs, lists,
- * blockquote, code blocks, hr, links, images). Uses StyledCodeBlock for fenced code.
+ * blockquote, code blocks, hr, links, images).
  */
 export const markdownComponents: MDXComponents = {
   h1: ({ children, id }) => (
@@ -108,19 +106,6 @@ export const markdownComponents: MDXComponents = {
     </li>
   ),
   hr: () => <hr className="border-border my-8 border-t" aria-hidden />,
-  pre: ({ children }) => {
-    // Extract code string and language from the child <code> element.
-    const child = children as React.ReactElement<{
-      className?: string
-      children?: string
-    }>
-    const className = child?.props?.className ?? ''
-    const language = className.includes('language-')
-      ? className.replace(/^language-/, '').split(/\s/)[0]
-      : undefined
-    const code = String(child?.props?.children ?? '').replace(/\n$/, '')
-    return <StyledCodeBlock code={code} language={language} />
-  },
   code: ({ children, className }) => {
     // Only inline code reaches here (fenced blocks are handled by `pre`).
     if (className?.includes('language-')) return null

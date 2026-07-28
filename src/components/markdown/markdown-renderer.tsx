@@ -3,7 +3,7 @@ import { evaluate } from '@mdx-js/mdx'
 import remarkGfm from 'remark-gfm'
 import rehypeSanitize from 'rehype-sanitize'
 import rehypeSlug from 'rehype-slug'
-import { markdownComponents } from './markdown-components'
+import { markdownComponentsWithStyledCode } from './markdown-components-with-styled-code'
 import { cn } from '@/lib/utils'
 import type { MDXComponents } from 'mdx/types'
 
@@ -41,7 +41,7 @@ export async function MarkdownRenderer({
   })
 
   const mergedComponents: MDXComponents = {
-    ...(markdownComponents as MDXComponents),
+    ...(markdownComponentsWithStyledCode as MDXComponents),
     ...components,
   }
 

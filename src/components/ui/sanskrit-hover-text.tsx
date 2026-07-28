@@ -1,6 +1,12 @@
 'use client'
 
-import React, { useState, useEffect, useRef } from 'react'
+import {
+  useState,
+  useEffect,
+  useRef,
+  ButtonHTMLAttributes,
+  HTMLAttributes,
+} from 'react'
 import { cn } from '@/lib/utils'
 
 /** Default Sanskrit characters used for the scramble effect */
@@ -83,9 +89,9 @@ export interface SanskritHoverTextProps {
   /** Extra class names for the wrapper */
   className?: string
   /** Optional props when as="button" */
-  buttonProps?: React.ButtonHTMLAttributes<HTMLButtonElement>
+  buttonProps?: ButtonHTMLAttributes<HTMLButtonElement>
   /** Optional props when as="span" */
-  spanProps?: React.HTMLAttributes<HTMLSpanElement>
+  spanProps?: HTMLAttributes<HTMLSpanElement>
   /** Class when character is active (on box). Default: text-background */
   activeCharClassName?: string
   /** Class when character is inactive. Default: text-foreground */

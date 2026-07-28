@@ -1,45 +1,23 @@
-'use client'
-
-import { useState, useEffect } from 'react'
-import { Copy, Check } from 'lucide-react'
 import { codeToHtml } from 'shiki'
-import { useTheme } from 'next-themes'
+import { CodeCopyButton } from './code-copy-button'
 
 export interface StyledCodeBlockProps {
   code: string
   language?: string
 }
 
-export function StyledCodeBlock({ code, language }: StyledCodeBlockProps) {
-  const { resolvedTheme } = useTheme()
-  const [copied, setCopied] = useState(false)
-  const [highlighted, setHighlighted] = useState<string | null>(null)
+export const StyledCodeBlock = async ({
+  code,
+  language,
+}: StyledCodeBlockProps) => {
+  let highlighted: string | null = null
 
-  useEffect(() => {
-    let cancelled = false
-    codeToHtml(code, {
+  try {
+    highlighted = await codeToHtml(code, {
       lang: language ?? 'text',
-      theme:
-        resolvedTheme === 'dark'
-          ? 'github-dark-default'
-          : 'github-light-default',
+      themes: { light: 'github-light-default', dark: 'github-dark-default' },
     })
-      .then((html) => {
-        if (!cancelled) setHighlighted(html)
-      })
-      .catch(() => {
-        if (!cancelled) setHighlighted(null)
-      })
-    return () => {
-      cancelled = true
-    }
-  }, [code, language, resolvedTheme])
-
-  const handleCopy = () => {
-    navigator.clipboard.writeText(code || '')
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
-  }
+  } catch {}
 
   return (
     <div className="border-border bg-background my-10 overflow-hidden rounded-sm border">
@@ -50,24 +28,7 @@ export function StyledCodeBlock({ code, language }: StyledCodeBlockProps) {
           <div className="size-3 rounded-full bg-[#29C840]" />
         </div>
 
-        <button
-          onClick={handleCopy}
-          type="button"
-          className="group border-border flex items-center gap-2.5 border bg-[#E6E6E6] px-2 py-0.5 text-sm text-[#454545] hover:bg-[#D9D9D9] dark:bg-[#292929] dark:text-[#CACACA] dark:hover:bg-[#313131]"
-          title="Copy code"
-        >
-          {copied ? (
-            <>
-              <Check className="size-4" />
-              COPIED
-            </>
-          ) : (
-            <>
-              <Copy className="size-4" />
-              COPY
-            </>
-          )}
-        </button>
+        <CodeCopyButton code={code} />
       </div>
 
       {highlighted ? (
