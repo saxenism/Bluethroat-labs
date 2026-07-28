@@ -76,7 +76,7 @@ export function StyledCodeBlock({ code, language }: StyledCodeBlockProps) {
           dangerouslySetInnerHTML={{ __html: highlighted }}
         />
       ) : (
-        <pre className="overflow-x-auto p-6 font-mono text-sm leading-relaxed text-zinc-300 sm:text-base">
+        <pre className="text-foreground overflow-x-auto p-6 font-mono text-sm leading-relaxed sm:text-base">
           <code>{code}</code>
         </pre>
       )}
