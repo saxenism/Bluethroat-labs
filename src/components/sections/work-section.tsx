@@ -62,7 +62,7 @@ export function WorkSection({
       </div>
 
       <Dialog open={isWriteupDialogOpen} onOpenChange={setIsWriteupDialogOpen}>
-        <DialogContent className="pt-12 sm:max-w-6xl sm:p-12">
+        <DialogContent className="pt-12 sm:max-w-6xl sm:p-12 sm:pt-18">
           <DialogTitle className="sr-only">
             Vulnerability research writeups
           </DialogTitle>
