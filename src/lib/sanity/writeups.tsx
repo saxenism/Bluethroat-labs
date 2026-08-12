@@ -14,6 +14,7 @@ export interface SanityWriteupSeries {
 }
 
 export interface SanityWriteup {
+  _id: string
   title: string
   writeupUrl: string
   description?: string
@@ -31,6 +32,7 @@ export interface WriteupSeriesItem {
 }
 
 export interface WriteupItem {
+  id: string
   title: string
   description: ReactNode
   href: string
@@ -40,6 +42,7 @@ export interface WriteupItem {
 }
 
 export const WRITEUPS_QUERY = `*[_type == "writeup"] | order(orderRank asc) {
+  _id,
   title,
   description,
   writeupUrl,
@@ -84,6 +87,7 @@ export const mapSanityWriteupToItem = (
   urlFor: ImageUrlBuilder
 ): WriteupItem => {
   return {
+    id: writeup._id,
     title: writeup.title,
     href: writeup.writeupUrl,
     description: writeup.description ? (
