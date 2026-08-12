@@ -54,6 +54,14 @@ export const WRITEUPS_QUERY = `*[_type == "writeup"] | order(orderRank asc) {
   }
 }`
 
+export const WRITEUP_SERIES_QUERY = `*[_type == "writeupSeries"] | order(orderRank asc) {
+  _id,
+  title,
+  description,
+  logo,
+  coverImage
+}`
+
 type ImageUrlBuilder = (src: unknown) => { url: () => string }
 
 export const mapSanityWriteupSeriesToItem = (

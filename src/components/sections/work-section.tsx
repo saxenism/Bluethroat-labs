@@ -6,11 +6,17 @@ import Link from 'next/link'
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog'
 import { ZCAL_LINK } from '@/lib/constants'
 import { cn } from '@/lib/utils'
-import { WriteupItem } from '@/lib/sanity/writeups'
+import type { WriteupItem, WriteupSeriesItem } from '@/lib/sanity/writeups'
 import { BookShelf } from '../ui/bookshelf'
 import { LandingStripImage } from '../ui/landing-strip-image'
 
-export function WorkSection({ writeups }: { writeups: WriteupItem[] }) {
+export function WorkSection({
+  writeups,
+  writeupSeries,
+}: {
+  writeups: WriteupItem[]
+  writeupSeries: WriteupSeriesItem[]
+}) {
   const [isWriteupDialogOpen, setIsWriteupDialogOpen] = useState(false)
 
   const handleClick = (clickHandler?: string) => {
@@ -61,7 +67,7 @@ export function WorkSection({ writeups }: { writeups: WriteupItem[] }) {
             Vulnerability research writeups
           </DialogTitle>
 
-          <BookShelf writeups={writeups} />
+          <BookShelf writeups={writeups} writeupSeries={writeupSeries} />
         </DialogContent>
       </Dialog>
 

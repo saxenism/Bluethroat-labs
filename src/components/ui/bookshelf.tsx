@@ -6,7 +6,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { ChevronLeft, ChevronRight, CornerUpRightIcon } from 'lucide-react'
-import type { WriteupItem } from '@/lib/sanity/writeups'
+import type { WriteupItem, WriteupSeriesItem } from '@/lib/sanity/writeups'
 import { cn } from '@/lib/utils'
 
 const textureStyle = {
@@ -131,7 +131,7 @@ const BookCover = ({ book, mobile }: { book: BookItem; mobile?: boolean }) => {
       onClick={handleClick}
       onKeyDown={handleKeyDown}
       className={cn(
-        'absolute top-0 origin-left rotate-y-90 overflow-hidden rounded-r-lg backface-hidden focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#7D7D7D]',
+        'absolute top-0 origin-left rotate-y-90 cursor-pointer overflow-hidden rounded-r-lg backface-hidden focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#7D7D7D]',
         !mobile && 'left-14 h-111 w-92'
       )}
       style={mobile ? { left: mb.sw, height: mb.h, width: mb.cw } : undefined}
@@ -177,26 +177,18 @@ const BookVisual = ({ book, mobile }: { book: BookItem; mobile?: boolean }) => (
   </>
 )
 
-export const BookShelf = ({ writeups }: { writeups: WriteupItem[] }) => {
+export const BookShelf = ({
+  writeups,
+  writeupSeries,
+}: {
+  writeups: WriteupItem[]
+  writeupSeries: WriteupSeriesItem[]
+}) => {
   const books = useMemo(() => {
-    const mapped = writeups
-      .slice(0, 6)
+    return writeups
       .map((item) => ({ ...item, comingSoon: !item.coverSrc }))
-
-    if (mapped.length < 6) {
-      mapped.push({
-        title: 'Coming Soon - Stay Tuned',
-        description: '',
-        href: '#',
-        logoSrc: null,
-        coverSrc: null,
-        series: null,
-        comingSoon: true,
-      })
-    }
-
-    return mapped
-  }, [writeups])
+      .filter((item) => item.series?.id === writeupSeries[0]?.id) // FIXME: Temporary filter to only show writeups from the first series
+  }, [writeupSeries, writeups])
 
   const firstInteractive = useMemo(
     () => books.findIndex((book) => !book.comingSoon),

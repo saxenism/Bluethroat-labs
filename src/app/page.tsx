@@ -15,9 +15,12 @@ import {
   type SanityBlogPost,
 } from '@/lib/sanity/reveries'
 import {
+  WRITEUP_SERIES_QUERY,
   WRITEUPS_QUERY,
+  mapSanityWriteupSeriesToItem,
   mapSanityWriteupToItem,
   type SanityWriteup,
+  type SanityWriteupSeries,
 } from '@/lib/sanity/writeups'
 import {
   TESTIMONIALS_QUERY,
@@ -48,16 +51,23 @@ const organizationJsonLd = {
 }
 
 export default async function Home() {
-  const posts = await client.fetch<SanityBlogPost[]>(REVERIES_PREVIEW_QUERY)
-  const writeups = await client.fetch<SanityWriteup[]>(WRITEUPS_QUERY)
-  const testimonials =
-    await client.fetch<SanityTestimonial[]>(TESTIMONIALS_QUERY)
+  const [posts, writeups, writeupSeries, testimonials] = await Promise.all([
+    client.fetch<SanityBlogPost[]>(REVERIES_PREVIEW_QUERY),
+    client.fetch<SanityWriteup[]>(WRITEUPS_QUERY),
+    client.fetch<SanityWriteupSeries[]>(WRITEUP_SERIES_QUERY),
+    client.fetch<SanityTestimonial[]>(TESTIMONIALS_QUERY),
+  ])
 
   const blogs = (posts ?? []).map((post) =>
     mapSanityPostToBlogItem(post, (src) => urlFor(src as SanityImageSource))
   )
   const writeupItems = (writeups ?? []).map((writeup) =>
     mapSanityWriteupToItem(writeup, (src) => urlFor(src as SanityImageSource))
+  )
+  const writeupSeriesItems = (writeupSeries ?? []).map((series) =>
+    mapSanityWriteupSeriesToItem(series, (src) =>
+      urlFor(src as SanityImageSource)
+    )
   )
   const testimonialItems = (testimonials ?? []).map((testimonial) =>
     mapSanityTestimonialToItem(testimonial, (src) =>
@@ -76,7 +86,10 @@ export default async function Home() {
         <HeroSection />
         <MissionSection />
         <TeeSection />
-        <WorkSection writeups={writeupItems} />
+        <WorkSection
+          writeups={writeupItems}
+          writeupSeries={writeupSeriesItems}
+        />
         <ReveriesSection blogs={blogs} />
         <TestimonialSection testimonials={testimonialItems} />
         <TeamSection />
