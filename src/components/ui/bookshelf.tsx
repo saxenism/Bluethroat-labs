@@ -15,24 +15,14 @@ const textureStyle = {
   backgroundSize: '150px',
 } as const
 
-type BookItem = WriteupItem & { comingSoon: boolean }
-
 const findNextIndex = (
-  books: BookItem[],
+  bookCount: number,
   from: number,
   direction: 'prev' | 'next'
 ) => {
-  if (direction === 'prev') {
-    for (let i = from - 1; i >= 0; i -= 1) {
-      if (!books[i].comingSoon) return i
-    }
-    return -1
-  }
+  const nextIndex = direction === 'prev' ? from - 1 : from + 1
 
-  for (let i = from + 1; i < books.length; i += 1) {
-    if (!books[i].comingSoon) return i
-  }
-  return -1
+  return nextIndex >= 0 && nextIndex < bookCount ? nextIndex : -1
 }
 
 /* ── Mobile book scale (change this one number to resize) ── */
@@ -52,12 +42,17 @@ const isNestedInteractiveTarget = (target: EventTarget | null) =>
   target instanceof HTMLElement &&
   !!target.closest('a, button, input, select, textarea, summary')
 
-const BookSpine = ({ book, mobile }: { book: BookItem; mobile?: boolean }) => (
+const BookSpine = ({
+  book,
+  mobile,
+}: {
+  book: WriteupItem
+  mobile?: boolean
+}) => (
   <div
     className={cn(
       'relative flex flex-col items-center justify-between overflow-hidden rounded-l-[3px] px-0 pt-4 pb-2',
-      !mobile && 'h-110 w-15',
-      book.comingSoon && 'justify-center'
+      !mobile && 'h-110 w-15'
     )}
     style={mobile ? { height: mb.h, width: mb.sw } : undefined}
   >
@@ -96,10 +91,16 @@ const BookSpine = ({ book, mobile }: { book: BookItem; mobile?: boolean }) => (
   </div>
 )
 
-const BookCover = ({ book, mobile }: { book: BookItem; mobile?: boolean }) => {
+const BookCover = ({
+  book,
+  mobile,
+}: {
+  book: WriteupItem
+  mobile?: boolean
+}) => {
   const router = useRouter()
 
-  if (book.comingSoon || !book.coverSrc) return null
+  if (!book.coverSrc) return null
 
   const navigateToBook = () => {
     if (isInternalHref(book.href)) {
@@ -170,7 +171,13 @@ const BookCover = ({ book, mobile }: { book: BookItem; mobile?: boolean }) => {
 }
 
 /* ── Shared book spine + cover markup ── */
-const BookVisual = ({ book, mobile }: { book: BookItem; mobile?: boolean }) => (
+const BookVisual = ({
+  book,
+  mobile,
+}: {
+  book: WriteupItem
+  mobile?: boolean
+}) => (
   <>
     <BookSpine book={book} mobile={mobile} />
     <BookCover book={book} mobile={mobile} />
@@ -185,19 +192,10 @@ export const BookShelf = ({
   writeupSeries: WriteupSeriesItem[]
 }) => {
   const books = useMemo(() => {
-    return writeups
-      .map((item) => ({ ...item, comingSoon: !item.coverSrc }))
-      .filter((item) => item.series?.id === writeupSeries[0]?.id) // FIXME: Temporary filter to only show writeups from the first series
+    return writeups.filter((item) => item.series?.id === writeupSeries[0]?.id) // FIXME: Temporary filter to only show writeups from the first series
   }, [writeupSeries, writeups])
 
-  const firstInteractive = useMemo(
-    () => books.findIndex((book) => !book.comingSoon),
-    [books]
-  )
-
-  const [activeBookIndex, setActiveBookIndex] = useState(
-    firstInteractive === -1 ? 0 : firstInteractive
-  )
+  const [activeBookIndex, setActiveBookIndex] = useState(0)
 
   /* Mobile carousel state */
   const [mobileDisplayIndex, setMobileDisplayIndex] = useState(activeBookIndex)
@@ -207,10 +205,9 @@ export const BookShelf = ({
   const pendingRef = useRef(activeBookIndex)
 
   useEffect(() => {
-    const idx = firstInteractive === -1 ? 0 : firstInteractive
-    setActiveBookIndex(idx)
-    setMobileDisplayIndex(idx)
-  }, [firstInteractive])
+    setActiveBookIndex(0)
+    setMobileDisplayIndex(0)
+  }, [books])
 
   const navigate = useCallback(
     (direction: 'prev' | 'next', toIndex: number) => {
@@ -249,7 +246,7 @@ export const BookShelf = ({
       if (mobileAnim !== 'idle') return
 
       const direction = event.key === 'ArrowLeft' ? 'prev' : 'next'
-      const idx = findNextIndex(books, activeBookIndex, direction)
+      const idx = findNextIndex(books.length, activeBookIndex, direction)
       if (idx !== -1) navigate(direction, idx)
     }
 
@@ -262,8 +259,8 @@ export const BookShelf = ({
   }
 
   const activeBook = books[activeBookIndex]
-  const prevIndex = findNextIndex(books, activeBookIndex, 'prev')
-  const nextIndex = findNextIndex(books, activeBookIndex, 'next')
+  const prevIndex = findNextIndex(books.length, activeBookIndex, 'prev')
+  const nextIndex = findNextIndex(books.length, activeBookIndex, 'next')
   const isNavigating = mobileAnim !== 'idle'
   const mobileBook = books[mobileDisplayIndex]
 
@@ -279,34 +276,26 @@ export const BookShelf = ({
                 key={`desk-${index}`}
                 className={cn(
                   'relative z-0 mb-3 shrink-0 transition-[margin] duration-700 ease-[cubic-bezier(0.22,0.61,0.36,1)] select-none perspective-distant',
-                  isActive && 'z-10 mr-73',
-                  book.comingSoon && 'cursor-default'
+                  isActive && 'z-10 mr-73'
                 )}
               >
                 <div
                   className={cn(
                     'relative flex origin-left transition-transform duration-700 ease-[cubic-bezier(0.22,0.61,0.36,1)] transform-3d',
-                    isActive && !book.comingSoon
-                      ? 'rotate-y-[-75deg]'
-                      : 'rotate-y-0'
+                    isActive ? 'rotate-y-[-75deg]' : 'rotate-y-0'
                   )}
                 >
                   <button
                     type="button"
                     onClick={() =>
-                      !book.comingSoon &&
                       navigate(index > activeBookIndex ? 'next' : 'prev', index)
                     }
-                    disabled={book.comingSoon}
                     aria-label={
                       isActive
                         ? `${book.title} is selected`
                         : `Select ${book.title}`
                     }
-                    className={cn(
-                      'relative block shrink-0 text-left focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#7D7D7D]',
-                      book.comingSoon && 'cursor-default'
-                    )}
+                    className="relative block shrink-0 text-left focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#7D7D7D]"
                   >
                     <BookSpine book={book} />
                   </button>
@@ -339,12 +328,7 @@ export const BookShelf = ({
             style={{ marginLeft: -(mb.cw - mb.sw) }}
             onAnimationEnd={onMobileAnimEnd}
           >
-            <div
-              className={cn(
-                'relative mb-4 flex origin-left transition-transform duration-700 ease-[cubic-bezier(0.22,0.61,0.36,1)] transform-3d',
-                !mobileBook.comingSoon && 'rotate-y-[-75deg]'
-              )}
-            >
+            <div className="relative mb-4 flex origin-left rotate-y-[-75deg] transition-transform duration-700 ease-[cubic-bezier(0.22,0.61,0.36,1)] transform-3d">
               <BookVisual book={mobileBook} mobile />
             </div>
           </div>
