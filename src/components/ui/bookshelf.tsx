@@ -320,7 +320,7 @@ export const BookShelf = ({
         </button>
       )}
 
-      <h2 className="font-instrumental max-w-full truncate pt-4 text-center text-xl text-[#454545] sm:text-2xl dark:text-[#A9A9A9]">
+      <h2 className="font-instrumental max-w-full truncate pt-8 text-center text-xl text-[#454545] sm:text-2xl dark:text-[#A9A9A9]">
         {selectedSeries.title}
       </h2>
     </div>
