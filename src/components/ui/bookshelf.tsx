@@ -198,7 +198,10 @@ export const BookShelf = ({
   writeupSeries: WriteupSeriesItem[]
 }) => {
   const router = useRouter()
-  const [selectedSeriesId, setSelectedSeriesId] = useState<string | null>(null)
+  const hasSeriesChooser = writeupSeries.length > 1
+  const [selectedSeriesId, setSelectedSeriesId] = useState<string | null>(() =>
+    writeupSeries.length === 1 ? (writeupSeries[0]?.id ?? null) : null
+  )
   const isSeriesShelf = selectedSeriesId === null
   const selectedSeriesIndex = writeupSeries.findIndex(
     (series) => series.id === selectedSeriesId
@@ -306,14 +309,16 @@ export const BookShelf = ({
 
   const seriesHeader = selectedSeries ? (
     <div className="pointer-events-none absolute inset-x-0 top-0 z-10 flex h-12 items-center justify-center px-14">
-      <button
-        type="button"
-        onClick={showSeriesShelf}
-        className="pointer-events-auto absolute top-0 left-0 border-r border-b p-2.75 text-[#A9A9A9] hover:bg-[#E6E6E6] hover:dark:bg-[#292929]"
-        aria-label="Back to all writeup series"
-      >
-        <ChevronLeft className="size-6" />
-      </button>
+      {hasSeriesChooser && (
+        <button
+          type="button"
+          onClick={showSeriesShelf}
+          className="pointer-events-auto absolute top-0 left-0 border-r border-b p-2.75 text-[#A9A9A9] hover:bg-[#E6E6E6] hover:dark:bg-[#292929]"
+          aria-label="Back to all writeup series"
+        >
+          <ChevronLeft className="size-6" />
+        </button>
+      )}
 
       <h2 className="font-instrumental max-w-full truncate pt-4 text-center text-xl text-[#454545] sm:text-2xl dark:text-[#A9A9A9]">
         {selectedSeries.title}
