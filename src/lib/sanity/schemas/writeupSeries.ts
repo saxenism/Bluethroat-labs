@@ -5,9 +5,9 @@ import {
 } from '@sanity/orderable-document-list'
 import { MarkdownEditorInput } from '@/lib/sanity/components/markdown-editor-input'
 
-const writeup = {
-  name: 'writeup',
-  title: 'Writeup',
+const writeupSeries = {
+  name: 'writeupSeries',
+  title: 'Writeup Series',
   type: 'document',
   orderings: [orderRankOrdering],
   fields: [
@@ -22,14 +22,14 @@ const writeup = {
       title: 'Logo',
       type: 'image',
       options: { hotspot: true },
-      description: 'Small logo or icon associated with this writeup.',
+      description: 'Small logo or icon associated with this writeup series.',
     },
     {
       name: 'coverImage',
       title: 'Cover Image',
       type: 'image',
       options: { hotspot: true },
-      description: 'Cover image shown in the bookshelf dialog.',
+      description: 'Cover image associated with this writeup series.',
       validation: (Rule: StringRule) => Rule.required(),
     },
     {
@@ -37,24 +37,10 @@ const writeup = {
       title: 'Description',
       type: 'string',
       components: { input: MarkdownEditorInput },
-      description: 'Rich content description of the writeup.',
+      description: 'Rich content description of the writeup series.',
     },
-    {
-      name: 'series',
-      title: 'Series',
-      type: 'reference',
-      to: [{ type: 'writeupSeries' }],
-      description: 'Optional series this writeup belongs to.',
-    },
-    {
-      name: 'writeupUrl',
-      title: 'Link to Full Writeup',
-      type: 'url',
-      description: 'External or internal URL pointing to the full writeup.',
-      validation: (Rule: StringRule) => Rule.required(),
-    },
-    orderRankField({ type: 'writeup' }),
+    orderRankField({ type: 'writeupSeries' }),
   ],
 }
 
-export default writeup
+export default writeupSeries

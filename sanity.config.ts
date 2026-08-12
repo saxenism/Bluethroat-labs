@@ -23,11 +23,19 @@ export default defineConfig({
           .items([
             ...S.documentTypeListItems().filter(
               (item) =>
-                item.getId() !== 'writeup' && item.getId() !== 'testimonial'
+                item.getId() !== 'writeup' &&
+                item.getId() !== 'writeupSeries' &&
+                item.getId() !== 'testimonial'
             ),
             orderableDocumentListDeskItem({
               type: 'writeup',
               title: 'Writeups',
+              S,
+              context,
+            }),
+            orderableDocumentListDeskItem({
+              type: 'writeupSeries',
+              title: 'Writeup Series',
               S,
               context,
             }),

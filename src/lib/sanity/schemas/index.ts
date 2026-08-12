@@ -6,6 +6,7 @@ import docNavigation from './docNavigation'
 import navItem from './navItem'
 import testimonial from './testimonial'
 import writeup from './writeup'
+import writeupSeries from './writeupSeries'
 
 export const schemaTypes = [
   blog,
@@ -16,4 +17,5 @@ export const schemaTypes = [
   navItem,
   testimonial,
   writeup,
+  writeupSeries,
 ]
