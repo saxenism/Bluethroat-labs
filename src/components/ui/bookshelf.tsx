@@ -45,7 +45,8 @@ const mb = {
   logo: Math.round(44 * MOBILE_SCALE),
 }
 
-const isInternalHref = (href: string) => href.startsWith('/') || href.startsWith('#')
+const isInternalHref = (href: string) =>
+  href.startsWith('/') || href.startsWith('#')
 
 const isNestedInteractiveTarget = (target: EventTarget | null) =>
   target instanceof HTMLElement &&
@@ -189,6 +190,7 @@ export const BookShelf = ({ writeups }: { writeups: WriteupItem[] }) => {
         href: '#',
         logoSrc: null,
         coverSrc: null,
+        series: null,
         comingSoon: true,
       })
     }
@@ -301,10 +303,7 @@ export const BookShelf = ({ writeups }: { writeups: WriteupItem[] }) => {
                     type="button"
                     onClick={() =>
                       !book.comingSoon &&
-                      navigate(
-                        index > activeBookIndex ? 'next' : 'prev',
-                        index
-                      )
+                      navigate(index > activeBookIndex ? 'next' : 'prev', index)
                     }
                     disabled={book.comingSoon}
                     aria-label={
