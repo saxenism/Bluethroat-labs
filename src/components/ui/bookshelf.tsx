@@ -24,6 +24,11 @@ const findNextIndex = (
   return nextIndex >= 0 && nextIndex < bookCount ? nextIndex : -1
 }
 
+const DESKTOP_BOOKS_PER_SHELF = 6
+
+const getDesktopShelfPage = (bookIndex: number) =>
+  Math.floor(bookIndex / DESKTOP_BOOKS_PER_SHELF)
+
 /* ── Mobile book scale (change this one number to resize) ── */
 const MOBILE_SCALE = 0.7 // 1.0 = same as desktop (440×60 spine, 444×368 cover)
 const mb = {
@@ -234,6 +239,9 @@ export const BookShelf = ({
   const books: ShelfItem[] = isSeriesShelf ? seriesBooks : seriesWriteups
 
   const [activeBookIndex, setActiveBookIndex] = useState(0)
+  const [desktopPageDirection, setDesktopPageDirection] = useState<
+    'prev' | 'next' | null
+  >(null)
 
   /* Mobile carousel state */
   const [mobileDisplayIndex, setMobileDisplayIndex] = useState(activeBookIndex)
@@ -249,6 +257,7 @@ export const BookShelf = ({
     setMobileDisplayIndex(seriesIndex)
     setMobileAnim('idle')
     pendingRef.current = seriesIndex
+    setDesktopPageDirection(null)
     setSelectedSeriesId(null)
   }, [selectedSeriesIndex])
 
@@ -262,6 +271,7 @@ export const BookShelf = ({
         setMobileDisplayIndex(0)
         setMobileAnim('idle')
         pendingRef.current = 0
+        setDesktopPageDirection(null)
         setSelectedSeriesId(series.id)
         return
       }
@@ -279,6 +289,12 @@ export const BookShelf = ({
       if (mobileAnim !== 'idle') return
       pendingRef.current = toIndex
 
+      if (
+        getDesktopShelfPage(toIndex) !== getDesktopShelfPage(activeBookIndex)
+      ) {
+        setDesktopPageDirection(direction)
+      }
+
       // Desktop: instant state change (CSS transition handles animation)
       setActiveBookIndex(toIndex)
 
@@ -291,7 +307,7 @@ export const BookShelf = ({
         setMobileDisplayIndex(toIndex)
       }
     },
-    [mobileAnim]
+    [activeBookIndex, mobileAnim]
   )
 
   const onMobileAnimEnd = useCallback(() => {
@@ -357,6 +373,20 @@ export const BookShelf = ({
   const nextIndex = findNextIndex(books.length, activeBookIndex, 'next')
   const isNavigating = mobileAnim !== 'idle'
   const mobileBook = books[mobileDisplayIndex]
+  const desktopShelfPage = getDesktopShelfPage(activeBookIndex)
+  const desktopPageStart = desktopShelfPage * DESKTOP_BOOKS_PER_SHELF
+  const desktopBooks = books.slice(
+    desktopPageStart,
+    desktopPageStart + DESKTOP_BOOKS_PER_SHELF
+  )
+  const desktopPageEnd = Math.min(
+    desktopPageStart + DESKTOP_BOOKS_PER_SHELF,
+    books.length
+  )
+  const previousDesktopPageStart =
+    desktopShelfPage > 0 ? desktopPageStart - DESKTOP_BOOKS_PER_SHELF : -1
+  const nextDesktopPageStart =
+    desktopPageEnd < books.length ? desktopPageEnd : -1
   const activeWriteup = isSeriesShelf ? null : seriesWriteups[activeBookIndex]
   const footerHref =
     activeWriteup?.href ?? '/reveries?cat=Vulnerability+Writeup'
@@ -367,6 +397,9 @@ export const BookShelf = ({
     ? `Open the ${mobileBook.title} series`
     : `Read the full writeup for ${mobileBook.title}`
   const activeRole = isSeriesShelf ? 'button' : 'link'
+  const bookType = isSeriesShelf ? 'series' : 'writeup'
+  const previousBook = prevIndex !== -1 ? books[prevIndex] : null
+  const nextBook = nextIndex !== -1 ? books[nextIndex] : null
 
   return (
     <div className="w-full max-lg:flex max-lg:flex-col max-lg:items-center max-lg:justify-center">
@@ -374,9 +407,18 @@ export const BookShelf = ({
 
       {/* ── Desktop ── */}
       <div className="relative hidden lg:block">
-        <div className="relative flex min-h-125 items-end justify-center gap-10 overflow-x-auto px-2 pb-8">
-          {books.map((book, index) => {
-            const isActive = index === activeBookIndex
+        <div
+          key={`${selectedSeriesId ?? 'series'}-${desktopShelfPage}`}
+          className={cn(
+            'relative flex min-h-125 items-end justify-center gap-10 overflow-hidden px-2 pb-8',
+            desktopPageDirection === 'next' && 'animate-shelf-enter-next',
+            desktopPageDirection === 'prev' && 'animate-shelf-enter-prev'
+          )}
+        >
+          {desktopBooks.map((book, index) => {
+            const globalIndex = desktopPageStart + index
+            const isActive = globalIndex === activeBookIndex
+
             return (
               <div
                 key={book.id}
@@ -394,7 +436,10 @@ export const BookShelf = ({
                   <button
                     type="button"
                     onClick={() =>
-                      navigate(index > activeBookIndex ? 'next' : 'prev', index)
+                      navigate(
+                        globalIndex > activeBookIndex ? 'next' : 'prev',
+                        globalIndex
+                      )
                     }
                     aria-label={
                       isActive
@@ -412,21 +457,45 @@ export const BookShelf = ({
                         ? `Open the ${book.title} series`
                         : `Read the full writeup for ${book.title}`
                     }
-                    onActivate={() => activateBook(index)}
+                    onActivate={() => activateBook(globalIndex)}
                     role={isSeriesShelf ? 'button' : 'link'}
                   />
                 </div>
               </div>
             )
           })}
-
-          <div className="pointer-events-none absolute right-6 bottom-6 left-6 -z-1 h-7 lg:right-0 lg:left-0 xl:right-6 xl:left-6">
-            <div
-              className="h-full w-full bg-[#A9A9A9] dark:bg-[#2E2E2E]"
-              style={{ clipPath: 'polygon(3% 0, 100% 0, 97% 100%, 0 100%)' }}
-            />
-          </div>
         </div>
+
+        <div className="pointer-events-none absolute right-6 bottom-6 left-6 -z-1 h-7 lg:right-0 lg:left-0 xl:right-6 xl:left-6">
+          <div
+            className="h-full w-full bg-[#A9A9A9] dark:bg-[#2E2E2E]"
+            style={{ clipPath: 'polygon(3% 0, 100% 0, 97% 100%, 0 100%)' }}
+          />
+        </div>
+
+        {previousDesktopPageStart !== -1 && (
+          <button
+            type="button"
+            onClick={() => navigate('prev', previousDesktopPageStart)}
+            aria-label={`Show previous shelf, books ${previousDesktopPageStart + 1} through ${desktopPageStart}`}
+            className="absolute bottom-0 left-0 z-20 flex min-h-10 items-center gap-2 border border-[#555555] bg-[#D3D3D3] px-3 font-mono text-[11px] font-semibold tracking-widest text-[#454545] uppercase transition-colors hover:bg-[#E6E6E6] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7D7D7D] dark:bg-[#242424] dark:text-[#BDBDBD] dark:hover:bg-[#303030]"
+          >
+            <ChevronLeft className="size-4 shrink-0" aria-hidden="true" />
+            <span>Previous shelf</span>
+          </button>
+        )}
+
+        {nextDesktopPageStart !== -1 && (
+          <button
+            type="button"
+            onClick={() => navigate('next', nextDesktopPageStart)}
+            aria-label={`Show next shelf, books ${nextDesktopPageStart + 1} through ${Math.min(nextDesktopPageStart + DESKTOP_BOOKS_PER_SHELF, books.length)}`}
+            className="absolute right-0 bottom-0 z-20 flex min-h-10 items-center gap-2 border border-[#555555] bg-[#D3D3D3] px-3 font-mono text-[11px] font-semibold tracking-widest text-[#454545] uppercase transition-colors hover:bg-[#E6E6E6] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7D7D7D] dark:bg-[#242424] dark:text-[#BDBDBD] dark:hover:bg-[#303030]"
+          >
+            <span>Next shelf</span>
+            <ChevronRight className="size-4 shrink-0" aria-hidden="true" />
+          </button>
+        )}
       </div>
 
       {/* ── Mobile Carousel ── */}
@@ -482,10 +551,14 @@ export const BookShelf = ({
           type="button"
           disabled={prevIndex === -1 || isNavigating}
           onClick={() => prevIndex !== -1 && navigate('prev', prevIndex)}
-          className="border-border border p-2 text-[#A9A9A9] hover:bg-[#E6E6E6] disabled:opacity-35 dark:hover:bg-[#292929]"
-          aria-label={isSeriesShelf ? 'Previous series' : 'Previous writeup'}
+          className="border-border border p-2 text-[#A9A9A9] hover:bg-[#E6E6E6] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7D7D7D] disabled:opacity-35 dark:hover:bg-[#292929]"
+          aria-label={
+            previousBook
+              ? `Previous ${bookType}, ${prevIndex + 1} of ${books.length}: ${previousBook.title}`
+              : `No previous ${bookType}`
+          }
         >
-          <ChevronLeft className="size-7" />
+          <ChevronLeft className="size-7" aria-hidden="true" />
         </button>
 
         <Link
@@ -502,10 +575,14 @@ export const BookShelf = ({
           type="button"
           disabled={nextIndex === -1 || isNavigating}
           onClick={() => nextIndex !== -1 && navigate('next', nextIndex)}
-          className="border-border border p-2 text-[#A9A9A9] hover:bg-[#E6E6E6] disabled:opacity-35 dark:hover:bg-[#292929]"
-          aria-label={isSeriesShelf ? 'Next series' : 'Next writeup'}
+          className="border-border border p-2 text-[#A9A9A9] hover:bg-[#E6E6E6] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7D7D7D] disabled:opacity-35 dark:hover:bg-[#292929]"
+          aria-label={
+            nextBook
+              ? `Next ${bookType}, ${nextIndex + 1} of ${books.length}: ${nextBook.title}`
+              : `No next ${bookType}`
+          }
         >
-          <ChevronRight className="size-7" />
+          <ChevronRight className="size-7" aria-hidden="true" />
         </button>
       </div>
     </div>
