@@ -4,7 +4,6 @@ import type { KeyboardEvent as ReactKeyboardEvent, MouseEvent } from 'react'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { ChevronLeft, ChevronRight, CornerUpRightIcon } from 'lucide-react'
 import type { WriteupItem, WriteupSeriesItem } from '@/lib/sanity/writeups'
 import { cn } from '@/lib/utils'
@@ -35,9 +34,6 @@ const mb = {
   logo: Math.round(44 * MOBILE_SCALE),
 }
 
-const isInternalHref = (href: string) =>
-  href.startsWith('/') || href.startsWith('#')
-
 const isNestedInteractiveTarget = (target: EventTarget | null) =>
   target instanceof HTMLElement &&
   !!target.closest('a, button, input, select, textarea, summary')
@@ -45,7 +41,7 @@ const isNestedInteractiveTarget = (target: EventTarget | null) =>
 type ShelfItem = Pick<
   WriteupItem,
   'id' | 'title' | 'description' | 'logoSrc' | 'coverSrc'
->
+> & { writeupCount?: number }
 
 const BookSpine = ({ book, mobile }: { book: ShelfItem; mobile?: boolean }) => (
   <div
@@ -142,12 +138,24 @@ const BookCover = ({
         <div className={cn(mobile ? 'p-4 pb-5' : 'p-6 pb-8')}>
           <p
             className={cn(
-              'font-instrumental mb-4 text-[#F2F2F2]',
+              'font-instrumental text-[#F2F2F2]',
+              book.writeupCount === undefined && 'mb-4',
               mobile ? 'text-lg' : 'text-2xl'
             )}
           >
             {book.title}
           </p>
+          {book.writeupCount !== undefined && (
+            <p
+              className={cn(
+                'mb-2 font-mono font-semibold tracking-[0.16em] text-[#E6E6E6] uppercase',
+                mobile ? 'mt-0.5 text-[9px]' : 'mt-1 text-[11px]'
+              )}
+            >
+              {book.writeupCount}{' '}
+              {`writeup${book.writeupCount === 1 ? '' : 's'}`}
+            </p>
+          )}
           {!!book.description && (
             <div
               className={cn(
@@ -197,7 +205,6 @@ export const BookShelf = ({
   writeups: WriteupItem[]
   writeupSeries: WriteupSeriesItem[]
 }) => {
-  const router = useRouter()
   const hasSeriesChooser = writeupSeries.length > 1
   const [selectedSeriesId, setSelectedSeriesId] = useState<string | null>(() =>
     writeupSeries.length === 1 ? (writeupSeries[0]?.id ?? null) : null
@@ -214,7 +221,17 @@ export const BookShelf = ({
         : [],
     [selectedSeriesId, writeups]
   )
-  const books: ShelfItem[] = isSeriesShelf ? writeupSeries : seriesWriteups
+  const seriesBooks = useMemo<ShelfItem[]>(
+    () =>
+      writeupSeries.map((series) => ({
+        ...series,
+        writeupCount: writeups.filter(
+          (writeup) => writeup.series?.id === series.id
+        ).length,
+      })),
+    [writeupSeries, writeups]
+  )
+  const books: ShelfItem[] = isSeriesShelf ? seriesBooks : seriesWriteups
 
   const [activeBookIndex, setActiveBookIndex] = useState(0)
 
@@ -252,14 +269,9 @@ export const BookShelf = ({
       const writeup = seriesWriteups[index]
       if (!writeup) return
 
-      if (isInternalHref(writeup.href)) {
-        router.push(writeup.href)
-        return
-      }
-
-      window.location.assign(writeup.href)
+      window.open(writeup.href, '_blank', 'noopener,noreferrer')
     },
-    [isSeriesShelf, router, seriesWriteups, writeupSeries]
+    [isSeriesShelf, seriesWriteups, writeupSeries]
   )
 
   const navigate = useCallback(
@@ -346,7 +358,8 @@ export const BookShelf = ({
   const isNavigating = mobileAnim !== 'idle'
   const mobileBook = books[mobileDisplayIndex]
   const activeWriteup = isSeriesShelf ? null : seriesWriteups[activeBookIndex]
-  const footerHref = activeWriteup?.href ?? '/reveries'
+  const footerHref =
+    activeWriteup?.href ?? '/reveries?cat=Vulnerability+Writeup'
   const footerLabel = isSeriesShelf
     ? 'View All Writeups'
     : 'Read the full Writeup'
@@ -454,6 +467,8 @@ export const BookShelf = ({
       <div className="text-center lg:hidden">
         <Link
           href={footerHref}
+          target={activeWriteup ? '_blank' : undefined}
+          rel={activeWriteup ? 'noopener noreferrer' : undefined}
           className="font-instrumental text-center text-2xl text-pretty text-[#8F8F8F] italic hover:text-[#292929] sm:text-[32px] dark:text-[#7D7D7D] hover:dark:text-[#E6E6E6]"
         >
           {footerLabel}{' '}
@@ -475,6 +490,8 @@ export const BookShelf = ({
 
         <Link
           href={footerHref}
+          target={activeWriteup ? '_blank' : undefined}
+          rel={activeWriteup ? 'noopener noreferrer' : undefined}
           className="font-instrumental text-center text-2xl text-pretty text-[#8F8F8F] italic hover:text-[#292929] max-lg:hidden sm:text-[32px] dark:text-[#7D7D7D] hover:dark:text-[#E6E6E6]"
         >
           {footerLabel}{' '}
