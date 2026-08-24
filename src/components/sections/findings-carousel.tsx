@@ -175,10 +175,7 @@ const FindingCard = ({
 
   return (
     <article
-      className={cn(
-        'flex min-w-0 flex-[0_0_100%] flex-col select-none',
-        index !== total - 1 && 'border-r'
-      )}
+      className="flex min-w-0 flex-[0_0_100%] flex-col border-r select-none"
       role="group"
       aria-label={`${index + 1} of ${total}`}
       aria-roledescription="slide"
