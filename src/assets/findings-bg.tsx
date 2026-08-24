@@ -1,3 +1,5 @@
+import { cn } from '@/lib/utils'
+
 type FindingsBackgroundProps = {
   className?: string
   findingsCount?: number
@@ -11,10 +13,20 @@ type FindingsBackgroundProps = {
 
 type FindingsSvgProps = FindingsBackgroundProps & { compact: boolean }
 
-type SeverityItemProps = { color: string; count?: number; label: string }
+type SeverityItemProps = {
+  color: string
+  count?: number
+  label: string
+  compact?: boolean
+}
 
-const SeverityItem = ({ color, count, label }: SeverityItemProps) => (
-  <div className="flex shrink-0 items-center gap-1.5 whitespace-nowrap">
+const SeverityItem = ({ color, count, label, compact }: SeverityItemProps) => (
+  <div
+    className={cn(
+      'flex shrink-0 items-center gap-1.5 whitespace-nowrap',
+      compact && 'text-lg'
+    )}
+  >
     <span
       aria-hidden="true"
       className="size-4 shrink-0"
@@ -202,11 +214,13 @@ const FindingsSvg = ({
                 color="#650000"
                 count={severityCount?.critical}
                 label="Critical"
+                compact
               />
               <SeverityItem
                 color="#C00000"
                 count={severityCount?.high}
                 label="High"
+                compact
               />
             </div>
             <div className="flex items-center justify-center gap-3">
@@ -214,11 +228,13 @@ const FindingsSvg = ({
                 color="#FF9D00"
                 count={severityCount?.medium}
                 label="Medium"
+                compact
               />
               <SeverityItem
                 color="#FFDE21"
                 count={severityCount?.low}
                 label="Low"
+                compact
               />
             </div>
           </div>
