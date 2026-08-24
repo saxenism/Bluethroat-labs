@@ -1,8 +1,9 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { ArrowUpRightIcon, ChevronLeft, ChevronRight } from 'lucide-react'
 import Link from 'next/link'
+import Autoplay from 'embla-carousel-autoplay'
 import useEmblaCarousel from 'embla-carousel-react'
 import { cn } from '@/lib/utils'
 import { FindingLogo } from './finding-logo'
@@ -23,13 +24,14 @@ export const FindingsCarousel = ({
 }: {
   findings: FeaturedFinding[]
 }) => {
-  const [emblaRef, emblaApi] = useEmblaCarousel({
-    align: 'start',
-    loop: false,
-    slidesToScroll: 1,
-  })
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    { align: 'start', loop: true, slidesToScroll: 1 },
+    [Autoplay({ delay: 5000, playOnInit: false, stopOnInteraction: false })]
+  )
   const [canScrollPrev, setCanScrollPrev] = useState(false)
   const [canScrollNext, setCanScrollNext] = useState(false)
+  const isVisibleRef = useRef(false)
+  const isInteractingRef = useRef(false)
 
   const updateNavigation = useCallback(() => {
     if (!emblaApi) return
@@ -50,6 +52,63 @@ export const FindingsCarousel = ({
       emblaApi.off('reInit', updateNavigation)
     }
   }, [emblaApi, updateNavigation])
+
+  useEffect(() => {
+    if (!emblaApi) return
+    const autoplay = emblaApi.plugins()?.autoplay
+    if (!autoplay) return
+    const rootNode = emblaApi.rootNode()
+    if (!rootNode) return
+
+    const stop = () => autoplay.stop()
+    const play = () => {
+      if (isVisibleRef.current && !isInteractingRef.current) {
+        autoplay.play()
+      }
+    }
+
+    const updateViewportAutoplay = (entry: IntersectionObserverEntry) => {
+      isVisibleRef.current =
+        entry.isIntersecting && entry.intersectionRatio >= 0.3
+
+      if (isVisibleRef.current && !isInteractingRef.current) autoplay.play()
+      else autoplay.stop()
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(updateViewportAutoplay)
+      },
+      { threshold: 0.3 }
+    )
+
+    const handlePointerDown = () => {
+      isInteractingRef.current = true
+      stop()
+    }
+    const handlePointerUp = () => {
+      isInteractingRef.current = false
+      play()
+    }
+    const handleSelect = () => {
+      if (isVisibleRef.current && !isInteractingRef.current) {
+        autoplay.play()
+      }
+    }
+
+    observer.observe(rootNode)
+    emblaApi.on('select', handleSelect)
+    emblaApi.on('pointerUp', handlePointerUp)
+    emblaApi.on('pointerDown', handlePointerDown)
+
+    return () => {
+      stop()
+      observer.disconnect()
+      emblaApi.off('select', handleSelect)
+      emblaApi.off('pointerUp', handlePointerUp)
+      emblaApi.off('pointerDown', handlePointerDown)
+    }
+  }, [emblaApi])
 
   const scrollPrev = useCallback(() => {
     emblaApi?.scrollPrev()
