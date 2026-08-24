@@ -11,6 +11,7 @@ export interface ProofOfWorkStats {
 export interface FeaturedFinding {
   _key: string
   logo: string | null
+  lightLogo: string | null
   name: string
   title: string
   severity: FindingSeverity
@@ -24,6 +25,7 @@ export interface ProofOfWorkFinding {
   severityLabel: string | null
   organization: string | null
   logo: string | null
+  lightLogo: string | null
   title: string
   description: string
   tags: string[]
@@ -59,7 +61,8 @@ export const PROOF_OF_WORK_QUERY = `*[_type == "proofOfWork"][0] {
     severity,
     description,
     link,
-    "logo": logo.asset->url
+    "logo": logo.asset->url,
+    "lightLogo": lightLogo.asset->url
   }, []),
   "findings": coalesce(findings[] {
     _key,
@@ -67,6 +70,7 @@ export const PROOF_OF_WORK_QUERY = `*[_type == "proofOfWork"][0] {
     severityLabel,
     organization,
     "logo": logo.asset->url,
+    "lightLogo": lightLogo.asset->url,
     title,
     description,
     "tags": coalesce(tags, []),

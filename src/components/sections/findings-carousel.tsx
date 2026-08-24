@@ -3,9 +3,9 @@
 import { useCallback, useEffect, useState } from 'react'
 import { ArrowUpRightIcon, ChevronLeft, ChevronRight } from 'lucide-react'
 import Link from 'next/link'
-import Image from 'next/image'
 import useEmblaCarousel from 'embla-carousel-react'
 import { cn } from '@/lib/utils'
+import { FindingLogo } from './finding-logo'
 import type {
   FeaturedFinding,
   FindingSeverity,
@@ -135,17 +135,17 @@ const FindingCard = ({
 
       <div className="relative flex flex-1 flex-col px-6 py-8 md:p-12">
         <div>
-          {!!finding.logo && (
-            <Image
-              src={finding.logo}
+          {!!(finding.logo || finding.lightLogo) && (
+            <FindingLogo
+              logo={finding.logo}
+              lightLogo={finding.lightLogo}
               alt={finding.name}
               width={160}
               height={40}
-              unoptimized
               className="h-10 w-auto max-w-[calc(100%-4rem)] object-contain object-left"
             />
           )}
-          {!finding.logo && (
+          {!finding.logo && !finding.lightLogo && (
             <span className="text-2xl font-bold tracking-[-2%] uppercase">
               {finding.name}
             </span>

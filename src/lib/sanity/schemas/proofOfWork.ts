@@ -17,9 +17,18 @@ const severityField = defineField({
 
 const logoField = defineField({
   name: 'logo',
-  title: 'Organization Logo',
+  title: 'Organization Logo (Dark Mode)',
   type: 'image',
-  description: 'Leave empty for a confidential or text-only finding.',
+  description:
+    'Shown in dark mode and used as the fallback when no light-mode logo is provided.',
+  options: { hotspot: true },
+})
+
+const lightLogoField = defineField({
+  name: 'lightLogo',
+  title: 'Organization Logo (Light Mode)',
+  type: 'image',
+  description: 'Shown in light mode. Leave empty to reuse the dark-mode logo.',
   options: { hotspot: true },
 })
 
@@ -108,6 +117,7 @@ const proofOfWork = defineType({
           type: 'object',
           fields: [
             logoField,
+            lightLogoField,
             defineField({
               name: 'name',
               title: 'Organization or Identifier',
@@ -183,6 +193,7 @@ const proofOfWork = defineType({
               description: 'Leave empty for a confidential finding.',
             }),
             logoField,
+            lightLogoField,
             defineField({
               name: 'title',
               title: 'Title',

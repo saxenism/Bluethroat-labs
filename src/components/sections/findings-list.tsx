@@ -3,9 +3,9 @@
 import { useState } from 'react'
 import { ArrowUpRightIcon, MinusIcon, PlusIcon } from 'lucide-react'
 import Link from 'next/link'
-import Image from 'next/image'
 import { cn } from '@/lib/utils'
 import { LockIcon } from '@/assets/icons'
+import { FindingLogo } from './finding-logo'
 import type {
   FindingSeverity,
   ProofOfWorkFinding,
@@ -200,14 +200,14 @@ const FindingDetails = ({
 )
 
 const FindingIdentity = ({ finding }: { finding: ProofOfWorkFinding }) => {
-  if (finding.logo) {
+  if (finding.logo || finding.lightLogo) {
     return (
-      <Image
-        src={finding.logo}
+      <FindingLogo
+        logo={finding.logo}
+        lightLogo={finding.lightLogo}
         alt={finding.organization ?? 'Organization logo'}
         width={96}
         height={40}
-        unoptimized
         className="max-h-10 w-auto max-w-full object-contain"
       />
     )
