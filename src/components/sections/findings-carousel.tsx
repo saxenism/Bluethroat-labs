@@ -164,6 +164,7 @@ const FindingCard = ({
           href={finding.link}
           aria-label={`Read ${finding.title}`}
           className="border-border hover:bg-foreground hover:text-background absolute top-0 right-0 grid size-14 place-items-center border-b border-l transition-colors md:size-18"
+          target="_blank"
         >
           <ArrowUpRightIcon className="size-10 md:size-15" />
         </Link>

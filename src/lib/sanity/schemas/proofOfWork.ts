@@ -180,13 +180,6 @@ const proofOfWork = defineType({
           fields: [
             severityField,
             defineField({
-              name: 'severityLabel',
-              title: 'Custom Severity Label',
-              type: 'string',
-              description:
-                'Optional label shown instead of the standard severity name.',
-            }),
-            defineField({
               name: 'organization',
               title: 'Organization',
               type: 'string',

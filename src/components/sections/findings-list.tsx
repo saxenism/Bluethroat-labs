@@ -191,6 +191,7 @@ const FindingDetails = ({
       <Link
         href={finding.url}
         className="hover:text-foreground dark:hover:text-foreground mt-12 inline-flex items-center gap-1 text-base font-medium text-[#2E2E2E] underline underline-offset-2 transition-colors dark:text-[#8F8F8F]"
+        target="_blank"
       >
         Read the analysis
         <ArrowUpRightIcon aria-hidden="true" className="size-4" />

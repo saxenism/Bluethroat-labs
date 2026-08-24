@@ -72,7 +72,7 @@ export const ProofOfWorkSection = ({
       </div>
 
       <div className="p-4 pt-6 pb-12 md:px-12">
-        <p className="text-base leading-normal text-[#2E2E2E] md:mb-8 md:text-lg dark:text-[#A9A9A9]">
+        <p className="text-base leading-normal whitespace-pre-line text-[#2E2E2E] md:mb-8 md:text-lg dark:text-[#A9A9A9]">
           {data.description}
         </p>
       </div>
