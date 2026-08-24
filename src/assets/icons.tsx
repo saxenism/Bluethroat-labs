@@ -243,3 +243,35 @@ export const ContentsIcon = ({ className }: { className?: string }) => (
     />
   </svg>
 )
+
+export const LockIcon = ({ className }: { className?: string }) => (
+  <svg
+    width="32"
+    height="32"
+    viewBox="0 0 32 32"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className={className}
+  >
+    <path
+      d="M23.6076 28.5489H8.39435C7.65017 28.5489 7.04688 27.9456 7.04688 27.2014V13.8378C7.04688 13.4808 7.33629 13.1914 7.69328 13.1914H24.3087C24.6657 13.1914 24.9551 13.4808 24.9551 13.8378V27.2014C24.9551 27.9456 24.3518 28.5489 23.6076 28.5489Z"
+      stroke="currentColor"
+      strokeWidth="1.60304"
+      strokeMiterlimit="10"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M21.4133 13.1922H10.5938V8.86096C10.5938 5.87321 13.0158 3.45117 16.0035 3.45117C18.9913 3.45117 21.4133 5.8732 21.4133 8.86096L21.4133 13.1922Z"
+      stroke="currentColor"
+      strokeWidth="1.60304"
+      strokeMiterlimit="10"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M16.6088 20.9022L17.2247 24.5769H14.7825L15.3985 20.9022C14.7721 20.6599 14.3281 20.0514 14.3281 19.3392C14.3281 18.4144 15.0785 17.6641 16.0033 17.6641C16.9288 17.6641 17.6791 18.4144 17.6791 19.3392C17.6791 20.0514 17.2352 20.6599 16.6088 20.9022Z"
+      fill="currentColor"
+    />
+  </svg>
+)

@@ -1,0 +1,334 @@
+{
+  "findings": [
+    {
+      "id": "PUB-01",
+      "severity": "critical",
+      "organization": "Phala Network",
+      "logo": "phala",
+      "title": "Unenforced quoting-enclave identity",
+      "description": "A verifier fetched quoting-enclave identity collateral but never enforced it, allowing unauthorized quoting-enclave evidence to pass as trusted.",
+      "tags": [
+        "TEE and Attestation",
+        "Intel DCAP",
+        "QE Identity",
+        "Trust Root",
+        "Fail-open Verification"
+      ],
+      "url": "https://bluethroatlabs.com/reveries/cve-2026-22696-fetching-collateral-is-not-enough"
+    },
+    {
+      "id": "PUB-10",
+      "severity": "critical",
+      "organization": "Secret Network",
+      "logo": "secret",
+      "title": "Optional consensus field caused a next-height enclave dead end",
+      "description": "An optional consensus field controlled the only enclave write required at the next height, letting one Byzantine proposer commit a block the network could not advance past.",
+      "tags": [
+        "Blockchain, DLT, and Consensus",
+        "TEE-Consensus Boundary",
+        "Byzantine Proposer",
+        "State Transition",
+        "Chain Halt"
+      ],
+      "url": "https://bluethroatlabs.com/reveries/secret-network-nothing-halt"
+    },
+    {
+      "id": "PUB-11",
+      "severity": "critical",
+      "organization": "Secret Network",
+      "logo": "secret",
+      "title": "Malformed transaction reached an enclave before generic decoding",
+      "description": "A pre-decode SGX path parsed proposer-controlled transaction bytes with an unrecoverable failure, allowing one malformed byte to halt block finalization.",
+      "tags": [
+        "Blockchain, DLT, and Consensus",
+        "TEE-Consensus Boundary",
+        "Parser Safety",
+        "Byzantine Proposer",
+        "Chain Halt"
+      ],
+      "url": "https://bluethroatlabs.com/reveries/secret-network-ordering-halt"
+    },
+    {
+      "id": "CONF-01",
+      "severity": "critical",
+      "title": "Cross-layer parser failure in a TEE-assisted consensus path",
+      "description": "Insufficient validation at a trusted-execution boundary allowed malformed consensus input to trigger a network-wide availability failure.",
+      "tags": [
+        "TEE and Attestation",
+        "Blockchain, DLT, and Consensus",
+        "SGX Parser Safety",
+        "Cross-layer Validation",
+        "Byzantine Proposer",
+        "Chain Halt"
+      ]
+    },
+    {
+      "id": "CONF-02",
+      "severity": "critical",
+      "title": "Authorization smuggling across a TEE migration boundary",
+      "description": "An authorization gap across a trusted-execution workflow could let an untrusted party cross a sensitive trust boundary and access protected network material.",
+      "tags": [
+        "TEE and Attestation",
+        "Blockchain, DLT, and Consensus",
+        "Trust-root Integrity",
+        "Authorization Bypass",
+        "Message Smuggling",
+        "Secret Export"
+      ]
+    },
+    {
+      "id": "CONF-03",
+      "severity": "critical",
+      "title": "Non-atomic cross-domain state transition",
+      "description": "A failed cross-system operation could leave inconsistent state behind, allowing value-affecting effects to be applied more than once.",
+      "tags": [
+        "Blockchain, DLT, and Consensus",
+        "Cross-chain",
+        "State Atomicity",
+        "Error Handling",
+        "Fund Integrity"
+      ]
+    },
+    {
+      "id": "PUB-02",
+      "severity": "high",
+      "organization": "Phala Network",
+      "logo": "phala",
+      "title": "Missing TCB-status enforcement",
+      "description": "A verifier exposed platform security status without enforcing rejection, allowing revoked or outdated TCB states to be treated permissively.",
+      "tags": [
+        "TEE and Attestation",
+        "Intel DCAP",
+        "TCB Status",
+        "Policy Enforcement",
+        "Secure Defaults"
+      ],
+      "url": "https://bluethroatlabs.com/reveries/missing-tcb-status-check"
+    },
+    {
+      "id": "PUB-03",
+      "severity": "high",
+      "organization": "Phala Network",
+      "logo": "phala",
+      "title": "GPU attestation without complete cryptographic verification",
+      "description": "GPU evidence was presented as verified without complete certificate-chain validation or cryptographic binding to the trusted CPU environment.",
+      "tags": [
+        "TEE and Attestation",
+        "GPU Attestation",
+        "Certificate Chains",
+        "CPU-GPU Binding",
+        "Cryptographic Verification"
+      ],
+      "url": "https://bluethroatlabs.com/reveries/phala-cloud-gpu-attestation-fake-verified-no-cryptography"
+    },
+    {
+      "id": "PUB-04",
+      "severity": "high",
+      "organization": "dstack",
+      "logo": "dstack",
+      "title": "Verifier-side SSRF through untrusted collateral routing",
+      "description": "An untrusted collateral endpoint let callers redirect verifier-side requests toward internal services and metadata endpoints.",
+      "tags": [
+        "TEE and Attestation",
+        "SSRF",
+        "PCCS",
+        "Verifier Boundary",
+        "Cloud Metadata"
+      ],
+      "url": "https://bluethroatlabs.com/reveries/dstack-verifier-ssrf-pccs-url-client-controlled"
+    },
+    {
+      "id": "PUB-05",
+      "severity": "high",
+      "organization": "dstack",
+      "logo": "dstack",
+      "title": "Misleading event-log verification semantics",
+      "description": "Cryptographic digest replay was labeled as event-log verification even though attacker-controlled human-readable semantics were not independently validated.",
+      "tags": [
+        "TEE and Attestation",
+        "Event Logs",
+        "RTMR",
+        "Semantic Integrity",
+        "Trust Signals"
+      ],
+      "url": "https://bluethroatlabs.com/reveries/dstack-event-log-imr-semantic-forgery-verified-label"
+    },
+    {
+      "id": "CONF-04",
+      "severity": "high",
+      "title": "Validator-memory exhaustion through an incomplete iterator bound",
+      "description": "A resource limit constrained the wrong dimension, allowing bounded-looking input to exhaust validator memory and disrupt network progress.",
+      "tags": [
+        "Blockchain, DLT, and Consensus",
+        "Validator Resilience",
+        "Iterator Safety",
+        "Memory Amplification",
+        "Replay Persistence",
+        "Chain Halt"
+      ]
+    },
+    {
+      "id": "CONF-05",
+      "severity": "high",
+      "title": "Compact-input memory amplification during decoding",
+      "description": "A small structured input could expand into disproportionate memory use during validation, causing validators to fail on the same block.",
+      "tags": [
+        "Blockchain, DLT, and Consensus",
+        "Encoded Input",
+        "Memory Amplification",
+        "Resource Accounting",
+        "Replay Persistence",
+        "Chain Halt"
+      ]
+    },
+    {
+      "id": "CONF-11",
+      "severity": "high",
+      "severityLabel": "Bluethroat-assessed High",
+      "title": "Aggregate-certificate validation disagreed with downstream vote processing",
+      "description": "Two stages of consensus validation interpreted the same participation evidence differently, allowing invalid input to influence vote processing.",
+      "tags": [
+        "Blockchain, DLT, and Consensus",
+        "BFT Consensus",
+        "Certificate Validation",
+        "Signature Verification",
+        "Vote Processing",
+        "Consensus Safety"
+      ]
+    },
+    {
+      "id": "PUB-06",
+      "severity": "medium",
+      "organization": null,
+      "logo": null,
+      "title": "TLS verification disabled for attestation collateral",
+      "description": "Collateral retrieval could operate without TLS certificate verification, exposing trust inputs to network interception or substitution.",
+      "tags": [
+        "TEE and Attestation",
+        "TLS",
+        "Collateral Integrity",
+        "MITM",
+        "Secure Defaults"
+      ],
+      "url": "https://bluethroatlabs.com/reveries/tls-cert-verification-disabled-pccs-collateral-fetching"
+    },
+    {
+      "id": "PUB-07",
+      "severity": "medium",
+      "organization": "Phala Network",
+      "logo": "phala",
+      "title": "Unauthenticated certificate-revocation data",
+      "description": "A verifier parsed certificate-revocation lists without authenticating their issuer or signature, letting attacker-controlled collateral determine revocation outcomes.",
+      "tags": [
+        "TEE and Attestation",
+        "CRL Validation",
+        "Certificate Revocation",
+        "Cross-language Parity",
+        "JavaScript Verifier"
+      ],
+      "url": "https://github.com/Phala-Network/dcap-qvl/security/advisories/GHSA-2cjj-h43h-m6xj"
+    },
+    {
+      "id": "PUB-08",
+      "severity": "medium",
+      "organization": "Oasis",
+      "logo": "oasis",
+      "title": "Inverted platform-security comparator",
+      "description": "An inverted TCB comparison could accept stale platform firmware while rejecting patched systems, and required coordinated fixes in both Go and Rust.",
+      "tags": [
+        "TEE and Attestation",
+        "TCB Matching",
+        "PCESVN",
+        "Cross-language Parity",
+        "Comparator Logic"
+      ],
+      "url": "https://bluethroatlabs.com/reveries/oasis-core-pcesvn-inverted-comparator-tcb-level-matching"
+    },
+    {
+      "id": "CONF-06",
+      "severity": "medium",
+      "title": "Host-side VM work escaped protocol gas accounting",
+      "description": "Security-sensitive execution work occurred outside protocol resource accounting, allowing ordinary inputs to consume disproportionate validator CPU.",
+      "tags": [
+        "Blockchain, DLT, and Consensus",
+        "Wasm VM",
+        "Gas-accounting Mismatch",
+        "Host-side Execution",
+        "CPU Amplification",
+        "Block Liveness"
+      ]
+    },
+    {
+      "id": "CONF-07",
+      "severity": "medium",
+      "title": "Unbounded lifecycle cleanup became a consensus-time failure",
+      "description": "Attacker-influenced state could accumulate until a routine lifecycle transition required unbounded work, threatening validator availability.",
+      "tags": [
+        "Blockchain, DLT, and Consensus",
+        "Governance",
+        "State Growth",
+        "Lifecycle Cleanup",
+        "Validator OOM",
+        "Replay Persistence"
+      ]
+    },
+    {
+      "id": "CONF-09",
+      "severity": "medium",
+      "title": "Stale cross-index references triggered deterministic node panics",
+      "description": "Inconsistent bookkeeping between related block-processing structures allowed adversarial network input to trigger deterministic node failures.",
+      "tags": [
+        "Blockchain, DLT, and Consensus",
+        "BFT Systems",
+        "State-index Consistency",
+        "Block Propagation",
+        "Panic Safety",
+        "Validator Liveness"
+      ]
+    },
+    {
+      "id": "PUB-09",
+      "severity": "low",
+      "organization": "Oasis",
+      "logo": "oasis",
+      "title": "Missing attestation-freshness enforcement",
+      "description": "A Rust verifier omitted the freshness bound enforced by its Go counterpart, allowing stale attestations beyond the configured age window.",
+      "tags": [
+        "TEE and Attestation",
+        "Freshness",
+        "Replay Window",
+        "Go-Rust Parity",
+        "Dead Configuration"
+      ],
+      "url": "https://bluethroatlabs.com/reveries/oasis-core-rust-sgx-max-attestation-age-dead-code"
+    },
+    {
+      "id": "CONF-08",
+      "severity": "low",
+      "title": "Unbounded event data retained in consensus memory",
+      "description": "A valid execution path allowed attacker-controlled output data to exceed practical memory bounds and repeatedly disrupt validators.",
+      "tags": [
+        "Blockchain, DLT, and Consensus",
+        "Event Logs",
+        "Memory Bounds",
+        "Gas Metering",
+        "Validator OOM",
+        "Replay Persistence"
+      ]
+    },
+    {
+      "id": "CONF-10",
+      "severity": "low",
+      "title": "Authenticated request could steer expensive work to an unrelated context",
+      "description": "An authenticated request was insufficiently bound to the work it authorized, enabling attacker-directed resource consumption.",
+      "tags": [
+        "Blockchain, DLT, and Consensus",
+        "Validator Authentication",
+        "Request Binding",
+        "Compression DoS",
+        "Network Services",
+        "Resource Exhaustion"
+      ]
+    }
+  ]
+}

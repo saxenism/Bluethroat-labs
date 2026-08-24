@@ -65,7 +65,7 @@ export default function RootLayout({
       suppressHydrationWarning
       data-scroll-behavior="smooth"
     >
-      <body className="selection:bg-foreground selection:text-background font-mono antialiased">
+      <body className="selection:bg-foreground selection:text-background selection:fill-background font-mono antialiased">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
