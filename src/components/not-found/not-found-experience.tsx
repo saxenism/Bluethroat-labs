@@ -1,7 +1,16 @@
 'use client'
 
-import { useEffect, useRef, type CSSProperties, type ElementType } from 'react'
+import {
+  useEffect,
+  useRef,
+  type CSSProperties,
+  type ElementType,
+  type PropsWithChildren,
+} from 'react'
 import styles from './not-found-experience.module.css'
+import { usePathname } from 'next/navigation'
+import { MoveRightIcon } from 'lucide-react'
+import Link from 'next/link'
 
 const CONFIG = {
   rain: {
@@ -60,20 +69,22 @@ type RainStrip = {
 
 type NotFoundStyles = CSSProperties & { '--grain-opacity': number }
 
-type GlitchTextProps = { children: string; variant?: 'box' | 'line' }
+type GlitchTextProps = PropsWithChildren & { variant?: 'box' | 'line' }
 
 function GlitchText({ children, variant = 'line' }: GlitchTextProps) {
   const Wrapper: ElementType = variant === 'box' ? 'h1' : 'div'
   const Tag: ElementType = variant === 'box' ? 'span' : 'p'
+  const wrapperClassName =
+    variant === 'box'
+      ? 'relative mb-[clamp(16px,2.1vw,42px)] inline-block'
+      : 'relative block w-full max-w-full'
   const textClassName =
     variant === 'box'
       ? 'inline-block bg-white px-[.233em] py-[.117em] text-[clamp(56px,9.6vw,150px)] leading-none font-medium text-[#0a0a0a]'
-      : 'text-[clamp(11px,1.55vw,30px)] leading-[1.45] font-normal tracking-[.01em] whitespace-nowrap'
+      : 'block w-full max-w-full text-[clamp(11px,1.55vw,30px)] leading-[1.45] font-normal tracking-[.01em] break-words whitespace-normal'
 
   return (
-    <Wrapper
-      className={`relative inline-block ${variant === 'box' ? 'mb-[clamp(16px,2.1vw,42px)]' : ''}`}
-    >
+    <Wrapper className={wrapperClassName}>
       <Tag className={textClassName} data-glitch-base>
         {children}
       </Tag>
@@ -106,6 +117,7 @@ export function NotFoundExperience() {
   const stageRef = useRef<HTMLDivElement>(null)
   const rainCanvasRef = useRef<HTMLCanvasElement>(null)
   const grainCanvasRef = useRef<HTMLCanvasElement>(null)
+  const path = usePathname()
 
   useEffect(() => {
     const stage = stageRef.current
@@ -424,14 +436,21 @@ export function NotFoundExperience() {
         className={`${styles.rain} absolute inset-0 h-full w-full`}
       />
 
-      <main className="absolute inset-0 z-2 flex flex-col items-center justify-center text-center">
+      <main className="absolute inset-7 z-2 flex flex-col items-center justify-center px-4 text-center sm:px-8">
         <GlitchText variant="box">404</GlitchText>
-        <GlitchText>0x0D&lt;0x11==TRUE</GlitchText>
+        <GlitchText>THIS PATH MADE AN ASSUMPTION. IT WAS WRONG.</GlitchText>
         <GlitchText>
-          TCBLEVEL.MATCHES[];PCESVN_INVERTED;OASIS-CORE‘OUTOFDATE&gt;&gt;UPTODATE
+          <span className="mt-2 flex max-w-full flex-col items-center justify-center gap-1 sm:flex-row sm:gap-2">
+            <span className="max-w-full break-all">{path}</span>
+            <span className="inline-flex shrink-0 items-center gap-2 whitespace-nowrap">
+              <MoveRightIcon aria-hidden="true" className="size-[1.2em]" />
+              NO MATCH
+            </span>
+          </span>
         </GlitchText>
-        <GlitchText>[don’t worry]</GlitchText>
-        <GlitchText>[just click on the screen]</GlitchText>
+        <Link href="/" className="mt-4 hover:bg-white hover:text-black">
+          <GlitchText>[RETURN TO A KNOWN STATE]</GlitchText>
+        </Link>
       </main>
 
       <canvas
