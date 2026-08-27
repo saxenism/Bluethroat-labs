@@ -1,0 +1,79 @@
+.stage {
+  --rain-opacity: 0.22;
+  --grain-opacity: 0.085;
+  --scan-opacity: 0.035;
+  --band-opacity: 0.05;
+  --vignette: 0.85;
+
+  font-feature-settings:
+    'zero' 1,
+    'ss01' 1;
+  font-variant-ligatures: none;
+}
+
+.rain {
+  opacity: var(--rain-opacity);
+  -webkit-mask-image: radial-gradient(
+    ellipse 44% 32% at 50% 50%,
+    rgba(0, 0, 0, 0.18) 0%,
+    rgba(0, 0, 0, 0.6) 55%,
+    #000 100%
+  );
+  mask-image: radial-gradient(
+    ellipse 44% 32% at 50% 50%,
+    rgba(0, 0, 0, 0.18) 0%,
+    rgba(0, 0, 0, 0.6) 55%,
+    #000 100%
+  );
+}
+
+.grain {
+  opacity: var(--grain-opacity);
+}
+
+.scanlines {
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, var(--scan-opacity)) 0,
+    rgba(255, 255, 255, var(--scan-opacity)) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+.bands {
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 40px,
+    rgba(255, 255, 255, var(--band-opacity)) 40px,
+    rgba(255, 255, 255, var(--band-opacity)) 42px,
+    transparent 42px,
+    transparent 190px
+  );
+  animation: roll 9s linear infinite;
+}
+
+.vignette {
+  background: radial-gradient(
+    ellipse 78% 68% at 50% 50%,
+    transparent 35%,
+    rgba(0, 0, 0, var(--vignette)) 100%
+  );
+}
+
+@keyframes roll {
+  from {
+    transform: translateY(-190px);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bands {
+    animation: none;
+  }
+}
