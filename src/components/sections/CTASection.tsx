@@ -1,5 +1,5 @@
 import { TelegramIcon } from '@/assets/icons'
-import { CALENDAR_LINK, TELEGRAM_LINK } from '@/lib/constants'
+import { CALENDAR_LINK, TELEGRAM_CHAT_LINK } from '@/lib/constants'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -47,7 +47,7 @@ export function CTASection() {
           </Link>
 
           <Link
-            href={TELEGRAM_LINK}
+            href={TELEGRAM_CHAT_LINK}
             target="_blank"
             className="flex items-center justify-center gap-4 border border-[#A9A9A9] bg-[#FAFAFA] px-4 py-2 text-[#2E2E2E] hover:bg-[#E6E6E6] dark:border-[#2E2E2E] dark:bg-[#0A0A0A] dark:text-[#E6E6E6] dark:hover:bg-[#292929]"
           >
