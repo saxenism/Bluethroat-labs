@@ -6,7 +6,7 @@ import { Moon, Sun } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import { SanskritHoverText } from '@/components/ui/sanskrit-hover-text'
 import { TEESecurityHandbookLogo } from '@/assets/logos'
-import { ZCAL_LINK } from '@/lib/constants'
+import { CALENDAR_LINK } from '@/lib/constants'
 
 export function DocsNavbar({ version }: { version?: string }) {
   const { setTheme, resolvedTheme } = useTheme()
@@ -23,7 +23,7 @@ export function DocsNavbar({ version }: { version?: string }) {
   const navLinks = [
     { href: '/', label: 'Website' },
     { href: '/reveries', label: 'Reveries' },
-    { href: ZCAL_LINK, label: 'Talk to Us' },
+    { href: CALENDAR_LINK, label: 'Talk to Us' },
   ]
 
   return (

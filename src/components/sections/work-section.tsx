@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog'
-import { ZCAL_LINK } from '@/lib/constants'
+import { CALENDAR_LINK } from '@/lib/constants'
 import { cn } from '@/lib/utils'
 import type { WriteupItem, WriteupSeriesItem } from '@/lib/sanity/writeups'
 import { BookShelf } from '../ui/bookshelf'
@@ -161,7 +161,7 @@ const WORKS = [
     title: 'Internal AI Security Systems',
     description:
       'We design and build internal AI-driven security tooling and workflows tailored to your protocol. Shaped around your codebase, threat model, and engineering reality, these systems evolve with the protocol. We can hand over the full stack to your team or remain involved on a light retainer.',
-    link: ZCAL_LINK,
+    link: CALENDAR_LINK,
     buttonText: 'Talk to Us',
     buttonTheme: 'primary',
   },

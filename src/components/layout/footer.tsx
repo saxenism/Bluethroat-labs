@@ -2,12 +2,13 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Copyright } from 'lucide-react'
-import { MouseEvent } from 'react'
+import { Copyright, Moon, Sun } from 'lucide-react'
+import { MouseEvent, useEffect, useState } from 'react'
 import { SanskritHoverText } from '@/components/ui/sanskrit-hover-text'
 import { FullLogo, IconLogo } from '@/assets/logos'
 import { LinkedinIcon, MailIcon, XIcon } from '@/assets/icons'
 import { LandingStripImage } from '../ui/landing-strip-image'
+import { useTheme } from 'next-themes'
 
 const navLinks = [
   { href: '/docs', label: 'TEE Handbook' },
@@ -17,12 +18,22 @@ const navLinks = [
 
 export function Footer() {
   const pathname = usePathname()
+  const { setTheme, resolvedTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const handleLogoClick = (e: MouseEvent<HTMLAnchorElement>) => {
     if (pathname === '/') {
       e.preventDefault()
       window.scrollTo({ top: 0, behavior: 'smooth' })
     }
+  }
+
+  const toggleTheme = () => {
+    setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')
   }
 
   return (
@@ -53,6 +64,20 @@ export function Footer() {
           </div>
 
           <div className="flex h-12 items-center justify-center md:h-17">
+            <button
+              onClick={toggleTheme}
+              className="grid aspect-square h-full place-items-center border-l hover:bg-[#E6E6E6] dark:hover:bg-[#292929]"
+              aria-label="Toggle theme"
+            >
+              {/* Only render the icon if mounted to prevent hydration mismatch */}
+              {!mounted ? (
+                <div className="size-7 max-md:size-5.5" /> // Placeholder with same dimensions
+              ) : resolvedTheme === 'dark' ? (
+                <Sun className="size-7 text-[#292929] max-md:size-5.5 dark:text-[#A9A9A9]" />
+              ) : (
+                <Moon className="size-7 text-[#292929] max-md:size-5.5 dark:text-[#A9A9A9]" />
+              )}
+            </button>
             <a
               href="mailto:saxenism@bluethroatlabs.com"
               className="grid aspect-square h-full place-items-center border-l hover:bg-[#E6E6E6] dark:hover:bg-[#292929]"
