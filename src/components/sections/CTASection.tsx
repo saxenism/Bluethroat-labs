@@ -7,14 +7,14 @@ export function CTASection() {
   return (
     <section
       id="cta"
-      className="border-border relative isolate grid place-items-center border-b px-12 py-12"
+      className="border-border relative isolate grid place-items-center border-b px-11.75 py-11.75"
     >
       <div className="border-border absolute top-0 left-0 size-12 border-r border-b"></div>
       <div className="border-border absolute top-0 right-0 size-12 border-b border-l"></div>
       <div className="border-border absolute bottom-0 left-0 size-12 border-t border-r"></div>
       <div className="border-border absolute right-0 bottom-0 size-12 border-t border-l"></div>
 
-      <div className="relative w-full px-6 py-12 md:px-18">
+      <div className="border-border relative w-full border px-6 py-12 md:px-18">
         <Image
           src="/landing/cta-bg.png"
           alt="Background"
