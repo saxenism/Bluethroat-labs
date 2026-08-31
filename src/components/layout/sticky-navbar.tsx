@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { SanskritHoverText } from '@/components/ui/sanskrit-hover-text'
 import { FullLogo, IconLogo } from '@/assets/logos'
-import { CALENDAR_LINK, TELEGRAM_LINK } from '@/lib/constants'
+import { CALENDAR_LINK, TELEGRAM_CHAT_LINK } from '@/lib/constants'
 import { TelegramIcon } from '@/assets/icons'
 
 export function StickyNavbar() {
@@ -79,7 +79,7 @@ export function StickyNavbar() {
         <div className="ml-auto flex h-full items-center overflow-hidden lg:ml-0">
           <div className="hidden h-full items-center lg:flex">
             <Link
-              href={TELEGRAM_LINK}
+              href={TELEGRAM_CHAT_LINK}
               target="_blank"
               className="hover:bg-muted p-5.5"
             >
@@ -146,7 +146,7 @@ export function StickyNavbar() {
               Talk to Us
             </Link>
             <Link
-              href={TELEGRAM_LINK}
+              href={TELEGRAM_CHAT_LINK}
               target="_blank"
               className="border-border hover:bg-muted flex w-12 items-center justify-center border-y"
             >
