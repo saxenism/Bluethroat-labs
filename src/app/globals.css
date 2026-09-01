@@ -245,6 +245,44 @@ html {
   animation: bookEnterRight 250ms cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
 }
 
+/* Bookshelf desktop page transitions */
+@keyframes shelfEnterNext {
+  0% {
+    transform: translate3d(3rem, 0, 0);
+    opacity: 0;
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes shelfEnterPrev {
+  0% {
+    transform: translate3d(-3rem, 0, 0);
+    opacity: 0;
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+.animate-shelf-enter-next {
+  animation: shelfEnterNext 400ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-shelf-enter-prev {
+  animation: shelfEnterPrev 400ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-shelf-enter-next,
+  .animate-shelf-enter-prev {
+    animation: none;
+  }
+}
+
 /* Shiki emits light colors plus dark-theme variables during server rendering. */
 html.dark .shiki,
 html.dark .shiki span {
