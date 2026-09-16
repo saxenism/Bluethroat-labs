@@ -11,7 +11,10 @@ import { LandingStripImage } from '../ui/landing-strip-image'
 import { useTheme } from 'next-themes'
 
 const navLinks = [
-  { href: '/docs', label: 'TEE Handbook' },
+  {
+    href: 'https://tee-security-handbook.bluethroatlabs.com/',
+    label: 'TEE Handbook',
+  },
   { href: '/reveries', label: 'Reveries' },
   { href: '/join', label: 'Join Us' },
 ]
@@ -39,20 +42,25 @@ export function Footer() {
   return (
     <footer className="bg-background border-border mt-18 border-y">
       <div className="border-border border-b">
-        <div className="border-border container mx-auto flex flex-col items-stretch md:flex-row">
+        <div className="border-border container mx-auto flex flex-col items-stretch lg:flex-row">
           <Link
             href="/"
             onClick={handleLogoClick}
-            className="border-border group flex h-12 items-center justify-center border-b px-4.5 max-md:bg-[#f2f2f2] md:h-17 md:justify-start md:border-r md:border-b-0 md:py-0 dark:max-md:bg-[#191919]"
+            className="border-border group flex h-12 items-center justify-center border-b px-4.5 max-lg:bg-[#f2f2f2] lg:h-17 lg:justify-start lg:border-r lg:border-b-0 lg:py-0 dark:max-lg:bg-[#191919]"
           >
-            <FullLogo className="h-6 w-auto md:hidden" />
-            <IconLogo className="max-md:hidden" />
+            <FullLogo className="h-6 w-auto lg:hidden" />
+            <IconLogo className="max-lg:hidden" />
           </Link>
 
-          <div className="border-border flex w-full flex-col border-b md:flex-row md:items-center md:border-b-0">
-            <div className="flex flex-1 flex-col items-center justify-center space-y-6 px-8 py-8 md:flex-row md:justify-start md:space-y-0 md:space-x-10 md:py-0">
+          <div className="border-border flex w-full flex-col border-b lg:flex-row lg:items-center lg:border-b-0">
+            <div className="flex flex-1 flex-col items-center justify-center space-y-6 px-8 py-8 lg:flex-row lg:justify-start lg:space-y-0 lg:space-x-10 lg:py-0">
               {navLinks.map((link) => (
-                <Link key={link.href} href={link.href} className="text-lg">
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="text-lg"
+                  target={link.href.startsWith('http') ? '_blank' : undefined}
+                >
                   <SanskritHoverText
                     text={link.label}
                     inactiveCharClassName="text-foreground/70 group-hover:text-foreground"
@@ -63,7 +71,7 @@ export function Footer() {
             </div>
           </div>
 
-          <div className="flex h-12 items-center justify-center md:h-17">
+          <div className="flex h-12 items-center justify-center lg:h-17">
             <button
               onClick={toggleTheme}
               className="grid aspect-square h-full place-items-center border-l hover:bg-[#E6E6E6] dark:hover:bg-[#292929]"
@@ -71,40 +79,40 @@ export function Footer() {
             >
               {/* Only render the icon if mounted to prevent hydration mismatch */}
               {!mounted ? (
-                <div className="size-7 max-md:size-5.5" /> // Placeholder with same dimensions
+                <div className="size-7 max-lg:size-5.5" /> // Placeholder with same dimensions
               ) : resolvedTheme === 'dark' ? (
-                <Sun className="size-7 text-[#292929] max-md:size-5.5 dark:text-[#A9A9A9]" />
+                <Sun className="size-7 text-[#292929] max-lg:size-5.5 dark:text-[#A9A9A9]" />
               ) : (
-                <Moon className="size-7 text-[#292929] max-md:size-5.5 dark:text-[#A9A9A9]" />
+                <Moon className="size-7 text-[#292929] max-lg:size-5.5 dark:text-[#A9A9A9]" />
               )}
             </button>
             <a
               href="mailto:saxenism@bluethroatlabs.com"
               className="grid aspect-square h-full place-items-center border-l hover:bg-[#E6E6E6] dark:hover:bg-[#292929]"
             >
-              <MailIcon className="text-[#292929] max-md:size-5.5 dark:text-[#A9A9A9]" />
+              <MailIcon className="text-[#292929] max-lg:size-5.5 dark:text-[#A9A9A9]" />
             </a>
             <a
               href="https://x.com/bluethroat_labs"
               target="_blank"
               rel="noopener noreferrer"
-              className="grid aspect-square h-full place-items-center border-l hover:bg-[#E6E6E6] max-md:border-r dark:hover:bg-[#292929]"
+              className="grid aspect-square h-full place-items-center border-l hover:bg-[#E6E6E6] max-lg:border-r dark:hover:bg-[#292929]"
             >
-              <XIcon className="text-[#292929] max-md:size-4.5 dark:text-[#A9A9A9]" />
+              <XIcon className="text-[#292929] max-lg:size-4.5 dark:text-[#A9A9A9]" />
             </a>
             <a
               href="https://www.linkedin.com/company/bluethroat-labs"
               target="_blank"
               rel="noopener noreferrer"
-              className="grid aspect-square h-full place-items-center border-l hover:bg-[#E6E6E6] max-md:border-r dark:hover:bg-[#292929]"
+              className="grid aspect-square h-full place-items-center border-l hover:bg-[#E6E6E6] max-lg:border-r dark:hover:bg-[#292929]"
             >
-              <LinkedinIcon className="text-[#292929] max-md:size-4.5 dark:text-[#A9A9A9]" />
+              <LinkedinIcon className="text-[#292929] max-lg:size-4.5 dark:text-[#A9A9A9]" />
             </a>
           </div>
         </div>
       </div>
 
-      <div className="none relative mt-12 h-64 w-full overflow-hidden bg-[#f2f2f2] sm:h-80 md:h-100 dark:bg-[#191919]">
+      <div className="none relative mt-12 h-64 w-full overflow-hidden bg-[#f2f2f2] sm:h-80 lg:h-100 dark:bg-[#191919]">
         <LandingStripImage />
       </div>
 

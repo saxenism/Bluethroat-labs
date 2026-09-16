@@ -40,7 +40,7 @@ export const projects: Record<ProjectId, ResearchProject> = {
   },
   blueskills: {
     id: 'blueskills',
-    name: 'Blueskills',
+    name: 'BlueSkills',
     status: 'COMING SOON', // 'PROTOTYPE',
     descriptor:
       'Assess an AI agent skill before giving it access to your environment.',
@@ -48,50 +48,50 @@ export const projects: Record<ProjectId, ResearchProject> = {
     limit:
       'An assessment does not guarantee that a skill is safe in every environment.',
     signature: 'A public project by Bluethroat Labs.',
-    button: '', // 'Open Blueskills',
+    button: '', // 'Open BlueSkills',
     href: '',
     menuDescription: 'Inspect an agent skill before granting access.',
     state: 'soon', // 'pending',
   },
   bluemask: {
     id: 'bluemask',
-    name: 'Bluemask',
+    name: 'BlueMask',
     status: 'COMING SOON', // 'PROTOTYPE',
     descriptor: 'Redact sensitive parts of an image before sharing it.',
     body: 'Use secure masking to replace covered pixels in the exported image. Cosmetic blur is available for appearance. An offline workflow lets you disconnect before importing a sensitive image.',
     limit:
       'Cosmetic blur is not secure redaction. Uncovered content and mask geometry remain visible.',
     signature: 'A public project by Bluethroat Labs.',
-    button: '', // 'Open Bluemask',
+    button: '', // 'Open BlueMask',
     href: '',
     menuDescription: 'Redact sensitive image content before sharing.',
     state: 'soon', // 'pending',
   },
   bluepaper: {
     id: 'bluepaper',
-    name: 'Bluepaper',
+    name: 'BluePaper',
     status: 'COMING SOON',
     descriptor:
       'A project for viewing untrusted PDFs through isolated rendering.',
-    body: 'Bluepaper is being developed to help people inspect documents from unfamiliar senders through an isolated rendering workflow.',
+    body: 'BluePaper is being developed to help people inspect documents from unfamiliar senders through an isolated rendering workflow.',
     limit:
       "Rendering isolation does not establish that a document's content, links, or sender can be trusted.",
     signature: 'A public project by Bluethroat Labs.',
-    button: '',
+    button: '', // 'Open BluePaper'
     href: '',
     menuDescription: 'View untrusted PDFs through isolated rendering.',
     state: 'soon',
   },
   bluegate: {
     id: 'bluegate',
-    name: 'Bluegate',
+    name: 'BlueGate',
     status: 'COMING SOON',
     descriptor:
       'Assess an unfamiliar GitHub repository before running its code.',
-    body: 'Bluegate is being developed to help people inspect unfamiliar repositories for suspicious behavior and understand the risks of running them.',
+    body: 'BlueGate is being developed to help people inspect unfamiliar repositories for suspicious behavior and understand the risks of running them.',
     limit: 'An assessment is not a guarantee that code is safe.',
     signature: 'A public project by Bluethroat Labs.',
-    button: '',
+    button: '', // 'Open BlueGate'
     href: '',
     menuDescription: 'Assess unfamiliar code before running it.',
     state: 'soon',
