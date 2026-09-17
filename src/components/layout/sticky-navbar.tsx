@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, MouseEvent } from 'react'
+import { useEffect, useRef, useState, MouseEvent } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
@@ -9,15 +9,30 @@ import { FullLogo, IconLogo } from '@/assets/logos'
 import { CALENDAR_LINK, TELEGRAM_CHAT_LINK } from '@/lib/constants'
 import { TelegramIcon } from '@/assets/icons'
 
+const navLinks = [
+  { href: '/reveries', label: 'Reveries' },
+  { href: '/tools-and-research', label: 'Tools & Research' },
+  { href: '/join', label: 'Join Us' },
+] as const
+
 export function StickyNavbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const mobileMenuTriggerRef = useRef<HTMLButtonElement>(null)
   const pathname = usePathname()
 
-  const navLinks = [
-    { href: '/docs', label: 'TEE Handbook' },
-    { href: '/reveries', label: 'Reveries' },
-    { href: '/join', label: 'Join Us' },
-  ]
+  useEffect(() => {
+    if (!isMobileMenuOpen) return
+
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape') return
+      event.preventDefault()
+      setIsMobileMenuOpen(false)
+      requestAnimationFrame(() => mobileMenuTriggerRef.current?.focus())
+    }
+
+    document.addEventListener('keydown', handleEscape)
+    return () => document.removeEventListener('keydown', handleEscape)
+  }, [isMobileMenuOpen])
 
   const handleLogoClick = (e: MouseEvent<HTMLAnchorElement>) => {
     if (pathname === '/') {
@@ -89,9 +104,12 @@ export function StickyNavbar() {
 
           {/* Mobile Menu Button - Segmented */}
           <button
+            ref={mobileMenuTriggerRef}
             onClick={() => setIsMobileMenuOpen((prev) => !prev)}
             className="border-border hover:bg-muted flex h-full flex-col justify-center gap-1 border-l px-3 lg:hidden"
-            aria-label="Toggle menu"
+            aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
+            aria-controls="site-mobile-menu"
+            aria-expanded={isMobileMenuOpen}
           >
             <span
               className={cn(
@@ -117,6 +135,9 @@ export function StickyNavbar() {
 
       {/* Mobile Menu Dropdown */}
       <div
+        id="site-mobile-menu"
+        aria-hidden={!isMobileMenuOpen}
+        inert={!isMobileMenuOpen}
         className={cn(
           'bg-background border-border absolute top-full right-0 left-0 overflow-hidden border-t border-b lg:hidden',
           isMobileMenuOpen ? 'max-h-100 opacity-100' : 'max-h-0 opacity-0'
@@ -128,6 +149,7 @@ export function StickyNavbar() {
             <Link
               key={link.href}
               href={link.href}
+              tabIndex={isMobileMenuOpen ? undefined : -1}
               onClick={() => setIsMobileMenuOpen(false)}
               className="text-foreground/80 hover:text-foreground hover:bg-muted p-4 text-lg font-semibold tracking-tighter"
             >
@@ -140,6 +162,7 @@ export function StickyNavbar() {
             <Link
               href={CALENDAR_LINK}
               target="_blank"
+              tabIndex={isMobileMenuOpen ? undefined : -1}
               onClick={() => setIsMobileMenuOpen(false)}
               className="text-background bg-foreground hover:bg-background hover:text-foreground border-border flex flex-1 items-center justify-center border-y border-r text-xl font-bold tracking-widest"
             >
@@ -148,6 +171,7 @@ export function StickyNavbar() {
             <Link
               href={TELEGRAM_CHAT_LINK}
               target="_blank"
+              tabIndex={isMobileMenuOpen ? undefined : -1}
               className="border-border hover:bg-muted flex w-12 items-center justify-center border-y"
             >
               <TelegramIcon className="text-foreground h-7 w-7" />

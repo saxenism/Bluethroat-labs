@@ -1,0 +1,11 @@
+<svg viewBox="0 0 48 48" width="100%" height="100%" fill="none" aria-hidden="true" style="display:block;overflow:visible" xmlns="http://www.w3.org/2000/svg">
+
+  <path d="M11.6 4 H31.4 L39.6 12.2 V44 H11.6 Z" stroke="currentColor" stroke-width="1.7" fill="none" />
+    <path d="M31.4 4 V12.2 H39.6" stroke="currentColor" stroke-width="1.7" fill="none" />
+    <g stroke="currentColor" stroke-width="1.6" fill="none">
+        <path d="M16.4 19.4 L34.8 19.4" />
+        <path d="M16.4 24.6 L34.8 24.6" />
+        <path d="M16.4 29.8 L34.8 29.8" />
+        <path d="M16.4 35 L27.4 35" />
+      </g>
+    </svg>

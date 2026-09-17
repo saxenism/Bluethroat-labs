@@ -41,6 +41,7 @@
     "sanity": "5.12.0",
     "sanity-plugin-media": "4.1.1",
     "server-only": "0.0.1",
+    "sharp": "0.34.5",
     "shiki": "4.0.1",
     "styled-components": "6.3.11",
     "tailwind-merge": "3.5.0"
