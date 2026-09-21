@@ -68,8 +68,7 @@ export default function RootLayout({
       <body className="selection:bg-foreground selection:text-background selection:fill-background font-mono antialiased">
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
-          enableSystem
+          defaultTheme="dark"
           disableTransitionOnChange
         >
           <TooltipProvider>

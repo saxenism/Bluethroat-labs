@@ -41,17 +41,17 @@ export const projects: Record<ProjectId, ResearchProject> = {
   blueskills: {
     id: 'blueskills',
     name: 'BlueSkills',
-    status: 'COMING SOON', // 'PROTOTYPE',
+    status: '',
     descriptor:
       'Assess an AI agent skill before giving it access to your environment.',
     body: 'Inspect a skill for suspicious instructions and risky behavior before installing it. Use the assessment to understand identified risks and what remains uncertain.',
     limit:
       'An assessment does not guarantee that a skill is safe in every environment.',
     signature: 'A public project by Bluethroat Labs.',
-    button: '', // 'Open BlueSkills',
-    href: '',
+    button: 'Open BlueSkills',
+    href: 'https://blueskills.bluethroatlabs.com',
     menuDescription: 'Inspect an agent skill before granting access.',
-    state: 'soon', // 'pending',
+    state: 'live',
   },
   bluemask: {
     id: 'bluemask',
