@@ -56,16 +56,16 @@ export const projects: Record<ProjectId, ResearchProject> = {
   bluemask: {
     id: 'bluemask',
     name: 'BlueMask',
-    status: 'COMING SOON', // 'PROTOTYPE',
+    status: '',
     descriptor: 'Redact sensitive parts of an image before sharing it.',
     body: 'Use secure masking to replace covered pixels in the exported image. Cosmetic blur is available for appearance. An offline workflow lets you disconnect before importing a sensitive image.',
     limit:
       'Cosmetic blur is not secure redaction. Uncovered content and mask geometry remain visible.',
     signature: 'A public project by Bluethroat Labs.',
-    button: '', // 'Open BlueMask',
-    href: '',
+    button: 'Open BlueMask',
+    href: 'https://bluemask.bluethroatlabs.com',
     menuDescription: 'Redact sensitive image content before sharing.',
-    state: 'soon', // 'pending',
+    state: 'live',
   },
   bluepaper: {
     id: 'bluepaper',

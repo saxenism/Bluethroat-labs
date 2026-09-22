@@ -648,7 +648,7 @@
 .dialogHeading {
   display: flex;
   flex-wrap: wrap;
-  align-items: flex-start;
+  align-items: center;
   gap: 24px;
 }
 
