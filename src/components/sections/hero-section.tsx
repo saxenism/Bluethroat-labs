@@ -25,14 +25,12 @@ export async function HeroSection() {
         <div className="absolute bottom-0 left-0 z-30 mx-auto w-full max-w-[950px] bg-[#191919] p-4 sm:p-6 lg:p-12">
           <div className="flex flex-col gap-2 text-[#F2F2F2]">
             <p className="text-base leading-relaxed font-medium sm:text-lg md:text-lg">
-              We build domain-specific AI security agents for complex protocol
-              architectures.
+              Bluethroat Labs is a research-led security firm for blockchain
+              protocols.
             </p>
             <p className="text-base leading-relaxed font-medium sm:text-lg md:text-lg">
-              One agent per domain.
-            </p>
-            <p className="text-base leading-relaxed font-medium sm:text-lg md:text-lg">
-              All of them sharing intelligence to stop cascading failures.
+              Our researchers use in-house, domain-specific AI security agents
+              to run focused adversarial reviews of high-risk systems.
             </p>
           </div>
         </div>
