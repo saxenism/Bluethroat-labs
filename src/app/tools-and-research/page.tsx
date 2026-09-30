@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import { Suspense } from 'react'
 import { StickyNavbar } from '@/components/layout/sticky-navbar'
 import { Footer } from '@/components/layout/footer'
 import { ToolsResearchHub } from '@/components/tools-and-research/tools-research-hub'
@@ -51,9 +50,7 @@ export default function ToolsAndResearchPage() {
       />
       <StickyNavbar />
       <main>
-        <Suspense fallback={<div className="min-h-[70vh]" />}>
-          <ToolsResearchHub />
-        </Suspense>
+        <ToolsResearchHub />
         <Footer />
       </main>
     </div>

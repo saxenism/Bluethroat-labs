@@ -1,13 +1,12 @@
 'use client'
 
-import { useCallback, useEffect, useRef } from 'react'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { ArrowUpRight } from 'lucide-react'
 import { IconLogo } from '@/assets/logos'
-import { DialogDescription, DialogTitle } from '@/components/ui/dialog'
 import { ScrollDialog } from '@/components/ui/ScrollDialog'
 import {
   isProjectId,
+  projectIds,
   projects,
   type ProjectId,
   type ResearchProject,
@@ -21,11 +20,7 @@ const supportingProjectIds: ProjectId[] = [
 ]
 
 export const ToolsResearchHub = () => {
-  const router = useRouter()
-  const pathname = usePathname()
-  const searchParams = useSearchParams()
-  const requestedProject = searchParams.get('project')
-  const selectedId = isProjectId(requestedProject) ? requestedProject : null
+  const [selectedId, setSelectedId] = useState<ProjectId | null>(null)
   const selectedProject = selectedId ? projects[selectedId] : null
   const locallyOpenedProject = useRef<ProjectId | null>(null)
   const lastTrigger = useRef<HTMLButtonElement | null>(null)
@@ -35,26 +30,48 @@ export const ToolsResearchHub = () => {
     if (selectedId) lastDialogProject.current = selectedId
   }, [selectedId])
 
-  const buildUrl = useCallback(
-    (projectId: ProjectId | null) => {
-      const params = new URLSearchParams(searchParams.toString())
-      if (projectId) params.set('project', projectId)
-      else params.delete('project')
+  useEffect(() => {
+    const syncProjectFromUrl = () => {
+      const requestedProject = new URLSearchParams(window.location.search).get(
+        'project'
+      )
+      const nextProject = isProjectId(requestedProject)
+        ? requestedProject
+        : null
 
-      const query = params.toString()
-      const hash = typeof window === 'undefined' ? '' : window.location.hash
-      return `${pathname}${query ? `?${query}` : ''}${hash}`
-    },
-    [pathname, searchParams]
-  )
+      if (locallyOpenedProject.current !== nextProject) {
+        locallyOpenedProject.current = null
+      }
+      setSelectedId(nextProject)
+    }
+
+    syncProjectFromUrl()
+    window.addEventListener('popstate', syncProjectFromUrl)
+    return () => window.removeEventListener('popstate', syncProjectFromUrl)
+  }, [])
+
+  const buildUrl = useCallback((projectId: ProjectId | null) => {
+    const url = new URL(window.location.href)
+    const params = url.searchParams
+    if (projectId) params.set('project', projectId)
+    else params.delete('project')
+
+    const query = params.toString()
+    return `${url.pathname}${query ? `?${query}` : ''}${url.hash}`
+  }, [])
 
   const selectProject = useCallback(
     (projectId: ProjectId) => (event: React.MouseEvent<HTMLButtonElement>) => {
       locallyOpenedProject.current = projectId
       lastTrigger.current = event.currentTarget
-      router.push(buildUrl(projectId), { scroll: false })
+      window.history.pushState(
+        { ...window.history.state },
+        '',
+        buildUrl(projectId)
+      )
+      setSelectedId(projectId)
     },
-    [buildUrl, router]
+    [buildUrl]
   )
 
   const closeProject = useCallback(() => {
@@ -62,12 +79,14 @@ export const ToolsResearchHub = () => {
 
     if (locallyOpenedProject.current === selectedId) {
       locallyOpenedProject.current = null
-      router.back()
+      setSelectedId(null)
+      window.history.back()
       return
     }
 
-    router.replace(buildUrl(null), { scroll: false })
-  }, [buildUrl, router, selectedId])
+    window.history.replaceState({ ...window.history.state }, '', buildUrl(null))
+    setSelectedId(null)
+  }, [buildUrl, selectedId])
 
   const handleOpenChange = useCallback(
     (open: boolean) => {
@@ -76,8 +95,7 @@ export const ToolsResearchHub = () => {
     [closeProject]
   )
 
-  const restoreFocus = useCallback((event: Event) => {
-    event.preventDefault()
+  const restoreFocus = useCallback(() => {
     const fallbackId = lastDialogProject.current
       ? `project-card-${lastDialogProject.current}`
       : null
@@ -303,7 +321,7 @@ const ProjectScroll = ({
 }: {
   project: ResearchProject | null
   onOpenChange: (open: boolean) => void
-  onCloseAutoFocus: (event: Event) => void
+  onCloseAutoFocus: () => void
 }) => {
   return (
     <ScrollDialog
@@ -311,67 +329,80 @@ const ProjectScroll = ({
       onOpenChange={onOpenChange}
       onCloseAutoFocus={onCloseAutoFocus}
       closeLabel={project ? `Close ${project.name}` : 'Close project'}
+      labelledBy={project ? `project-dialog-title-${project.id}` : undefined}
     >
-      {project ? (
-        <div className="mx-auto mb-10 flex w-[min(55rem,calc(100%-2rem))] flex-col [border-width:6.25rem_4rem_5.75rem] border-solid border-transparent font-mono filter-[drop-shadow(0_20px_44px_rgba(0,0,0,0.55))] [border-image:url('/tools-and-research/textures/privacy-scroll.png')_230_125_215_125_fill/6.25rem_4rem_5.75rem/0_stretch] max-[699px]:mb-6 max-[699px]:w-[calc(100%-1rem)] max-[699px]:[border-width:6.25rem_2.5rem_5.9375rem] max-[699px]:[border-image-width:6.25rem_2.5rem_5.9375rem] max-[479px]:[border-width:4rem_1.375rem_3.75rem] max-[479px]:[border-image-width:4rem_1.375rem_3.75rem]">
-          <div className="relative flex min-h-0 flex-1 flex-col">
-            {project.status ? (
-              <div className="relative z-1 flex flex-none items-center justify-between gap-3.5 border-b border-[#b7b6af] px-5.5 py-3.5 max-[699px]:px-3.5 max-[699px]:py-3">
-                <span className="min-w-0 overflow-hidden px-2.5 py-1.25 text-[13px] font-semibold tracking-[0.12em] text-ellipsis whitespace-nowrap text-[#3a3a36] [box-shadow:inset_0_0_0_1px_#a3a29c]">
-                  {project.status}
-                </span>
-              </div>
-            ) : null}
+      {projectIds.map((projectId) => {
+        const dialogProject = projects[projectId]
+        const isActive = project?.id === projectId
 
-            <div className="relative z-1 min-h-0 flex-1 overflow-y-auto px-14 pt-9 pb-11 [scrollbar-color:#77766f_#d2d1ca] [scrollbar-width:thin] selection:bg-[#26261f] selection:text-[#edece6] max-[699px]:px-5 max-[699px]:pt-6 max-[699px]:pb-7.5 [&_*::selection]:bg-[#26261f] [&_*::selection]:text-[#edece6] [&::-webkit-scrollbar]:w-2.5 [&::-webkit-scrollbar-thumb]:border-2 [&::-webkit-scrollbar-thumb]:border-[#d2d1ca] [&::-webkit-scrollbar-thumb]:bg-[#77766f] [&::-webkit-scrollbar-track]:bg-[#d2d1ca]">
-              <div className="flex flex-wrap items-center gap-6 max-[699px]:gap-4.5">
-                <Emblem
-                  projectId={project.id}
-                  className="size-19 shrink-0 filter-none max-[699px]:size-14"
-                />
-                <DialogTitle className="font-instrumental m-0 min-w-0 flex-[1_1_260px] text-[clamp(30px,3.4vw,42px)] leading-[1.04] font-normal text-pretty text-[#131311] max-[699px]:flex-[1_1_210px] max-[699px]:text-[28px]">
-                  {project.name}
-                </DialogTitle>
-              </div>
-
-              <div
-                className="my-6 mt-7 h-px bg-[repeating-linear-gradient(90deg,#8a8982_0_4px,transparent_4px_10px)]"
-                aria-hidden="true"
-              />
-
-              <DialogDescription className="m-0 text-[17px] leading-[1.55] font-semibold text-pretty text-[#141412]">
-                {project.descriptor}
-              </DialogDescription>
-              <p className="mt-4.5 max-w-[72ch] text-base leading-7 font-normal text-pretty text-[#2b2b27]">
-                {project.body}
-              </p>
-
-              {project.limit ? (
-                <div className="mt-6.5 border-t border-[#b7b6af] pt-4.5">
-                  <p className="text-[13px] font-semibold tracking-[0.12em] text-[#4a4a45]">
-                    LIMIT
-                  </p>
-                  <p className="mt-2.25 text-[15px] leading-[1.65] text-[#2b2b27]">
-                    {project.limit}
-                  </p>
+        return (
+          <div
+            key={projectId}
+            aria-hidden={!isActive}
+            className={`mx-auto mb-10 w-[min(55rem,calc(100%-2rem))] flex-col [border-width:6.25rem_4rem_5.75rem] border-solid border-transparent font-mono filter-[drop-shadow(0_20px_44px_rgba(0,0,0,0.55))] [border-image:url('/tools-and-research/textures/privacy-scroll.png')_230_125_215_125_fill/6.25rem_4rem_5.75rem/0_stretch] max-[699px]:mb-6 max-[699px]:w-[calc(100%-1rem)] max-[699px]:[border-width:6.25rem_2.5rem_5.9375rem] max-[699px]:[border-image-width:6.25rem_2.5rem_5.9375rem] max-[479px]:[border-width:4rem_1.375rem_3.75rem] max-[479px]:[border-image-width:4rem_1.375rem_3.75rem] ${isActive ? 'flex' : 'hidden'}`}
+          >
+            <div className="relative flex min-h-0 flex-1 flex-col">
+              {dialogProject.status ? (
+                <div className="relative z-1 flex flex-none items-center justify-between gap-3.5 border-b border-[#b7b6af] px-5.5 py-3.5 max-[699px]:px-3.5 max-[699px]:py-3">
+                  <span className="min-w-0 overflow-hidden px-2.5 py-1.25 text-[13px] font-semibold tracking-[0.12em] text-ellipsis whitespace-nowrap text-[#3a3a36] [box-shadow:inset_0_0_0_1px_#a3a29c]">
+                    {dialogProject.status}
+                  </span>
                 </div>
               ) : null}
 
-              <div className="mt-6.5 flex items-center gap-2.5 border-t border-[#b7b6af] pt-4.5 text-[15px] leading-[1.6] text-[#3a3a36]">
-                <IconLogo
-                  aria-hidden="true"
-                  className="size-4.5 shrink-0 fill-[#3a3a36]! opacity-80"
-                />
-                <span>{project.signature}</span>
-              </div>
+              <div className="relative z-1 min-h-0 flex-1 overflow-y-auto px-14 pt-9 pb-11 [scrollbar-color:#77766f_#d2d1ca] [scrollbar-width:thin] selection:bg-[#26261f] selection:text-[#edece6] max-[699px]:px-5 max-[699px]:pt-6 max-[699px]:pb-7.5 [&_*::selection]:bg-[#26261f] [&_*::selection]:text-[#edece6] [&::-webkit-scrollbar]:w-2.5 [&::-webkit-scrollbar-thumb]:border-2 [&::-webkit-scrollbar-thumb]:border-[#d2d1ca] [&::-webkit-scrollbar-thumb]:bg-[#77766f] [&::-webkit-scrollbar-track]:bg-[#d2d1ca]">
+                <div className="flex flex-wrap items-center gap-6 max-[699px]:gap-4.5">
+                  <Emblem
+                    projectId={dialogProject.id}
+                    className="size-19 shrink-0 filter-none max-[699px]:size-14"
+                  />
+                  <h2
+                    id={`project-dialog-title-${dialogProject.id}`}
+                    className="font-instrumental m-0 min-w-0 flex-[1_1_260px] text-[clamp(30px,3.4vw,42px)] leading-[1.04] font-normal text-pretty text-[#131311] max-[699px]:flex-[1_1_210px] max-[699px]:text-[28px]"
+                  >
+                    {dialogProject.name}
+                  </h2>
+                </div>
 
-              <div className="mt-7">
-                <ProjectDestination project={project} />
+                <div
+                  className="my-6 mt-7 h-px bg-[repeating-linear-gradient(90deg,#8a8982_0_4px,transparent_4px_10px)]"
+                  aria-hidden="true"
+                />
+
+                <p className="m-0 text-[17px] leading-[1.55] font-semibold text-pretty text-[#141412]">
+                  {dialogProject.descriptor}
+                </p>
+                <p className="mt-4.5 max-w-[72ch] text-base leading-7 font-normal text-pretty text-[#2b2b27]">
+                  {dialogProject.body}
+                </p>
+
+                {dialogProject.limit ? (
+                  <div className="mt-6.5 border-t border-[#b7b6af] pt-4.5">
+                    <p className="text-[13px] font-semibold tracking-[0.12em] text-[#4a4a45]">
+                      LIMIT
+                    </p>
+                    <p className="mt-2.25 text-[15px] leading-[1.65] text-[#2b2b27]">
+                      {dialogProject.limit}
+                    </p>
+                  </div>
+                ) : null}
+
+                <div className="mt-6.5 flex items-center gap-2.5 border-t border-[#b7b6af] pt-4.5 text-[15px] leading-[1.6] text-[#3a3a36]">
+                  <IconLogo
+                    aria-hidden="true"
+                    className="size-4.5 shrink-0 fill-[#3a3a36]! opacity-80"
+                  />
+                  <span>{dialogProject.signature}</span>
+                </div>
+
+                <div className="mt-7">
+                  <ProjectDestination project={dialogProject} />
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      ) : null}
+        )
+      })}
     </ScrollDialog>
   )
 }
