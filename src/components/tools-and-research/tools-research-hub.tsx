@@ -11,6 +11,7 @@ import {
   type ProjectId,
   type ResearchProject,
 } from '@/lib/tools-and-research'
+import Image from 'next/image'
 
 const supportingProjectIds: ProjectId[] = [
   'blueskills',
@@ -339,8 +340,17 @@ const ProjectScroll = ({
           <div
             key={projectId}
             aria-hidden={!isActive}
-            className={`mx-auto mb-10 w-[min(55rem,calc(100%-2rem))] flex-col [border-width:6.25rem_4rem_5.75rem] border-solid border-transparent font-mono filter-[drop-shadow(0_20px_44px_rgba(0,0,0,0.55))] [border-image:url('/tools-and-research/textures/privacy-scroll.png')_230_125_215_125_fill/6.25rem_4rem_5.75rem/0_stretch] max-[699px]:mb-6 max-[699px]:w-[calc(100%-1rem)] max-[699px]:[border-width:6.25rem_2.5rem_5.9375rem] max-[699px]:[border-image-width:6.25rem_2.5rem_5.9375rem] max-[479px]:[border-width:4rem_1.375rem_3.75rem] max-[479px]:[border-image-width:4rem_1.375rem_3.75rem] ${isActive ? 'flex' : 'hidden'}`}
+            // className={`mx-auto mb-10 w-[min(55rem,calc(100%-2rem))] flex-col [border-width:6.25rem_4rem_5.75rem] border-solid border-transparent font-mono filter-[drop-shadow(0_20px_44px_rgba(0,0,0,0.55))] [border-image:url('/tools-and-research/textures/privacy-scroll.png')_230_125_215_125_fill/6.25rem_4rem_5.75rem/0_stretch] max-[699px]:mb-6 max-[699px]:w-[calc(100%-1rem)] max-[699px]:[border-width:6.25rem_2.5rem_5.9375rem] max-[699px]:[border-image-width:6.25rem_2.5rem_5.9375rem] max-[479px]:[border-width:4rem_1.375rem_3.75rem] max-[479px]:[border-image-width:4rem_1.375rem_3.75rem] ${isActive ? 'flex' : 'hidden'}`}
+            className={`mx-auto mb-10 w-[min(55rem,calc(100%-2rem))] flex-col p-[7.25rem_5rem_5.75rem] font-mono filter-[drop-shadow(0_20px_44px_rgba(0,0,0,0.55))] max-[699px]:mb-6 max-[699px]:w-[calc(100%-1rem)] max-[699px]:p-[6.25rem_2.5rem_5.9375rem] max-[479px]:p-[8rem_2.25rem] ${isActive ? 'flex' : 'hidden'}`}
           >
+            <Image
+              src="/tools-and-research/textures/privacy-scroll.webp"
+              alt="sroll bg"
+              fill
+              aria-hidden="true"
+              priority
+            />
+
             <div className="relative flex min-h-0 flex-1 flex-col">
               {dialogProject.status ? (
                 <div className="relative z-1 flex flex-none items-center justify-between gap-3.5 border-b border-[#b7b6af] px-5.5 py-3.5 max-[699px]:px-3.5 max-[699px]:py-3">
