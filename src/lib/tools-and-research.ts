@@ -70,17 +70,17 @@ export const projects: Record<ProjectId, ResearchProject> = {
   bluepaper: {
     id: 'bluepaper',
     name: 'BluePaper',
-    status: 'COMING SOON',
+    status: '',
     descriptor:
       'A project for viewing untrusted PDFs through isolated rendering.',
     body: 'BluePaper is being developed to help people inspect documents from unfamiliar senders through an isolated rendering workflow.',
     limit:
       "Rendering isolation does not establish that a document's content, links, or sender can be trusted.",
     signature: 'A public project by Bluethroat Labs.',
-    button: '', // 'Open BluePaper'
-    href: '',
+    button: 'Open BluePaper',
+    href: 'https://bluepaper.bluethroatlabs.com',
     menuDescription: 'View untrusted PDFs through isolated rendering.',
-    state: 'soon',
+    state: 'live',
   },
   bluegate: {
     id: 'bluegate',
