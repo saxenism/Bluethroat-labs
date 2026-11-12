@@ -56,7 +56,7 @@ export const projects: Record<ProjectId, ResearchProject> = {
     href: 'https://blueskills.bluethroatlabs.com',
     menuDescription: 'Inspect an agent skill before granting access.',
     rationale:
-      "You shouldn't trust random SKILL.md. Novel systems require more attention.",
+      "A viral post on X recommending SKILL.md caught your eye. There's so much text and scripts you're not sure how it works. What if it hides a prompt injection or a drainer?",
     state: 'live',
   },
   bluemask: {
@@ -71,7 +71,8 @@ export const projects: Record<ProjectId, ResearchProject> = {
     button: 'Open BlueMask',
     href: 'https://bluemask.bluethroatlabs.com',
     menuDescription: 'Redact sensitive image content before sharing.',
-    rationale: 'Securely blur data in your images completely offline.',
+    rationale:
+      "How do you hide something from a photo in a unrecoverable way? Are you sure that a service or an app you're using doesn't save the original content to its servers?",
     state: 'live',
   },
   bluepaper: {
@@ -88,22 +89,22 @@ export const projects: Record<ProjectId, ResearchProject> = {
     href: 'https://bluepaper.bluethroatlabs.com',
     menuDescription: 'View untrusted PDFs through isolated rendering.',
     rationale:
-      "Documents from strangers are dangerous. That's why we created a converter to secure PDFs.",
+      'Documents you open is a huge attack vector. You must not trust anything coming from strangers. We found a way to securely open such files without any risk.',
     state: 'live',
   },
   blueexif: {
     id: 'blueexif',
     name: 'BlueExif',
     status: 'COMING SOON',
-    descriptor: 'Erase hidden image metadata completely offline.',
+    descriptor: 'Erase hidden metadata of any file completely offline.',
     body: 'BlueExif is an offline metadata eraser for images.',
     limit: '',
     signature: 'A public project by Bluethroat Labs.',
     button: '',
     href: '',
-    menuDescription: 'Erase hidden image metadata before posting.',
+    menuDescription: 'Erase hidden metadata of any file completely offline.',
     rationale:
-      "Posting images? Hidden metadata can reveal a lot about you. That's why we built an offline metadata eraser.",
+      "Posting images or sending files? Hidden metadata can reveal a lot about you. That's why we built an offline metadata eraser.",
     state: 'soon',
   },
   bluegate: {
