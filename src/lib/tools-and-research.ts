@@ -3,6 +3,7 @@ export const projectIds = [
   'blueskills',
   'bluemask',
   'bluepaper',
+  'blueexif',
   'bluegate',
 ] as const
 
@@ -21,6 +22,8 @@ export type ResearchProject = {
   href: string
   menuDescription: string
   state: ProjectState
+  showDetails?: boolean
+  rationale?: string
 }
 
 export const projects: Record<ProjectId, ResearchProject> = {
@@ -37,6 +40,7 @@ export const projects: Record<ProjectId, ResearchProject> = {
     href: 'https://tee-security-handbook.bluethroatlabs.com',
     menuDescription: 'Understand how trusted execution environments fail.',
     state: 'live',
+    showDetails: true,
   },
   blueskills: {
     id: 'blueskills',
@@ -51,6 +55,8 @@ export const projects: Record<ProjectId, ResearchProject> = {
     button: 'Open BlueSkills',
     href: 'https://blueskills.bluethroatlabs.com',
     menuDescription: 'Inspect an agent skill before granting access.',
+    rationale:
+      "A viral post on X recommending SKILL.md caught your eye. There's so much text and scripts you're not sure how it works. What if it hides a prompt injection or a drainer?",
     state: 'live',
   },
   bluemask: {
@@ -65,6 +71,8 @@ export const projects: Record<ProjectId, ResearchProject> = {
     button: 'Open BlueMask',
     href: 'https://bluemask.bluethroatlabs.com',
     menuDescription: 'Redact sensitive image content before sharing.',
+    rationale:
+      "How do you hide something from a photo in a unrecoverable way? Are you sure that a service or an app you're using doesn't save the original content to its servers?",
     state: 'live',
   },
   bluepaper: {
@@ -80,7 +88,24 @@ export const projects: Record<ProjectId, ResearchProject> = {
     button: 'Open BluePaper',
     href: 'https://bluepaper.bluethroatlabs.com',
     menuDescription: 'View untrusted PDFs through isolated rendering.',
+    rationale:
+      'Documents you open is a huge attack vector. You must not trust anything coming from strangers. We found a way to securely open such files without any risk.',
     state: 'live',
+  },
+  blueexif: {
+    id: 'blueexif',
+    name: 'BlueExif',
+    status: 'COMING SOON',
+    descriptor: 'Erase hidden metadata of any file completely offline.',
+    body: 'BlueExif is an offline metadata eraser for images.',
+    limit: '',
+    signature: 'A public project by Bluethroat Labs.',
+    button: '',
+    href: '',
+    menuDescription: 'Erase hidden metadata of any file completely offline.',
+    rationale:
+      "Posting images or sending files? Hidden metadata can reveal a lot about you. That's why we built an offline metadata eraser.",
+    state: 'soon',
   },
   bluegate: {
     id: 'bluegate',
@@ -94,6 +119,8 @@ export const projects: Record<ProjectId, ResearchProject> = {
     button: '', // 'Open BlueGate'
     href: '',
     menuDescription: 'Assess unfamiliar code before running it.',
+    rationale:
+      'Fake interviews became common. What if the interviewer asks you to clone the repo? Are you safe?',
     state: 'soon',
   },
 }

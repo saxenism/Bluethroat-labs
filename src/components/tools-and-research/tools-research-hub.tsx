@@ -1,9 +1,26 @@
 'use client'
 
-import { useCallback, useEffect, useRef, useState } from 'react'
-import { ArrowUpRight } from 'lucide-react'
-import { IconLogo } from '@/assets/logos'
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from 'react'
+import { ArrowUpRight, Info, X } from 'lucide-react'
+import { BlueExifLogo, IconLogo } from '@/assets/logos'
 import { ScrollDialog } from '@/components/ui/ScrollDialog'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
+import { cn } from '@/lib/utils'
 import {
   isProjectId,
   projectIds,
@@ -13,12 +30,14 @@ import {
 } from '@/lib/tools-and-research'
 import Image from 'next/image'
 
-const supportingProjectIds: ProjectId[] = [
-  'blueskills',
-  'bluemask',
-  'bluepaper',
-  'bluegate',
-]
+const hoverQuery = '(hover: hover) and (pointer: fine)'
+const subscribeToHover = (onChange: () => void) => {
+  const media = window.matchMedia(hoverQuery)
+  media.addEventListener('change', onChange)
+  return () => media.removeEventListener('change', onChange)
+}
+const supportsHover = () => window.matchMedia(hoverQuery).matches
+const serverSupportsHover = () => false
 
 export const ToolsResearchHub = () => {
   const [selectedId, setSelectedId] = useState<ProjectId | null>(null)
@@ -36,9 +55,10 @@ export const ToolsResearchHub = () => {
       const requestedProject = new URLSearchParams(window.location.search).get(
         'project'
       )
-      const nextProject = isProjectId(requestedProject)
-        ? requestedProject
-        : null
+      const nextProject =
+        isProjectId(requestedProject) && projects[requestedProject].showDetails
+          ? requestedProject
+          : null
 
       if (locallyOpenedProject.current !== nextProject) {
         locallyOpenedProject.current = null
@@ -63,6 +83,8 @@ export const ToolsResearchHub = () => {
 
   const selectProject = useCallback(
     (projectId: ProjectId) => (event: React.MouseEvent<HTMLButtonElement>) => {
+      if (!projects[projectId].showDetails) return
+
       locallyOpenedProject.current = projectId
       lastTrigger.current = event.currentTarget
       window.history.pushState(
@@ -150,20 +172,15 @@ export const ToolsResearchHub = () => {
             className="absolute inset-0 bg-(image:--hub-scrim)"
             aria-hidden="true"
           />
-          <div className="relative flex flex-wrap">
-            <FeaturedProjectCard
-              project={projects['tee-handbook']}
-              onSelect={selectProject('tee-handbook')}
-            />
-            <div className="grid min-w-70 flex-[1_1_600px] grid-cols-2 grid-rows-[repeat(2,minmax(272px,1fr))] max-[1179px]:basis-full max-[699px]:flex max-[699px]:flex-col">
-              {supportingProjectIds.map((projectId) => (
-                <SupportingProjectCard
-                  key={projectId}
-                  project={projects[projectId]}
-                  onSelect={selectProject(projectId)}
-                />
-              ))}
-            </div>
+          <div className="relative grid auto-rows-fr grid-cols-3 max-[1023px]:grid-cols-2 max-[699px]:grid-cols-1">
+            {projectIds.map((projectId) => (
+              <ProjectCard
+                key={projectId}
+                project={projects[projectId]}
+                featured={projectId === 'tee-handbook'}
+                onSelect={selectProject(projectId)}
+              />
+            ))}
           </div>
           <i className="pointer-events-none absolute top-0 left-0 z-3 size-10 border-t border-l border-(--hub-frame)" />
           <i className="pointer-events-none absolute top-0 right-0 z-3 size-10 border-t border-r border-(--hub-frame)" />
@@ -188,6 +205,21 @@ const Emblem = ({
   projectId: ProjectId
   className?: string
 }) => {
+  if (projectId === 'blueexif') {
+    return (
+      <span
+        className={cn(
+          'inline-flex items-center justify-center text-[#1f1f1d]',
+          className,
+          'dark:invert-0 [&_svg]:size-full'
+        )}
+        aria-hidden="true"
+      >
+        <BlueExifLogo />
+      </span>
+    )
+  }
+
   return (
     // These supplied monochrome SVGs render in their own document context.
     // The theme-specific filter in the CSS supplies their current ink color.
@@ -201,82 +233,206 @@ const Emblem = ({
   )
 }
 
-const FeaturedProjectCard = ({
+const ProjectCard = ({
   project,
+  featured = false,
   onSelect,
 }: {
   project: ResearchProject
+  featured?: boolean
   onSelect: (event: React.MouseEvent<HTMLButtonElement>) => void
 }) => {
+  const hasDestination = project.state === 'live' && Boolean(project.href)
+  const isInteractive = Boolean(project.showDetails) || hasDestination
+  const titleId = `project-title-${project.id}`
+  const actionId = `project-action-${project.id}`
+  const actionClassName =
+    'absolute inset-0 z-1 focus-visible:outline-2 focus-visible:-outline-offset-5 focus-visible:outline-(--hub-focus)'
+
   return (
-    <button
-      id={`project-card-${project.id}`}
-      type="button"
-      className="relative flex min-h-151 min-w-80 flex-[0_1_468px] cursor-pointer appearance-none flex-col rounded-none border-0 bg-(--hub-feature) text-left text-(--hub-ink) [box-shadow:inset_0_0_0_1px_var(--hub-line-3)] transition-colors duration-160 ease-out [font:inherit] hover:bg-(--hub-feature-hover) focus-visible:z-2 focus-visible:outline-2 focus-visible:-outline-offset-5 focus-visible:outline-(--hub-focus) motion-reduce:transition-none max-[1179px]:min-h-0 max-[1179px]:min-w-0 max-[1179px]:flex-[1_1_100%]"
-      onClick={onSelect}
-      aria-haspopup="dialog"
+    <article
+      className={cn(
+        'relative flex min-h-72 min-w-0 flex-col bg-(--hub-cell) text-center text-(--hub-ink) [box-shadow:inset_0_0_0_0.5px_var(--hub-line-2)] transition-colors duration-160 ease-out motion-reduce:transition-none max-[699px]:min-h-0',
+        isInteractive && 'hover:bg-(--hub-cell-hover)',
+        featured &&
+          'bg-(--hub-feature) text-left [box-shadow:inset_0_0_0_1px_var(--hub-frame)] hover:bg-(--hub-feature-hover)'
+      )}
     >
-      <div className="flex min-h-0 flex-1 flex-col max-[1179px]:grid max-[1179px]:grid-cols-[96px_minmax(0,1fr)] max-[1179px]:grid-rows-[auto] max-[1179px]:items-start max-[1179px]:gap-6.5 max-[1179px]:px-6.5 max-[1179px]:pt-5.5 max-[1179px]:pb-6 max-[699px]:flex max-[699px]:p-0">
-        <p className="px-7 pt-5.5 text-[13px] font-semibold tracking-[0.13em] text-(--hub-ink-2) max-[1179px]:z-1 max-[1179px]:col-start-2 max-[1179px]:row-start-1 max-[1179px]:p-0 max-[699px]:px-4 max-[699px]:pt-5">
-          {project.status}
-        </p>
+      <div className="flex min-h-11 items-center px-6 pr-14">
+        {project.status && (
+          <p className="text-[11px] leading-normal font-semibold tracking-[0.12em] text-(--hub-ink-2)">
+            {project.status}
+          </p>
+        )}
+      </div>
+      <div
+        className={cn(
+          'flex flex-1 flex-col items-center px-6 pb-5 max-[699px]:grid max-[699px]:grid-cols-[52px_minmax(0,1fr)] max-[699px]:items-start max-[699px]:gap-x-4 max-[699px]:text-left',
+          featured && 'items-start'
+        )}
+      >
         <Emblem
           projectId={project.id}
-          className="mx-7 mt-7.5 mb-6.5 size-35 text-(--hub-emblem) filter-none max-[1179px]:row-start-1 max-[1179px]:m-0 max-[1179px]:size-24 max-[699px]:mx-4 max-[699px]:mt-4 max-[699px]:mb-3.5 max-[699px]:size-22 dark:invert"
+          className={cn(
+            'size-18 shrink-0 text-(--hub-emblem) max-[699px]:row-span-2 max-[699px]:size-13 dark:invert',
+            project.state === 'soon' && 'opacity-[0.78]'
+          )}
         />
-        <div className="px-7 max-[1179px]:col-start-2 max-[1179px]:row-start-1 max-[1179px]:px-0 max-[1179px]:pt-6.25 max-[699px]:px-4 max-[699px]:pt-0">
-          <h2 className="font-instrumental m-0 text-[42px] leading-[1.04] font-normal text-(--hub-ink) max-[1179px]:text-4xl max-[1179px]:leading-[1.05] max-[699px]:text-3xl max-[699px]:leading-[1.08]">
-            {project.name}
-          </h2>
-          <p className="max-w-100 py-3.5 pt-3.5 pb-6 text-[15px] leading-[1.6] text-(--hub-ink-2) max-[1179px]:max-w-130 max-[1179px]:p-0 max-[1179px]:pt-2.5 max-[699px]:pt-3 max-[699px]:pb-5.5 max-[699px]:leading-[1.55]">
-            {project.menuDescription}
-          </p>
-        </div>
-      </div>
-      <span className="mt-auto flex min-h-16 items-center justify-center bg-(--hub-action) text-lg font-semibold tracking-[-0.01em] text-(--hub-action-ink) max-[1179px]:min-h-15 max-[1179px]:text-[17px]">
-        Explore project
-      </span>
-    </button>
-  )
-}
-
-const SupportingProjectCard = ({
-  project,
-  onSelect,
-}: {
-  project: ResearchProject
-  onSelect: (event: React.MouseEvent<HTMLButtonElement>) => void
-}) => {
-  return (
-    <button
-      id={`project-card-${project.id}`}
-      type="button"
-      className="relative flex min-h-68 min-w-0 cursor-pointer appearance-none flex-col items-center rounded-none border-0 bg-(--hub-cell) text-center text-(--hub-ink) [box-shadow:inset_0_0_0_0.5px_var(--hub-line-2)] transition-colors duration-160 ease-out [font:inherit] hover:bg-(--hub-cell-hover) focus-visible:z-2 focus-visible:outline-2 focus-visible:-outline-offset-5 focus-visible:outline-(--hub-focus) motion-reduce:transition-none max-[699px]:grid max-[699px]:min-h-0 max-[699px]:grid-cols-[52px_minmax(0,1fr)] max-[699px]:grid-rows-[auto_auto_auto] max-[699px]:items-stretch max-[699px]:gap-x-3.5 max-[699px]:p-4 max-[699px]:text-left"
-      onClick={onSelect}
-      aria-haspopup="dialog"
-    >
-      <p className="w-full px-5 pt-4.5 text-right text-[13px] font-semibold tracking-[0.13em] text-(--hub-ink-3) max-[699px]:col-start-2 max-[699px]:row-start-1 max-[699px]:p-0 max-[699px]:text-left max-[699px]:text-xs">
-        {project.status}
-      </p>
-      <Emblem
-        projectId={project.id}
-        className={`mt-3.5 size-21 text-(--hub-emblem) max-[1179px]:size-18 max-[699px]:col-start-1 max-[699px]:row-span-3 max-[699px]:row-start-1 max-[699px]:m-0 max-[699px]:size-13 dark:invert ${project.state === 'soon' ? 'opacity-[0.78]' : ''}`}
-      />
-      <div className="px-5 pt-4 pb-5 max-[699px]:col-start-2 max-[699px]:row-start-2 max-[699px]:p-0 max-[699px]:pt-1.25">
-        <h2 className="m-0 text-[19px] font-semibold tracking-[-0.02em] max-[699px]:text-[17px]">
+        <h2
+          id={titleId}
+          className={cn(
+            'mt-3 text-[19px] leading-tight font-semibold tracking-[-0.02em] max-[699px]:mt-0 max-[699px]:text-[17px]',
+            featured &&
+              'font-instrumental text-[32px] leading-[1.05] font-normal tracking-normal max-[699px]:text-[28px]'
+          )}
+        >
           {project.name}
         </h2>
-        <p className="mt-2 max-w-65 text-sm leading-normal text-(--hub-ink-3) max-[699px]:mt-1 max-[699px]:max-w-none">
+        <p className="mt-2 max-w-65 text-sm leading-normal text-(--hub-ink-2) max-[699px]:col-start-2 max-[699px]:mt-1 max-[699px]:max-w-none">
           {project.menuDescription}
         </p>
       </div>
-      <span className="mt-auto flex min-h-13 w-full items-center justify-center border-t border-(--hub-line-2) text-[15px] font-semibold max-[699px]:col-start-2 max-[699px]:row-start-3 max-[699px]:mt-2.25 max-[699px]:block max-[699px]:min-h-0 max-[699px]:border-0 max-[699px]:text-sm">
-        Explore project{' '}
-        <span className="hidden max-[699px]:inline" aria-hidden="true">
-          →
-        </span>
-      </span>
+      <div
+        id={actionId}
+        className={cn(
+          'mt-auto flex min-h-13 items-center justify-center gap-2 border-t border-(--hub-line-2) text-[15px] font-semibold',
+          featured &&
+            'border-transparent bg-(--hub-action) text-[17px] text-(--hub-action-ink)',
+          !isInteractive && 'text-(--hub-ink-3)'
+        )}
+      >
+        {project.showDetails
+          ? 'Explore project'
+          : hasDestination
+            ? project.button
+            : 'Coming soon'}
+        {!project.showDetails && hasDestination && (
+          <ArrowUpRight aria-hidden="true" size={16} strokeWidth={1.8} />
+        )}
+      </div>
+      {project.showDetails ? (
+        <button
+          id={`project-card-${project.id}`}
+          type="button"
+          className={cn(actionClassName, 'cursor-pointer')}
+          onClick={onSelect}
+          aria-labelledby={`${actionId} ${titleId}`}
+          aria-haspopup="dialog"
+        />
+      ) : hasDestination ? (
+        <a
+          id={`project-card-${project.id}`}
+          href={project.href}
+          className={actionClassName}
+          aria-labelledby={actionId}
+          target="_blank"
+          rel="noopener noreferrer"
+        />
+      ) : null}
+      {project.rationale && <ProjectInfo project={project} />}
+    </article>
+  )
+}
+
+const ProjectInfo = ({ project }: { project: ResearchProject }) => {
+  const canHover = useSyncExternalStore(
+    subscribeToHover,
+    supportsHover,
+    serverSupportsHover
+  )
+  const trigger = (
+    <button
+      type="button"
+      className="absolute top-0 right-0 z-2 flex size-11 touch-manipulation items-center justify-center text-(--hub-ink-2) transition-colors hover:bg-(--hub-cell-hover) hover:text-(--hub-ink) focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-(--hub-focus) motion-reduce:transition-none"
+      aria-label={`Why we built ${project.name}`}
+    >
+      <Info size={17} strokeWidth={1.6} aria-hidden="true" />
     </button>
+  )
+
+  if (!canHover) {
+    return <TouchProjectInfo project={project}>{trigger}</TouchProjectInfo>
+  }
+
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>{trigger}</TooltipTrigger>
+      <TooltipContent
+        side="bottom"
+        align="end"
+        sideOffset={4}
+        collisionPadding={16}
+        hideArrow
+        className="bg-popover text-popover-foreground border-border max-w-[min(20rem,calc(100vw-2rem))] rounded-none border px-4 py-3 font-mono text-sm leading-relaxed text-pretty shadow-lg motion-reduce:animate-none"
+      >
+        <p className="mb-1.5 font-semibold">Why we built {project.name}</p>
+        <p>{project.rationale}</p>
+      </TooltipContent>
+    </Tooltip>
+  )
+}
+
+const TouchProjectInfo = ({
+  project,
+  children,
+}: {
+  project: ResearchProject
+  children: React.ReactNode
+}) => {
+  const [open, setOpen] = useState(false)
+  const closedByScroll = useRef(false)
+  const titleId = `project-info-title-${project.id}`
+  const descriptionId = `project-info-description-${project.id}`
+
+  useEffect(() => {
+    if (!open) return
+
+    const closeOnScroll = () => {
+      closedByScroll.current = true
+      setOpen(false)
+    }
+    window.addEventListener('scroll', closeOnScroll, { passive: true })
+    return () => window.removeEventListener('scroll', closeOnScroll)
+  }, [open])
+
+  return (
+    <Popover
+      open={open}
+      onOpenChange={(nextOpen) => {
+        closedByScroll.current = false
+        setOpen(nextOpen)
+      }}
+    >
+      <PopoverTrigger asChild>{children}</PopoverTrigger>
+      <PopoverContent
+        side="bottom"
+        align="end"
+        sideOffset={4}
+        collisionPadding={16}
+        aria-labelledby={titleId}
+        aria-describedby={descriptionId}
+        onOpenAutoFocus={(event) => event.preventDefault()}
+        onCloseAutoFocus={(event) => {
+          if (closedByScroll.current) event.preventDefault()
+        }}
+        className="bg-popover text-popover-foreground border-border w-80 max-w-[calc(100vw-2rem)] rounded-none px-4 pt-1 pb-4 font-mono text-sm leading-relaxed shadow-lg"
+      >
+        <div className="flex items-center justify-between gap-2">
+          <h3 id={titleId} className="font-semibold">
+            Why we built {project.name}
+          </h3>
+          <button
+            type="button"
+            className="hover:bg-muted focus-visible:outline-foreground -mr-3 flex size-11 shrink-0 touch-manipulation items-center justify-center focus-visible:outline-2 focus-visible:-outline-offset-4"
+            aria-label={`Close ${project.name} info`}
+            onClick={() => setOpen(false)}
+          >
+            <X size={18} strokeWidth={1.6} aria-hidden="true" />
+          </button>
+        </div>
+        <p id={descriptionId}>{project.rationale}</p>
+      </PopoverContent>
+    </Popover>
   )
 }
 
@@ -287,6 +443,7 @@ const ProjectDestination = ({ project }: { project: ResearchProject }) => {
         href={project.href}
         className="relative inline-flex h-15.5 items-center gap-3.5 overflow-hidden rounded-none border border-[#1b1b18] bg-[linear-gradient(180deg,#5c5c58_0%,#4a4a46_52%,#3e3e3b_100%)] px-7.5 text-lg font-semibold tracking-[-0.01em] whitespace-nowrap text-[#f5f4f0] no-underline [box-shadow:inset_0_1px_0_rgba(255,255,255,0.1),inset_0_-3px_0_rgba(0,0,0,0.34)] *:relative before:pointer-events-none before:absolute before:inset-0 before:bg-[url('/tools-and-research/textures/wood.jpg')] before:bg-cover before:bg-center before:opacity-50 before:mix-blend-overlay before:content-[''] hover:bg-[linear-gradient(180deg,#6a6a65_0%,#565651_52%,#464642_100%)] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[#141412] active:translate-y-px active:[box-shadow:inset_0_3px_0_rgba(0,0,0,0.34),inset_0_-1px_0_rgba(255,255,255,0.06)] max-[699px]:max-w-full max-[699px]:px-5.5 max-[699px]:text-base"
         target="_blank"
+        rel="noopener noreferrer"
       >
         <span>{project.button}</span>
         <ArrowUpRight aria-hidden="true" size={16} strokeWidth={1.8} />
@@ -324,6 +481,10 @@ const ProjectScroll = ({
   onOpenChange: (open: boolean) => void
   onCloseAutoFocus: () => void
 }) => {
+  const detailProjectIds = projectIds.filter(
+    (projectId) => projects[projectId].showDetails
+  )
+
   return (
     <ScrollDialog
       open={Boolean(project)}
@@ -332,7 +493,7 @@ const ProjectScroll = ({
       closeLabel={project ? `Close ${project.name}` : 'Close project'}
       labelledBy={project ? `project-dialog-title-${project.id}` : undefined}
     >
-      {projectIds.map((projectId) => {
+      {detailProjectIds.map((projectId) => {
         const dialogProject = projects[projectId]
         const isActive = project?.id === projectId
 
