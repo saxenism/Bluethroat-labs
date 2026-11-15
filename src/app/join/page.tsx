@@ -1,4 +1,5 @@
 import { StickyNavbar } from '@/components/layout/sticky-navbar'
+import { SiteShell } from '@/components/layout/site-shell'
 import { Footer } from '@/components/layout/footer'
 import { JoinUsSection } from '@/components/sections/join-us-section'
 import type { Metadata } from 'next'
@@ -49,7 +50,7 @@ const webPageJsonLd = {
 
 export default function JoinUsPage() {
   return (
-    <div className="bg-background border-border relative container mx-auto min-h-screen border-x pt-12">
+    <SiteShell>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageJsonLd) }}
@@ -59,6 +60,6 @@ export default function JoinUsPage() {
         <JoinUsSection />
         <Footer />
       </main>
-    </div>
+    </SiteShell>
   )
 }

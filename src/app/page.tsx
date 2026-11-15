@@ -1,4 +1,5 @@
 import { StickyNavbar } from '@/components/layout/sticky-navbar'
+import { SiteShell } from '@/components/layout/site-shell'
 import { HeroSection } from '@/components/sections/hero-section'
 import { MissionSection } from '@/components/sections/mission-section'
 import { WorkSection } from '@/components/sections/work-section'
@@ -84,7 +85,7 @@ export default async function Home() {
   )
 
   return (
-    <div className="bg-background border-border relative container mx-auto min-h-screen border-x pt-12">
+    <SiteShell>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
@@ -105,6 +106,6 @@ export default async function Home() {
         <CTASection />
         <Footer />
       </main>
-    </div>
+    </SiteShell>
   )
 }

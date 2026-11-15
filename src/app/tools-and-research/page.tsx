@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { StickyNavbar } from '@/components/layout/sticky-navbar'
+import { SiteShell } from '@/components/layout/site-shell'
 import { Footer } from '@/components/layout/footer'
 import { ToolsResearchHub } from '@/components/tools-and-research/tools-research-hub'
 import { BASE_URL } from '@/lib/constants'
@@ -43,7 +44,7 @@ const collectionJsonLd = {
 
 export default function ToolsAndResearchPage() {
   return (
-    <div className="bg-background border-border relative container mx-auto min-h-screen border-x pt-12">
+    <SiteShell>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionJsonLd) }}
@@ -53,6 +54,6 @@ export default function ToolsAndResearchPage() {
         <ToolsResearchHub />
         <Footer />
       </main>
-    </div>
+    </SiteShell>
   )
 }
