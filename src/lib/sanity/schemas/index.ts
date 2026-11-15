@@ -4,6 +4,7 @@ import blogCategory from './blogCategory'
 import doc from './doc'
 import docNavigation from './docNavigation'
 import navItem from './navItem'
+import organization from './organization'
 import proofOfWork from './proofOfWork'
 import testimonial from './testimonial'
 import writeup from './writeup'
@@ -16,6 +17,7 @@ export const schemaTypes = [
   doc,
   docNavigation,
   navItem,
+  organization,
   proofOfWork,
   testimonial,
   writeup,
