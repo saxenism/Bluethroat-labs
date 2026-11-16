@@ -112,7 +112,7 @@ const FindingRow = ({
       />
 
       <div className="h-18 min-w-0 md:col-start-2 md:row-start-1 md:h-full md:border-r">
-        <div className="grid h-18 px-4 md:place-items-center">
+        <div className="grid h-18 items-center px-4 md:place-items-center">
           <FindingIdentity finding={finding} />
         </div>
       </div>
