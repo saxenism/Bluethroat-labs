@@ -1,3 +1,4 @@
+import announcements from './announcements'
 import blog from './blog'
 import blogAuthor from './blogAuthor'
 import blogCategory from './blogCategory'
@@ -11,6 +12,7 @@ import writeup from './writeup'
 import writeupSeries from './writeupSeries'
 
 export const schemaTypes = [
+  announcements,
   blog,
   blogAuthor,
   blogCategory,

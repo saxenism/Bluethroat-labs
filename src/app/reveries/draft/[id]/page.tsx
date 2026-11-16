@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import { BlogRenderer } from '@/components/reveries/blog-renderer'
 import { Metadata } from 'next'
 import { StickyNavbar } from '@/components/layout/sticky-navbar'
+import { SiteShell } from '@/components/layout/site-shell'
 import { Footer } from '@/components/layout/footer'
 import { ImageWithBlur } from '@/components/ui/image-with-blur'
 import { LandingStripImageWithBlur } from '@/components/ui/landing-strip-image-with-blur'
@@ -29,7 +30,7 @@ export default async function BlogPostPage({ params, searchParams }: Props) {
   }
 
   return (
-    <div className="bg-background border-border relative container mx-auto min-h-screen border-x pt-12">
+    <SiteShell>
       <StickyNavbar />
       <main>
         <div className="w-full pt-12 pb-8 md:py-12">
@@ -69,6 +70,6 @@ export default async function BlogPostPage({ params, searchParams }: Props) {
 
         <Footer />
       </main>
-    </div>
+    </SiteShell>
   )
 }

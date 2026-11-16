@@ -23,10 +23,19 @@ export default defineConfig({
           .items([
             ...S.documentTypeListItems().filter(
               (item) =>
+                item.getId() !== 'announcements' &&
                 item.getId() !== 'writeup' &&
                 item.getId() !== 'writeupSeries' &&
                 item.getId() !== 'testimonial'
             ),
+            S.listItem()
+              .id('announcements')
+              .title('Announcements')
+              .child(
+                S.document()
+                  .schemaType('announcements')
+                  .documentId('announcements')
+              ),
             orderableDocumentListDeskItem({
               type: 'writeup',
               title: 'Writeups',
@@ -53,4 +62,12 @@ export default defineConfig({
   ],
 
   schema: { types: schemaTypes },
+  document: {
+    newDocumentOptions: (options) =>
+      options.filter((option) => option.templateId !== 'announcements'),
+    actions: (actions, context) =>
+      context.schemaType === 'announcements'
+        ? actions.filter((action) => action.action !== 'duplicate')
+        : actions,
+  },
 })

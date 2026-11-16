@@ -23,7 +23,7 @@
     "@vercel/analytics": "2.0.1",
     "@vercel/speed-insights": "2.0.0",
     "class-variance-authority": "0.7.1",
-    "clsx": "2.1.1",
+    "cn": "0.5.2",
     "embla-carousel-autoplay": "8.6.0",
     "embla-carousel-react": "8.6.0",
     "lucide-react": "0.575.0",
@@ -44,8 +44,7 @@
     "server-only": "0.0.1",
     "sharp": "0.34.5",
     "shiki": "4.0.1",
-    "styled-components": "6.3.11",
-    "tailwind-merge": "3.5.0"
+    "styled-components": "6.3.11"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "4.2.1",

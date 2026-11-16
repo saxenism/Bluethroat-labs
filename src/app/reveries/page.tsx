@@ -1,4 +1,5 @@
 import { StickyNavbar } from '@/components/layout/sticky-navbar'
+import { SiteShell } from '@/components/layout/site-shell'
 import { Footer } from '@/components/layout/footer'
 import { ReveriesCatalog } from '@/components/sections/reveries-catalog'
 import { client } from '@/lib/sanity/client'
@@ -94,7 +95,7 @@ export default async function ReveriesPage() {
       />
       <Suspense>
         <NuqsAdapter>
-          <div className="bg-background border-border relative container mx-auto min-h-screen border-x pt-12">
+          <SiteShell>
             <StickyNavbar />
             <main>
               <ReveriesCatalog
@@ -112,7 +113,7 @@ export default async function ReveriesPage() {
               />
               <Footer />
             </main>
-          </div>
+          </SiteShell>
         </NuqsAdapter>
       </Suspense>
     </>

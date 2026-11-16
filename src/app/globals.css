@@ -3,6 +3,14 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@custom-variant announcement-mobile (@media (width <= 760px));
+
+@custom-variant announcement-compact {
+  @container announcement-text (max-width: 600px) {
+    @slot;
+  }
+}
+
 @theme {
   --font-instrumental: var(--font-instrumental);
   --font-mono: var(--font-geist-mono);
@@ -189,6 +197,35 @@ html {
 
 .scan-line {
   animation: scan 8s linear infinite;
+}
+
+/* Announcement scan transitions */
+@keyframes announcement-reveal {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes announcement-content-in {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes announcement-scan-fade {
+  0%,
+  82% {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }
 
 /* Bookshelf mobile carousel */
