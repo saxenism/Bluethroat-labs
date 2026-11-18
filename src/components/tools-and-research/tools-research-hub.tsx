@@ -55,10 +55,9 @@ export const ToolsResearchHub = () => {
       const requestedProject = new URLSearchParams(window.location.search).get(
         'project'
       )
-      const nextProject =
-        isProjectId(requestedProject) && projects[requestedProject].showDetails
-          ? requestedProject
-          : null
+      const nextProject = isProjectId(requestedProject)
+        ? requestedProject
+        : null
 
       if (locallyOpenedProject.current !== nextProject) {
         locallyOpenedProject.current = null
@@ -83,8 +82,6 @@ export const ToolsResearchHub = () => {
 
   const selectProject = useCallback(
     (projectId: ProjectId) => (event: React.MouseEvent<HTMLButtonElement>) => {
-      if (!projects[projectId].showDetails) return
-
       locallyOpenedProject.current = projectId
       lastTrigger.current = event.currentTarget
       window.history.pushState(
@@ -243,7 +240,7 @@ const ProjectCard = ({
   onSelect: (event: React.MouseEvent<HTMLButtonElement>) => void
 }) => {
   const hasDestination = project.state === 'live' && Boolean(project.href)
-  const isInteractive = Boolean(project.showDetails) || hasDestination
+  const showDetails = Boolean(project.showDetails) || !hasDestination
   const titleId = `project-title-${project.id}`
   const actionId = `project-action-${project.id}`
   const actionClassName =
@@ -252,8 +249,7 @@ const ProjectCard = ({
   return (
     <article
       className={cn(
-        'relative flex min-h-72 min-w-0 flex-col bg-(--hub-cell) text-center text-(--hub-ink) [box-shadow:inset_0_0_0_0.5px_var(--hub-line-2)] transition-colors duration-160 ease-out motion-reduce:transition-none max-[699px]:min-h-0',
-        isInteractive && 'hover:bg-(--hub-cell-hover)',
+        'relative flex min-h-72 min-w-0 flex-col bg-(--hub-cell) text-center text-(--hub-ink) [box-shadow:inset_0_0_0_0.5px_var(--hub-line-2)] transition-colors duration-160 ease-out hover:bg-(--hub-cell-hover) motion-reduce:transition-none max-[699px]:min-h-0',
         featured &&
           'bg-(--hub-feature) text-left [box-shadow:inset_0_0_0_1px_var(--hub-frame)] hover:bg-(--hub-feature-hover)'
       )}
@@ -297,20 +293,15 @@ const ProjectCard = ({
         className={cn(
           'mt-auto flex min-h-13 items-center justify-center gap-2 border-t border-(--hub-line-2) text-[15px] font-semibold',
           featured &&
-            'border-transparent bg-(--hub-action) text-[17px] text-(--hub-action-ink)',
-          !isInteractive && 'text-(--hub-ink-3)'
+            'border-transparent bg-(--hub-action) text-[17px] text-(--hub-action-ink)'
         )}
       >
-        {project.showDetails
-          ? 'Explore project'
-          : hasDestination
-            ? project.button
-            : 'Coming soon'}
-        {!project.showDetails && hasDestination && (
+        {showDetails ? 'Explore project' : project.button}
+        {!showDetails && (
           <ArrowUpRight aria-hidden="true" size={16} strokeWidth={1.8} />
         )}
       </div>
-      {project.showDetails ? (
+      {showDetails ? (
         <button
           id={`project-card-${project.id}`}
           type="button"
@@ -319,7 +310,7 @@ const ProjectCard = ({
           aria-labelledby={`${actionId} ${titleId}`}
           aria-haspopup="dialog"
         />
-      ) : hasDestination ? (
+      ) : (
         <a
           id={`project-card-${project.id}`}
           href={project.href}
@@ -328,7 +319,7 @@ const ProjectCard = ({
           target="_blank"
           rel="noopener noreferrer"
         />
-      ) : null}
+      )}
       {project.rationale && <ProjectInfo project={project} />}
     </article>
   )
@@ -437,7 +428,7 @@ const TouchProjectInfo = ({
 }
 
 const ProjectDestination = ({ project }: { project: ResearchProject }) => {
-  if (project.state === 'live') {
+  if (project.state === 'live' && project.href) {
     return (
       <a
         href={project.href}
@@ -481,10 +472,6 @@ const ProjectScroll = ({
   onOpenChange: (open: boolean) => void
   onCloseAutoFocus: () => void
 }) => {
-  const detailProjectIds = projectIds.filter(
-    (projectId) => projects[projectId].showDetails
-  )
-
   return (
     <ScrollDialog
       open={Boolean(project)}
@@ -493,7 +480,7 @@ const ProjectScroll = ({
       closeLabel={project ? `Close ${project.name}` : 'Close project'}
       labelledBy={project ? `project-dialog-title-${project.id}` : undefined}
     >
-      {detailProjectIds.map((projectId) => {
+      {projectIds.map((projectId) => {
         const dialogProject = projects[projectId]
         const isActive = project?.id === projectId
 

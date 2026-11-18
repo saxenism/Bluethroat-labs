@@ -89,23 +89,24 @@ export const projects: Record<ProjectId, ResearchProject> = {
     href: 'https://bluepaper.bluethroatlabs.com',
     menuDescription: 'View untrusted PDFs through isolated rendering.',
     rationale:
-      'Documents you open is a huge attack vector. You must not trust anything coming from strangers. We found a way to securely open such files without any risk.',
+      'Documents you open is a huge attack vector. You must not trust anything coming from strangers. We found a way to securely open such files.',
     state: 'live',
   },
   blueexif: {
     id: 'blueexif',
     name: 'BlueExif',
-    status: 'COMING SOON',
-    descriptor: 'Erase hidden metadata of any file completely offline.',
-    body: 'BlueExif is an offline metadata eraser for images.',
-    limit: '',
+    status: '',
+    descriptor: 'View and edit metadata locally in supported file formats.',
+    body: 'BlueExif is a local metadata viewer and editor for supported photos, audio, video, and documents. Inspect, edit, or remove metadata without uploading your files.',
+    limit:
+      'Metadata viewing, editing, and removal vary by file format. Camera RAW files are read-only.',
     signature: 'A public project by Bluethroat Labs.',
-    button: '',
-    href: '',
-    menuDescription: 'Erase hidden metadata of any file completely offline.',
+    button: 'Open BlueExif',
+    href: 'https://blueexif.bluethroatlabs.com/',
+    menuDescription: 'View and edit metadata locally in supported files.',
     rationale:
       "Posting images or sending files? Hidden metadata can reveal a lot about you. That's why we built an offline metadata eraser.",
-    state: 'soon',
+    state: 'live',
   },
   bluegate: {
     id: 'bluegate',
