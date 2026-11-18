@@ -238,3 +238,50 @@ export const TEESecurityHandbookLogo = ({
     />
   </svg>
 )
+
+export const BlueExifLogo = ({
+  size = 88,
+  small = false,
+}: {
+  size?: number
+  small?: boolean
+}) => {
+  // The small variant uses heavier strokes so it survives 24–56 px rendering.
+  const w = small ? 2.4 : 1.6
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 48 48"
+      fill="none"
+      stroke="currentColor"
+      aria-hidden="true"
+    >
+      <rect
+        x="3.6"
+        y="8.6"
+        width="28.8"
+        height="30.8"
+        strokeWidth={small ? 2.6 : 1.7}
+      />
+      <path
+        d="M3.6 32.6 L12.4 23.8 L19 30.4 L23.4 26 L32.4 35"
+        strokeWidth={w}
+      />
+      {!small && <circle cx="23" cy="17.4" r="3" strokeWidth={w} />}
+      <g strokeWidth={small ? 2.6 : w} strokeLinecap="square">
+        <path d="M36.4 14 H44.4" />
+        <path d="M36.4 20 H41.6" />
+        <path d="M36.4 26 H44.4" />
+      </g>
+      <rect
+        x="36.4"
+        y="31"
+        width="8"
+        height="8.4"
+        fill="currentColor"
+        stroke="none"
+      />
+    </svg>
+  )
+}
