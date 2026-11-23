@@ -22,7 +22,7 @@ export async function SiteShell({ children }: { children: ReactNode }) {
       {announcements.length > 0 && (
         <AnnouncementStrip key={data?._rev} announcements={announcements} />
       )}
-      <div className="bg-background border-border relative container mx-auto min-h-screen border-x pt-12 peer-data-[state=open]/announcements:pt-8 in-data-[announcements-dismissed=true]:pt-12">
+      <div className="bg-background border-border relative container mx-auto min-h-screen border-x pt-12 peer-data-[state=open]/announcements:pt-8">
         {children}
       </div>
     </>
