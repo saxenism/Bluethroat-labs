@@ -92,86 +92,84 @@ const FindingRow = ({
   onToggle: () => void
 }) => {
   const detailsId = `finding-details-${finding._key.toLowerCase()}`
+  const titleId = `${detailsId}-title`
+  const identityId = `${detailsId}-identity`
   const severityLabel = finding.severityLabel ?? finding.severity
+  const ToggleIcon = isOpen ? MinusIcon : PlusIcon
 
   return (
     <article
       role="listitem"
       className={cn(
-        'border-border grid grid-cols-[0.5rem_minmax(0,1fr)_4.5rem] border-b md:grid-cols-[1rem_7.5rem_minmax(0,1fr)_4.5rem]',
+        'border-border relative grid grid-cols-[0.5rem_minmax(0,1fr)_4.5rem] border-b md:grid-cols-[1rem_7.5rem_minmax(0,1fr)_4.5rem]',
         isOpen && 'bg-[#f6f6f6] dark:bg-[#121212]'
       )}
     >
       <span
         aria-label={`${severityLabel} severity`}
         className={cn(
-          'col-start-1 row-span-2 row-start-1 md:row-span-1',
+          'pointer-events-none absolute inset-y-0 left-0 z-1 w-2 md:w-4',
           SEVERITY_STYLES[finding.severity]
         )}
         role="img"
       />
 
-      <div className="h-18 min-w-0 md:col-start-2 md:row-start-1 md:h-full md:border-r">
-        <div className="grid h-18 items-center px-4 md:place-items-center">
-          <FindingIdentity finding={finding} />
-        </div>
-      </div>
-
-      <div className="border-border col-start-2 col-end-4 row-start-2 min-w-0 border-t px-4 md:col-start-3 md:col-end-4 md:row-start-1 md:border-t-0 md:px-6">
-        <h3
-          id={`${detailsId}-title`}
-          className="text-foreground flex min-h-18 items-center py-4 text-base leading-snug font-semibold md:text-lg"
-        >
-          {finding.title}
-        </h3>
-
-        {isOpen && <FindingDetails finding={finding} detailsId={detailsId} />}
-      </div>
-
-      <div className="border-border col-start-3 row-start-1 border-l md:col-start-4 md:h-full">
+      <h3 className="col-span-full grid grid-cols-subgrid">
         <button
           type="button"
           aria-controls={detailsId}
           aria-expanded={isOpen}
-          aria-label={`${isOpen ? 'Collapse' : 'Expand'} ${finding.title}`}
+          aria-labelledby={titleId}
+          aria-describedby={identityId}
           onClick={onToggle}
-          className={cn(
-            'hover:bg-muted focus-visible:outline-ring grid size-full h-18 place-items-center transition-colors focus-visible:outline-2 focus-visible:-outline-offset-2',
-            isOpen && 'border-border border-b'
-          )}
+          className="hover:bg-muted focus-visible:outline-ring col-span-full grid w-full cursor-pointer grid-cols-subgrid text-left transition-colors focus-visible:outline-2 focus-visible:-outline-offset-2 dark:hover:bg-[#191919]"
         >
-          {isOpen ? (
-            <MinusIcon
-              aria-hidden="true"
-              strokeWidth={3}
-              className="size-6 text-[#8F8F8F]"
-            />
-          ) : (
-            <PlusIcon
-              aria-hidden="true"
-              strokeWidth={3}
-              className="size-6 text-[#8F8F8F]"
-            />
-          )}
+          <span
+            id={identityId}
+            className="border-border col-start-2 row-start-1 min-w-0 md:border-r"
+          >
+            <span className="grid h-18 items-center px-4 md:place-items-center">
+              <FindingIdentity finding={finding} />
+            </span>
+          </span>
+          <span
+            id={titleId}
+            className="border-border text-foreground col-start-2 col-end-4 row-start-2 flex min-h-18 min-w-0 items-center border-t px-4 py-4 text-base leading-snug font-semibold md:col-start-3 md:row-start-1 md:border-t-0 md:px-6 md:text-lg"
+          >
+            {finding.title}
+          </span>
+          <span className="border-border col-start-3 row-start-1 border-l md:col-start-4">
+            <span
+              className={cn(
+                'grid h-18 place-items-center',
+                isOpen && 'border-border border-b'
+              )}
+            >
+              <ToggleIcon
+                aria-hidden="true"
+                strokeWidth={3}
+                className="size-6 text-[#8F8F8F]"
+              />
+            </span>
+          </span>
         </button>
+      </h3>
+
+      <div
+        id={detailsId}
+        role="region"
+        aria-labelledby={titleId}
+        hidden={!isOpen}
+        className="md:before:border-border md:after:border-border col-start-2 -col-end-1 grid grid-cols-subgrid md:before:border-r md:after:border-l"
+      >
+        {isOpen && <FindingDetails finding={finding} />}
       </div>
     </article>
   )
 }
 
-const FindingDetails = ({
-  finding,
-  detailsId,
-}: {
-  finding: ProofOfWorkFinding
-  detailsId: string
-}) => (
-  <div
-    id={detailsId}
-    role="region"
-    aria-labelledby={`${detailsId}-title`}
-    className="pb-6 md:pb-8"
-  >
+const FindingDetails = ({ finding }: { finding: ProofOfWorkFinding }) => (
+  <div className="col-span-full min-w-0 px-4 pb-6 md:col-span-1 md:px-6 md:pb-8">
     <p className="text-base font-medium text-[#454545] dark:text-[#a9a9a9]">
       {finding.description}
     </p>
