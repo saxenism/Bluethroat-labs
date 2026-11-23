@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { ImageWithBlur } from '../ui/image-with-blur'
+import { TELEGRAM_LINK } from '@/lib/constants'
 
 export function JoinUsSection() {
   return (
@@ -88,7 +89,7 @@ export function JoinUsSection() {
 
           <Link
             className="hover:bg-foreground border-border mt-12 flex h-18 items-center justify-center border-t px-2 text-center text-xl font-semibold text-[#1F1F1F] hover:text-[#EBEBEB] dark:text-[#EBEBEB] dark:hover:text-[#292929]"
-            href="https://t.me/+VtIQ2JfXDalmZDE1"
+            href={TELEGRAM_LINK}
             target="_blank"
           >
             Enter Basecamp
