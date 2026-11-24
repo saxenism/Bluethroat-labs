@@ -1,13 +1,14 @@
 'use client'
 
 import { ArrowUpRight, X } from 'lucide-react'
-import { useEffect, useState, type CSSProperties } from 'react'
-import type { Announcement } from '@/lib/sanity/announcements'
+import { useEffect, useRef, useState, type CSSProperties } from 'react'
+import {
+  DEFAULT_ANNOUNCEMENT_INTERVAL,
+  type Announcement,
+} from '@/lib/sanity/announcements'
 import { cn } from '@/lib/utils'
 import { FindingLogo } from '@/components/sections/finding-logo'
-import { ANNOUNCEMENT_DISMISSED_KEY } from '@/lib/announcement-session'
 
-const ROTATION_INTERVAL = 5000
 const SCAN_DURATION = 1600
 
 const cellClassName =
@@ -147,15 +148,9 @@ export function AnnouncementStrip({
   const [focused, setFocused] = useState(false)
   const [reducedMotion, setReducedMotion] = useState(false)
   const [pageHidden, setPageHidden] = useState(false)
+  const remainingDelay = useRef<number | null>(null)
   const current = announcements[rotation.current]
-
-  useEffect(() => {
-    try {
-      setClosed(sessionStorage.getItem(ANNOUNCEMENT_DISMISSED_KEY) === 'true')
-    } catch {
-      // Keep the strip usable when session storage is unavailable.
-    }
-  }, [])
+  const scanning = rotation.previous !== null
 
   useEffect(() => {
     const media = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -173,15 +168,24 @@ export function AnnouncementStrip({
   }, [])
 
   useEffect(() => {
-    if (rotation.previous !== null) {
-      const timeout = window.setTimeout(() => {
-        setRotation((value) => ({ ...value, previous: null }))
-      }, SCAN_DURATION)
-      return () => window.clearTimeout(timeout)
-    }
+    if (!scanning || closed) return
 
-    if (!current || closed || hovered || focused || reducedMotion || pageHidden)
-      return
+    const timeout = window.setTimeout(() => {
+      setRotation((value) => ({ ...value, previous: null }))
+    }, SCAN_DURATION)
+    return () => window.clearTimeout(timeout)
+  }, [scanning, closed])
+
+  useEffect(() => {
+    if (!current || closed || scanning || announcements.length < 2) return
+    if (hovered || focused || reducedMotion || pageHidden) return
+
+    const delay =
+      remainingDelay.current ??
+      current.interval ??
+      DEFAULT_ANNOUNCEMENT_INTERVAL
+    const deadline = performance.now() + delay
+    let advanced = false
 
     const timeout = window.setTimeout(() => {
       // Preferences can change just as a queued rotation is about to run.
@@ -191,16 +195,23 @@ export function AnnouncementStrip({
       )
         return
 
+      advanced = true
+      remainingDelay.current = null
       setRotation((value) => ({
         current: (value.current + 1) % announcements.length,
         previous: value.current,
       }))
-    }, current.interval ?? ROTATION_INTERVAL)
-    return () => window.clearTimeout(timeout)
+    }, delay)
+
+    return () => {
+      window.clearTimeout(timeout)
+      if (!advanced)
+        remainingDelay.current = Math.max(0, deadline - performance.now())
+    }
   }, [
-    announcements,
+    announcements.length,
     current,
-    rotation,
+    scanning,
     closed,
     hovered,
     focused,
@@ -208,28 +219,15 @@ export function AnnouncementStrip({
     pageHidden,
   ])
 
-  const dismiss = () => {
-    document.documentElement.setAttribute(
-      'data-announcements-dismissed',
-      'true'
-    )
-    setClosed(true)
-    try {
-      sessionStorage.setItem(ANNOUNCEMENT_DISMISSED_KEY, 'true')
-    } catch {
-      // The strip can still be dismissed for the current page.
-    }
-  }
-
   if (!current || closed) return null
-
-  const scanning = rotation.previous !== null
 
   return (
     <section
       className={cn(
-        'peer/announcements relative h-10 overflow-hidden bg-(--strip-bg) text-(--strip-fg) [transition:background-color_350ms_ease] in-data-[announcements-dismissed=true]:hidden [@media(width<=520px)]:h-14',
-        '[--scan-color:var(--strip-fg)] [--strip-bg:#0a0a0a] [--strip-fg:#ededed] [--strip-line:#3a3a3a] [--strip-tag:#8c8c8c] dark:[--strip-bg:#ebebeb] dark:[--strip-fg:#292929] dark:[--strip-line:#a9a9a9] dark:[--strip-tag:#686868]',
+        'peer/announcements relative h-10 overflow-hidden bg-(--strip-bg) text-(--strip-fg) [@media(width<=520px)]:h-14',
+        '[transition:background-color_350ms_ease]',
+        '[--strip-bg:#0a0a0a] [--strip-fg:#ededed] [--strip-line:#3a3a3a] [--strip-tag:#8c8c8c] dark:[--strip-bg:#ebebeb] dark:[--strip-fg:#292929] dark:[--strip-line:#a9a9a9] dark:[--strip-tag:#686868]',
+        '[--scan-color:var(--scan-light-theme,#fafafa)] dark:[--scan-color:var(--scan-dark-theme,#0a0a0a)]',
         'announcement-mobile:[--logo-width:97px] [--action-width:185px] [--close-width:72px] [--logo-width:247px] max-lg:[--close-width:calc(3rem+1px)] [@media(760px<width<1024px)]:[--logo-width:128px]',
         'announcement-mobile:[--linked-columns:var(--plain-columns)] [--linked-columns:var(--logo-width)_minmax(0,1fr)_var(--action-width)_var(--close-width)] [--plain-columns:var(--logo-width)_minmax(0,1fr)_var(--close-width)]',
         'motion-reduce:animate-none motion-reduce:transition-none motion-reduce:**:animate-none motion-reduce:**:transition-none'
@@ -238,7 +236,13 @@ export function AnnouncementStrip({
       aria-roledescription="announcements"
       aria-live="off"
       data-state="open"
-      style={{ '--scan-duration': `${SCAN_DURATION}ms` } as CSSProperties}
+      style={
+        {
+          '--scan-duration': `${SCAN_DURATION}ms`,
+          '--scan-light-theme': current.lightThemeAccent,
+          '--scan-dark-theme': current.darkThemeAccent,
+        } as CSSProperties
+      }
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       onFocusCapture={() => setFocused(true)}
@@ -276,7 +280,7 @@ export function AnnouncementStrip({
         <button
           type="button"
           className="pointer-events-auto absolute inset-y-0 right-0 flex w-(--close-width) items-center justify-center text-inherit opacity-90 hover:bg-[color-mix(in_srgb,var(--strip-fg)_8%,transparent)] hover:opacity-100 focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-current"
-          onClick={dismiss}
+          onClick={() => setClosed(true)}
           aria-label="Close announcements"
         >
           <X size={16} strokeWidth={2.5} aria-hidden="true" />

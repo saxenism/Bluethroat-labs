@@ -1,3 +1,5 @@
+export const DEFAULT_ANNOUNCEMENT_INTERVAL = 3500
+
 export type Announcement = {
   logo?: string
   lightLogo?: string
@@ -7,7 +9,9 @@ export type Announcement = {
   text: string
   mobileText: string
   cta?: string
-  /** Display time in milliseconds; defaults to 5000. */
+  lightThemeAccent?: string
+  darkThemeAccent?: string
+  /** Display time in milliseconds before the next scan. */
   interval?: number
 }
 
@@ -23,6 +27,8 @@ export interface SanityAnnouncement {
   text: string
   mobileText: string
   cta: string | null
+  lightThemeAccent: string | null
+  darkThemeAccent: string | null
   interval: number | null
 }
 
@@ -47,6 +53,8 @@ export const ANNOUNCEMENTS_QUERY = `*[_type == "announcements" && _id == "announ
     text,
     mobileText,
     cta,
+    lightThemeAccent,
+    darkThemeAccent,
     interval
   }, [])
 }`
@@ -55,6 +63,7 @@ export function mapSanityAnnouncementToItem(
   item: SanityAnnouncement
 ): Announcement {
   const href = item.href?.trim() || undefined
+  const lightThemeAccent = item.lightThemeAccent?.trim() || undefined
 
   return {
     logo: item.organization?.logo ?? item.organization?.lightLogo ?? undefined,
@@ -66,6 +75,8 @@ export function mapSanityAnnouncementToItem(
     text: item.text,
     mobileText: item.mobileText,
     cta: href ? item.cta?.trim() || undefined : undefined,
+    lightThemeAccent,
+    darkThemeAccent: item.darkThemeAccent?.trim() || lightThemeAccent,
     interval: item.interval ?? undefined,
   }
 }

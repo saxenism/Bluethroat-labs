@@ -8,7 +8,6 @@ import { ThemeProvider } from '@/components/providers/theme-provider'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { ReactNode } from 'react'
 import { BASE_URL } from '@/lib/constants'
-import { ANNOUNCEMENT_SESSION_SCRIPT } from '@/lib/announcement-session'
 
 const instrumentSerif = Instrument_Serif({
   subsets: ['latin'],
@@ -68,10 +67,6 @@ export default function RootLayout({
       data-scroll-behavior="smooth"
     >
       <body className="selection:bg-foreground selection:text-background selection:fill-background font-mono antialiased">
-        <script
-          id="announcement-session"
-          dangerouslySetInnerHTML={{ __html: ANNOUNCEMENT_SESSION_SCRIPT }}
-        />
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"

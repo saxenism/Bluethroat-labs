@@ -1,4 +1,7 @@
 import { defineArrayMember, defineField, defineType } from 'sanity'
+import { DEFAULT_ANNOUNCEMENT_INTERVAL } from '../announcements'
+
+const hexColor = /^#[\da-f]{6}$/i
 
 const announcements = defineType({
   name: 'announcements',
@@ -95,11 +98,28 @@ const announcements = defineType({
                 }),
             }),
             defineField({
+              name: 'lightThemeAccent',
+              title: 'Scan Color (Light Theme)',
+              type: 'string',
+              description:
+                'Hex color for the scan line and glow on the dark strip, for example #CDFA50. Leave empty to use the default.',
+              validation: (Rule) =>
+                Rule.regex(hexColor, { name: 'six-digit hex color' }),
+            }),
+            defineField({
+              name: 'darkThemeAccent',
+              title: 'Scan Color (Dark Theme)',
+              type: 'string',
+              description:
+                'Hex color for the scan line and glow on the light strip. Leave empty to reuse a custom light theme color or use the default.',
+              validation: (Rule) =>
+                Rule.regex(hexColor, { name: 'six-digit hex color' }),
+            }),
+            defineField({
               name: 'interval',
               title: 'Display Interval (ms)',
               type: 'number',
-              description:
-                'Optional. Leave empty for 5 seconds; 10000 is 10 seconds.',
+              description: `Optional. Leave empty to show the announcement for ${DEFAULT_ANNOUNCEMENT_INTERVAL / 1000} seconds before the next scan.`,
               validation: (Rule) => Rule.integer().min(1).max(2147483647),
             }),
           ],
