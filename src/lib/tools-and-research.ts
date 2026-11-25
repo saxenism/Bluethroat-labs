@@ -24,6 +24,7 @@ export type ResearchProject = {
   state: ProjectState
   showDetails?: boolean
   rationale?: string
+  showPersonalUseFaq?: boolean
 }
 
 export const projects: Record<ProjectId, ResearchProject> = {
@@ -57,6 +58,7 @@ export const projects: Record<ProjectId, ResearchProject> = {
     menuDescription: 'Inspect an agent skill before granting access.',
     rationale:
       "A viral post on X recommending SKILL.md caught your eye. There's so much text and scripts you're not sure how it works. What if it hides a prompt injection or a drainer?",
+    showPersonalUseFaq: true,
     state: 'live',
   },
   bluemask: {
@@ -90,6 +92,7 @@ export const projects: Record<ProjectId, ResearchProject> = {
     menuDescription: 'View untrusted PDFs through isolated rendering.',
     rationale:
       'Documents you open is a huge attack vector. You must not trust anything coming from strangers. We found a way to securely open such files.',
+    showPersonalUseFaq: true,
     state: 'live',
   },
   blueexif: {

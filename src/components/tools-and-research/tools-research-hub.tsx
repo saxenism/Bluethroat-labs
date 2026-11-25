@@ -358,6 +358,7 @@ const ProjectInfo = ({ project }: { project: ResearchProject }) => {
       >
         <p className="mb-1.5 font-semibold">Why we built {project.name}</p>
         <p>{project.rationale}</p>
+        <ProjectPersonalUseFaq project={project} />
       </TooltipContent>
     </Tooltip>
   )
@@ -422,10 +423,27 @@ const TouchProjectInfo = ({
           </button>
         </div>
         <p id={descriptionId}>{project.rationale}</p>
+        <ProjectPersonalUseFaq project={project} />
       </PopoverContent>
     </Popover>
   )
 }
+
+const ProjectPersonalUseFaq = ({ project }: { project: ResearchProject }) =>
+  project.showPersonalUseFaq && (
+    <div className="border-border mt-3 border-t pt-3">
+      <p className="mb-1 font-semibold">Is {project.name} free?</p>
+      <p className="wrap-anywhere">
+        Yes, for personal use. If you need higher limits, contact us:
+        <a
+          href="mailto:saxenism@bluethroatlabs.com"
+          className="underline hover:no-underline"
+        >
+          saxenism@bluethroatlabs.com
+        </a>
+      </p>
+    </div>
+  )
 
 const ProjectDestination = ({ project }: { project: ResearchProject }) => {
   if (project.state === 'live' && project.href) {
